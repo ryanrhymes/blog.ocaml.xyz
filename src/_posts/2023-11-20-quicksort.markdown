@@ -15,7 +15,7 @@ Quicksort is used in a variety of applications, including sorting large database
 
 ## Implementation
    
-```  
+```ocaml
 let rec quicksort = function  
   | [] -> []  
   | pivot::tail ->  

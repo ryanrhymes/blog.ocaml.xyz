@@ -57,11 +57,11 @@
 
 <h2 id="implementation">Implementation</h2>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>let rec quicksort = function  
-  | [] -&gt; []  
-  | pivot::tail -&gt;  
-    let lesser, greater = List.partition (fun x -&gt; x &lt; pivot) tail in  
-    quicksort lesser @ [pivot] @ quicksort greater  
+<div class="language-ocaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="k">rec</span> <span class="n">quicksort</span> <span class="o">=</span> <span class="k">function</span>  
+  <span class="o">|</span> <span class="bp">[]</span> <span class="o">-&gt;</span> <span class="bp">[]</span>  
+  <span class="o">|</span> <span class="n">pivot</span><span class="o">::</span><span class="n">tail</span> <span class="o">-&gt;</span>  
+    <span class="k">let</span> <span class="n">lesser</span><span class="o">,</span> <span class="n">greater</span> <span class="o">=</span> <span class="nn">List</span><span class="p">.</span><span class="n">partition</span> <span class="p">(</span><span class="k">fun</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">pivot</span><span class="p">)</span> <span class="n">tail</span> <span class="k">in</span>  
+    <span class="n">quicksort</span> <span class="n">lesser</span> <span class="o">@</span> <span class="p">[</span><span class="n">pivot</span><span class="p">]</span> <span class="o">@</span> <span class="n">quicksort</span> <span class="n">greater</span>  
 </code></pre></div></div>
 
 <p>This implementation uses a functional programming style and takes advantage of pattern matching to handle the two cases of the input list: the empty list, which is already sorted, and a non-empty list, which is partitioned into two sub-lists based on a pivot element (in this case, the first element of the list).</p>
