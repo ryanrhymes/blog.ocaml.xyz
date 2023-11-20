@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Heapsort"
+title:  "Merge Sort"
 date:   2023-11-20 23:01:00 +0200
 categories: algorithm
 ---
