@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Quicksort"
+title:  "Heapsort"
 date:   2023-11-20 22:04:00 +0200
 categories: algorithm
 ---
