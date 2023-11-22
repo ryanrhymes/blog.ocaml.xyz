@@ -6,6 +6,7 @@
 <title>Selection Sort | Algorithm Blog</title>
 <meta name="generator" content="Jekyll v4.3.2" />
 <meta property="og:title" content="Selection Sort" />
+<meta name="author" content="GitHub User" />
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="Introduction Shell sort is an efficient sorting algorithm that is a variation of insertion sort. It was invented by Donald Shell in 1959. The algorithm works by sorting elements that are far apart from each other and then gradually reducing the gap between them. This makes the algorithm faster than insertion sort for larger lists. Implementation Here is an implementation of Shell sort in OCaml: let shell_sort arr = let n = Array.length arr in let gap = ref (n / 2) in while !gap &gt; 0 do for i = !gap to n - 1 do let temp = arr.(i) in let j = ref i in while !j &gt;= !gap &amp;&amp; arr.(!j - !gap) &gt; temp do arr.(!j) &lt;- arr.(!j - !gap); j := !j - !gap done; arr.(!j) &lt;- temp done; gap := !gap / 2 done; arr To use this function, simply pass in an array of elements to sort: let arr = [| 5; 3; 8; 4; 2 |] let sorted_arr = shell_sort arr The sorted_arr variable will contain the sorted array. Step-by-step Explanation Start by dividing the list into sublists of equal intervals. The interval is called the gap. Sort each sublist using insertion sort. Reduce the gap by half and repeat step 2 until the gap is 1. For example, let’s say we have the following list of integers: [5, 3, 8, 4, 2]. We’ll use a gap of 2 for the first pass. Divide the list into sublists with a gap of 2: [5, 8, 2] and [3, 4]. Sort each sublist using insertion sort. The first sublist becomes [2, 5, 8] and the second sublist stays the same: [3, 4]. Reduce the gap to 1 and sort the entire list using insertion sort. The sorted list is [2, 3, 4, 5, 8]. Complexity Analysis The time complexity of Shell sort depends on the gap sequence used. The worst-case time complexity is O(n^2), which occurs when the gap sequence is 1, making the algorithm equivalent to insertion sort. However, the average-case time complexity is O(n log n), which is faster than insertion sort for larger lists. The space complexity of Shell sort is O(1) because it sorts the list in place." />
 <meta property="og:description" content="Introduction Shell sort is an efficient sorting algorithm that is a variation of insertion sort. It was invented by Donald Shell in 1959. The algorithm works by sorting elements that are far apart from each other and then gradually reducing the gap between them. This makes the algorithm faster than insertion sort for larger lists. Implementation Here is an implementation of Shell sort in OCaml: let shell_sort arr = let n = Array.length arr in let gap = ref (n / 2) in while !gap &gt; 0 do for i = !gap to n - 1 do let temp = arr.(i) in let j = ref i in while !j &gt;= !gap &amp;&amp; arr.(!j - !gap) &gt; temp do arr.(!j) &lt;- arr.(!j - !gap); j := !j - !gap done; arr.(!j) &lt;- temp done; gap := !gap / 2 done; arr To use this function, simply pass in an array of elements to sort: let arr = [| 5; 3; 8; 4; 2 |] let sorted_arr = shell_sort arr The sorted_arr variable will contain the sorted array. Step-by-step Explanation Start by dividing the list into sublists of equal intervals. The interval is called the gap. Sort each sublist using insertion sort. Reduce the gap by half and repeat step 2 until the gap is 1. For example, let’s say we have the following list of integers: [5, 3, 8, 4, 2]. We’ll use a gap of 2 for the first pass. Divide the list into sublists with a gap of 2: [5, 8, 2] and [3, 4]. Sort each sublist using insertion sort. The first sublist becomes [2, 5, 8] and the second sublist stays the same: [3, 4]. Reduce the gap to 1 and sort the entire list using insertion sort. The sorted list is [2, 3, 4, 5, 8]. Complexity Analysis The time complexity of Shell sort depends on the gap sequence used. The worst-case time complexity is O(n^2), which occurs when the gap sequence is 1, making the algorithm equivalent to insertion sort. However, the average-case time complexity is O(n log n), which is faster than insertion sort for larger lists. The space complexity of Shell sort is O(1) because it sorts the list in place." />
@@ -17,22 +18,19 @@
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Selection Sort" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2023-11-10T23:00:00+02:00","datePublished":"2023-11-10T23:00:00+02:00","description":"Introduction Shell sort is an efficient sorting algorithm that is a variation of insertion sort. It was invented by Donald Shell in 1959. The algorithm works by sorting elements that are far apart from each other and then gradually reducing the gap between them. This makes the algorithm faster than insertion sort for larger lists. Implementation Here is an implementation of Shell sort in OCaml: let shell_sort arr = let n = Array.length arr in let gap = ref (n / 2) in while !gap &gt; 0 do for i = !gap to n - 1 do let temp = arr.(i) in let j = ref i in while !j &gt;= !gap &amp;&amp; arr.(!j - !gap) &gt; temp do arr.(!j) &lt;- arr.(!j - !gap); j := !j - !gap done; arr.(!j) &lt;- temp done; gap := !gap / 2 done; arr To use this function, simply pass in an array of elements to sort: let arr = [| 5; 3; 8; 4; 2 |] let sorted_arr = shell_sort arr The sorted_arr variable will contain the sorted array. Step-by-step Explanation Start by dividing the list into sublists of equal intervals. The interval is called the gap. Sort each sublist using insertion sort. Reduce the gap by half and repeat step 2 until the gap is 1. For example, let’s say we have the following list of integers: [5, 3, 8, 4, 2]. We’ll use a gap of 2 for the first pass. Divide the list into sublists with a gap of 2: [5, 8, 2] and [3, 4]. Sort each sublist using insertion sort. The first sublist becomes [2, 5, 8] and the second sublist stays the same: [3, 4]. Reduce the gap to 1 and sort the entire list using insertion sort. The sorted list is [2, 3, 4, 5, 8]. Complexity Analysis The time complexity of Shell sort depends on the gap sequence used. The worst-case time complexity is O(n^2), which occurs when the gap sequence is 1, making the algorithm equivalent to insertion sort. However, the average-case time complexity is O(n log n), which is faster than insertion sort for larger lists. The space complexity of Shell sort is O(1) because it sorts the list in place.","headline":"Selection Sort","mainEntityOfPage":{"@type":"WebPage","@id":"/algorithm/2023/11/10/shell-sort.html"},"url":"/algorithm/2023/11/10/shell-sort.html"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"GitHub User"},"dateModified":"2023-11-10T23:00:00+02:00","datePublished":"2023-11-10T23:00:00+02:00","description":"Introduction Shell sort is an efficient sorting algorithm that is a variation of insertion sort. It was invented by Donald Shell in 1959. The algorithm works by sorting elements that are far apart from each other and then gradually reducing the gap between them. This makes the algorithm faster than insertion sort for larger lists. Implementation Here is an implementation of Shell sort in OCaml: let shell_sort arr = let n = Array.length arr in let gap = ref (n / 2) in while !gap &gt; 0 do for i = !gap to n - 1 do let temp = arr.(i) in let j = ref i in while !j &gt;= !gap &amp;&amp; arr.(!j - !gap) &gt; temp do arr.(!j) &lt;- arr.(!j - !gap); j := !j - !gap done; arr.(!j) &lt;- temp done; gap := !gap / 2 done; arr To use this function, simply pass in an array of elements to sort: let arr = [| 5; 3; 8; 4; 2 |] let sorted_arr = shell_sort arr The sorted_arr variable will contain the sorted array. Step-by-step Explanation Start by dividing the list into sublists of equal intervals. The interval is called the gap. Sort each sublist using insertion sort. Reduce the gap by half and repeat step 2 until the gap is 1. For example, let’s say we have the following list of integers: [5, 3, 8, 4, 2]. We’ll use a gap of 2 for the first pass. Divide the list into sublists with a gap of 2: [5, 8, 2] and [3, 4]. Sort each sublist using insertion sort. The first sublist becomes [2, 5, 8] and the second sublist stays the same: [3, 4]. Reduce the gap to 1 and sort the entire list using insertion sort. The sorted list is [2, 3, 4, 5, 8]. Complexity Analysis The time complexity of Shell sort depends on the gap sequence used. The worst-case time complexity is O(n^2), which occurs when the gap sequence is 1, making the algorithm equivalent to insertion sort. However, the average-case time complexity is O(n log n), which is faster than insertion sort for larger lists. The space complexity of Shell sort is O(1) because it sorts the list in place.","headline":"Selection Sort","mainEntityOfPage":{"@type":"WebPage","@id":"/algorithm/2023/11/10/shell-sort.html"},"url":"/algorithm/2023/11/10/shell-sort.html"}</script>
 <!-- End Jekyll SEO tag -->
-<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="Algorithm Blog" /><script>
-if(!(window.doNotTrack === "1" || navigator.doNotTrack === "1" || navigator.doNotTrack === "yes" || navigator.msDoNotTrack === "1")) {
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="Algorithm Blog" /><script async src="https://www.googletagmanager.com/gtag/js?id=UA-123353217-1"></script>
+<script>
+  window['ga-disable-UA-123353217-1'] = window.doNotTrack === "1" || navigator.doNotTrack === "1" || navigator.doNotTrack === "yes" || navigator.msDoNotTrack === "1";
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){window.dataLayer.push(arguments);}
+  gtag('js', new Date());
 
-  ga('create', 'UA-123353217-1', 'auto');
-  ga('send', 'pageview');
-}
+  gtag('config', 'UA-123353217-1');
 </script>
-  
-</head>
-<body><header class="site-header" role="banner">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1868946892712371" crossorigin="anonymous"></script></head>
+<body><header class="site-header">
 
   <div class="wrapper"><a class="site-title" rel="author" href="/">Algorithm Blog</a><nav class="site-nav">
         <input type="checkbox" id="nav-trigger" class="nav-trigger" />
@@ -44,7 +42,7 @@ if(!(window.doNotTrack === "1" || navigator.doNotTrack === "1" || navigator.doNo
           </span>
         </label>
 
-        <div class="trigger"><a class="page-link" href="/about/">About</a></div>
+        <div class="trigger"></div>
       </nav></div>
 </header>
 <main class="page-content" aria-label="Content">
@@ -53,8 +51,8 @@ if(!(window.doNotTrack === "1" || navigator.doNotTrack === "1" || navigator.doNo
 
   <header class="post-header">
     <h1 class="post-title p-name" itemprop="name headline">Selection Sort</h1>
-    <p class="post-meta">
-      <time class="dt-published" datetime="2023-11-10T23:00:00+02:00" itemprop="datePublished">Nov 10, 2023
+    <p class="post-meta"><time class="dt-published" datetime="2023-11-10T23:00:00+02:00" itemprop="datePublished">
+        Nov 10, 2023
       </time></p>
   </header>
 
@@ -120,21 +118,27 @@ if(!(window.doNotTrack === "1" || navigator.doNotTrack === "1" || navigator.doNo
 
   <div class="wrapper">
 
-    <h2 class="footer-heading">Algorithm Blog</h2>
-
     <div class="footer-col-wrapper">
-      <div class="footer-col footer-col-1">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
         <ul class="contact-list">
-          <li class="p-name">Algorithm Blog</li><li><a class="u-email" href="mailto:liang@ocaml.xyz">liang@ocaml.xyz</a></li></ul>
+          <li class="p-name">GitHub User</li>
+          <li><a class="u-email" href="mailto:your-email@domain.com">your-email@domain.com</a></li>
+        </ul>
       </div>
-
-      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/ryanrhymes"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">ryanrhymes</span></a></li><li><a href="https://www.twitter.com/ryan_liang"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg> <span class="username">ryan_liang</span></a></li></ul>
-</div>
-
-      <div class="footer-col footer-col-3">
+      <div class="footer-col">
         <p>A collection of classic algorithms, written in OCaml.</p>
       </div>
     </div>
+
+    <div class="social-links"><ul class="social-media-list"></ul>
+</div>
 
   </div>
 

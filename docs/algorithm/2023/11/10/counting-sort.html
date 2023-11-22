@@ -6,6 +6,7 @@
 <title>Counting Sort | Algorithm Blog</title>
 <meta name="generator" content="Jekyll v4.3.2" />
 <meta property="og:title" content="Counting Sort" />
+<meta name="author" content="GitHub User" />
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="Introduction Counting sort is an efficient sorting algorithm that can be used to sort elements in a range of integers. It is a non-comparison based sorting algorithm that works by counting the number of occurrences of each element in the array and then using this information to determine the position of each element in the sorted output array. Implementation Here is an implementation of counting sort in OCaml: let counting_sort arr = let max_val = Array.fold_left max arr 0 in let count_arr = Array.make (max_val + 1) 0 in Array.iter (fun x -&gt; count_arr.(x) &lt;- count_arr.(x) + 1) arr; let index_arr = Array.make (max_val + 1) 0 in let rec fill_index_arr i j = if i &lt;= max_val then begin index_arr.(i) &lt;- j; fill_index_arr (i + 1) (j + count_arr.(i)) end in fill_index_arr 0 0; let sorted_arr = Array.make (Array.length arr) 0 in Array.iter (fun x -&gt; sorted_arr.(index_arr.(x)) &lt;- x; index_arr.(x) &lt;- index_arr.(x) + 1) arr; sorted_arr Here, arr is the input array to be sorted. The function counting_sort first finds the maximum value in the input array and creates a new array count_arr to count the number of occurrences of each element in the input array. It then creates another array index_arr to store the index of each element in the sorted output array. The function fill_index_arr is a helper function that fills in the index_arr array based on the counts in count_arr. Finally, the function creates a new array sorted_arr and fills it in by iterating over the input array and using the index_arr array to determine the position of each element in the sorted output array. Step-by-step Explanation Find the maximum value in the input array. Create a new array count_arr of length max_val + 1 and initialize all elements to 0. Iterate over the input array and increment the count of each element in count_arr. Create a new array index_arr of length max_val + 1 and initialize all elements to 0. Define a helper function fill_index_arr that fills in the index_arr array based on the counts in count_arr. The function takes two arguments: i and j, where i is the current index in count_arr and j is the current index in index_arr. Call the fill_index_arr function with initial arguments 0 and 0. Create a new array sorted_arr of length n, where n is the length of the input array. Iterate over the input array and use the index_arr array to determine the position of each element in the sorted output array. Store each element in the corresponding position in sorted_arr. Return sorted_arr. Complexity Analysis The time complexity of counting sort is O(n + k), where n is the length of the input array and k is the range of the input integers. The space complexity is also O(n + k). The algorithm iterates over the input array twice: once to count the occurrences of each element and once to fill in the sorted output array. The time complexity of these two iterations is O(n). The algorithm also creates two additional arrays: count_arr and index_arr, each of length k. Therefore, the space complexity of the algorithm is O(n + k)." />
 <meta property="og:description" content="Introduction Counting sort is an efficient sorting algorithm that can be used to sort elements in a range of integers. It is a non-comparison based sorting algorithm that works by counting the number of occurrences of each element in the array and then using this information to determine the position of each element in the sorted output array. Implementation Here is an implementation of counting sort in OCaml: let counting_sort arr = let max_val = Array.fold_left max arr 0 in let count_arr = Array.make (max_val + 1) 0 in Array.iter (fun x -&gt; count_arr.(x) &lt;- count_arr.(x) + 1) arr; let index_arr = Array.make (max_val + 1) 0 in let rec fill_index_arr i j = if i &lt;= max_val then begin index_arr.(i) &lt;- j; fill_index_arr (i + 1) (j + count_arr.(i)) end in fill_index_arr 0 0; let sorted_arr = Array.make (Array.length arr) 0 in Array.iter (fun x -&gt; sorted_arr.(index_arr.(x)) &lt;- x; index_arr.(x) &lt;- index_arr.(x) + 1) arr; sorted_arr Here, arr is the input array to be sorted. The function counting_sort first finds the maximum value in the input array and creates a new array count_arr to count the number of occurrences of each element in the input array. It then creates another array index_arr to store the index of each element in the sorted output array. The function fill_index_arr is a helper function that fills in the index_arr array based on the counts in count_arr. Finally, the function creates a new array sorted_arr and fills it in by iterating over the input array and using the index_arr array to determine the position of each element in the sorted output array. Step-by-step Explanation Find the maximum value in the input array. Create a new array count_arr of length max_val + 1 and initialize all elements to 0. Iterate over the input array and increment the count of each element in count_arr. Create a new array index_arr of length max_val + 1 and initialize all elements to 0. Define a helper function fill_index_arr that fills in the index_arr array based on the counts in count_arr. The function takes two arguments: i and j, where i is the current index in count_arr and j is the current index in index_arr. Call the fill_index_arr function with initial arguments 0 and 0. Create a new array sorted_arr of length n, where n is the length of the input array. Iterate over the input array and use the index_arr array to determine the position of each element in the sorted output array. Store each element in the corresponding position in sorted_arr. Return sorted_arr. Complexity Analysis The time complexity of counting sort is O(n + k), where n is the length of the input array and k is the range of the input integers. The space complexity is also O(n + k). The algorithm iterates over the input array twice: once to count the occurrences of each element and once to fill in the sorted output array. The time complexity of these two iterations is O(n). The algorithm also creates two additional arrays: count_arr and index_arr, each of length k. Therefore, the space complexity of the algorithm is O(n + k)." />
@@ -17,22 +18,19 @@
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Counting Sort" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2023-11-10T20:00:00+02:00","datePublished":"2023-11-10T20:00:00+02:00","description":"Introduction Counting sort is an efficient sorting algorithm that can be used to sort elements in a range of integers. It is a non-comparison based sorting algorithm that works by counting the number of occurrences of each element in the array and then using this information to determine the position of each element in the sorted output array. Implementation Here is an implementation of counting sort in OCaml: let counting_sort arr = let max_val = Array.fold_left max arr 0 in let count_arr = Array.make (max_val + 1) 0 in Array.iter (fun x -&gt; count_arr.(x) &lt;- count_arr.(x) + 1) arr; let index_arr = Array.make (max_val + 1) 0 in let rec fill_index_arr i j = if i &lt;= max_val then begin index_arr.(i) &lt;- j; fill_index_arr (i + 1) (j + count_arr.(i)) end in fill_index_arr 0 0; let sorted_arr = Array.make (Array.length arr) 0 in Array.iter (fun x -&gt; sorted_arr.(index_arr.(x)) &lt;- x; index_arr.(x) &lt;- index_arr.(x) + 1) arr; sorted_arr Here, arr is the input array to be sorted. The function counting_sort first finds the maximum value in the input array and creates a new array count_arr to count the number of occurrences of each element in the input array. It then creates another array index_arr to store the index of each element in the sorted output array. The function fill_index_arr is a helper function that fills in the index_arr array based on the counts in count_arr. Finally, the function creates a new array sorted_arr and fills it in by iterating over the input array and using the index_arr array to determine the position of each element in the sorted output array. Step-by-step Explanation Find the maximum value in the input array. Create a new array count_arr of length max_val + 1 and initialize all elements to 0. Iterate over the input array and increment the count of each element in count_arr. Create a new array index_arr of length max_val + 1 and initialize all elements to 0. Define a helper function fill_index_arr that fills in the index_arr array based on the counts in count_arr. The function takes two arguments: i and j, where i is the current index in count_arr and j is the current index in index_arr. Call the fill_index_arr function with initial arguments 0 and 0. Create a new array sorted_arr of length n, where n is the length of the input array. Iterate over the input array and use the index_arr array to determine the position of each element in the sorted output array. Store each element in the corresponding position in sorted_arr. Return sorted_arr. Complexity Analysis The time complexity of counting sort is O(n + k), where n is the length of the input array and k is the range of the input integers. The space complexity is also O(n + k). The algorithm iterates over the input array twice: once to count the occurrences of each element and once to fill in the sorted output array. The time complexity of these two iterations is O(n). The algorithm also creates two additional arrays: count_arr and index_arr, each of length k. Therefore, the space complexity of the algorithm is O(n + k).","headline":"Counting Sort","mainEntityOfPage":{"@type":"WebPage","@id":"/algorithm/2023/11/10/counting-sort.html"},"url":"/algorithm/2023/11/10/counting-sort.html"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"GitHub User"},"dateModified":"2023-11-10T20:00:00+02:00","datePublished":"2023-11-10T20:00:00+02:00","description":"Introduction Counting sort is an efficient sorting algorithm that can be used to sort elements in a range of integers. It is a non-comparison based sorting algorithm that works by counting the number of occurrences of each element in the array and then using this information to determine the position of each element in the sorted output array. Implementation Here is an implementation of counting sort in OCaml: let counting_sort arr = let max_val = Array.fold_left max arr 0 in let count_arr = Array.make (max_val + 1) 0 in Array.iter (fun x -&gt; count_arr.(x) &lt;- count_arr.(x) + 1) arr; let index_arr = Array.make (max_val + 1) 0 in let rec fill_index_arr i j = if i &lt;= max_val then begin index_arr.(i) &lt;- j; fill_index_arr (i + 1) (j + count_arr.(i)) end in fill_index_arr 0 0; let sorted_arr = Array.make (Array.length arr) 0 in Array.iter (fun x -&gt; sorted_arr.(index_arr.(x)) &lt;- x; index_arr.(x) &lt;- index_arr.(x) + 1) arr; sorted_arr Here, arr is the input array to be sorted. The function counting_sort first finds the maximum value in the input array and creates a new array count_arr to count the number of occurrences of each element in the input array. It then creates another array index_arr to store the index of each element in the sorted output array. The function fill_index_arr is a helper function that fills in the index_arr array based on the counts in count_arr. Finally, the function creates a new array sorted_arr and fills it in by iterating over the input array and using the index_arr array to determine the position of each element in the sorted output array. Step-by-step Explanation Find the maximum value in the input array. Create a new array count_arr of length max_val + 1 and initialize all elements to 0. Iterate over the input array and increment the count of each element in count_arr. Create a new array index_arr of length max_val + 1 and initialize all elements to 0. Define a helper function fill_index_arr that fills in the index_arr array based on the counts in count_arr. The function takes two arguments: i and j, where i is the current index in count_arr and j is the current index in index_arr. Call the fill_index_arr function with initial arguments 0 and 0. Create a new array sorted_arr of length n, where n is the length of the input array. Iterate over the input array and use the index_arr array to determine the position of each element in the sorted output array. Store each element in the corresponding position in sorted_arr. Return sorted_arr. Complexity Analysis The time complexity of counting sort is O(n + k), where n is the length of the input array and k is the range of the input integers. The space complexity is also O(n + k). The algorithm iterates over the input array twice: once to count the occurrences of each element and once to fill in the sorted output array. The time complexity of these two iterations is O(n). The algorithm also creates two additional arrays: count_arr and index_arr, each of length k. Therefore, the space complexity of the algorithm is O(n + k).","headline":"Counting Sort","mainEntityOfPage":{"@type":"WebPage","@id":"/algorithm/2023/11/10/counting-sort.html"},"url":"/algorithm/2023/11/10/counting-sort.html"}</script>
 <!-- End Jekyll SEO tag -->
-<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="Algorithm Blog" /><script>
-if(!(window.doNotTrack === "1" || navigator.doNotTrack === "1" || navigator.doNotTrack === "yes" || navigator.msDoNotTrack === "1")) {
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="Algorithm Blog" /><script async src="https://www.googletagmanager.com/gtag/js?id=UA-123353217-1"></script>
+<script>
+  window['ga-disable-UA-123353217-1'] = window.doNotTrack === "1" || navigator.doNotTrack === "1" || navigator.doNotTrack === "yes" || navigator.msDoNotTrack === "1";
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){window.dataLayer.push(arguments);}
+  gtag('js', new Date());
 
-  ga('create', 'UA-123353217-1', 'auto');
-  ga('send', 'pageview');
-}
+  gtag('config', 'UA-123353217-1');
 </script>
-  
-</head>
-<body><header class="site-header" role="banner">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1868946892712371" crossorigin="anonymous"></script></head>
+<body><header class="site-header">
 
   <div class="wrapper"><a class="site-title" rel="author" href="/">Algorithm Blog</a><nav class="site-nav">
         <input type="checkbox" id="nav-trigger" class="nav-trigger" />
@@ -44,7 +42,7 @@ if(!(window.doNotTrack === "1" || navigator.doNotTrack === "1" || navigator.doNo
           </span>
         </label>
 
-        <div class="trigger"><a class="page-link" href="/about/">About</a></div>
+        <div class="trigger"></div>
       </nav></div>
 </header>
 <main class="page-content" aria-label="Content">
@@ -53,8 +51,8 @@ if(!(window.doNotTrack === "1" || navigator.doNotTrack === "1" || navigator.doNo
 
   <header class="post-header">
     <h1 class="post-title p-name" itemprop="name headline">Counting Sort</h1>
-    <p class="post-meta">
-      <time class="dt-published" datetime="2023-11-10T20:00:00+02:00" itemprop="datePublished">Nov 10, 2023
+    <p class="post-meta"><time class="dt-published" datetime="2023-11-10T20:00:00+02:00" itemprop="datePublished">
+        Nov 10, 2023
       </time></p>
   </header>
 
@@ -112,21 +110,27 @@ if(!(window.doNotTrack === "1" || navigator.doNotTrack === "1" || navigator.doNo
 
   <div class="wrapper">
 
-    <h2 class="footer-heading">Algorithm Blog</h2>
-
     <div class="footer-col-wrapper">
-      <div class="footer-col footer-col-1">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
         <ul class="contact-list">
-          <li class="p-name">Algorithm Blog</li><li><a class="u-email" href="mailto:liang@ocaml.xyz">liang@ocaml.xyz</a></li></ul>
+          <li class="p-name">GitHub User</li>
+          <li><a class="u-email" href="mailto:your-email@domain.com">your-email@domain.com</a></li>
+        </ul>
       </div>
-
-      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/ryanrhymes"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">ryanrhymes</span></a></li><li><a href="https://www.twitter.com/ryan_liang"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg> <span class="username">ryan_liang</span></a></li></ul>
-</div>
-
-      <div class="footer-col footer-col-3">
+      <div class="footer-col">
         <p>A collection of classic algorithms, written in OCaml.</p>
       </div>
     </div>
+
+    <div class="social-links"><ul class="social-media-list"></ul>
+</div>
 
   </div>
 
