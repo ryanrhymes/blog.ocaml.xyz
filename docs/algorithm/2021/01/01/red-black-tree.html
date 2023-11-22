@@ -19,7 +19,19 @@
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2021-01-01T18:00:00+02:00","datePublished":"2021-01-01T18:00:00+02:00","description":"Introduction Red-black tree is a self-balancing binary search tree. It was invented in 1972 by Rudolf Bayer who called them “symmetric binary B-trees,” but acquired its modern name in a paper in 1978 by Leo J. Guibas and Robert Sedgewick. Red-black trees are often used in C++ STL (Standard Template Library) implementation of map and set. Implementation Here is an implementation of the red-black tree in OCaml: type color = Red | Black type &#39;a tree = | Leaf | Node of color * &#39;a tree * &#39;a * &#39;a tree let balance = function | Black, Node (Red, Node (Red, a, x, b), y, c), z, d | Black, Node (Red, a, x, Node (Red, b, y, c)), z, d | Black, a, x, Node (Red, Node (Red, b, y, c), z, d) | Black, a, x, Node (Red, b, y, Node (Red, c, z, d)) -&gt; Node (Red, Node (Black, a, x, b), y, Node (Black, c, z, d)) | color, left, value, right -&gt; Node (color, left, value, right) let rec insert x = function | Leaf -&gt; Node (Red, Leaf, x, Leaf) | Node (color, left, value, right) as node -&gt; if x &lt; value then balance (color, insert x left, value, right) else if x &gt; value then balance (color, left, value, insert x right) else node Here, we define the type of color as either Red or Black. We also define the type of a tree as either a Leaf or a Node with a color, left subtree, value, and right subtree. The balance function takes a tuple and returns a balanced node. The insert function takes a value and a tree and returns a new tree with the value inserted in the correct position. Step-by-step Explanation A new node is always inserted as a red node. If the node is the root node, it is colored black. If the parent of a red node is also red, the tree is rebalanced. If a node is red, its children must be black. The black height of a subtree must be equal on both sides. When rebalancing, the red node is rotated and recolored to maintain the above properties. Complexity Analysis The worst-case time complexity for insertion, deletion, and search operations in a red-black tree is O(log n), where n is the number of nodes in the tree. This is because the height of a red-black tree is always log n. The space complexity is also O(n), where n is the number of nodes in the tree, as each node requires a constant amount of memory.","headline":"Red Black Tree","mainEntityOfPage":{"@type":"WebPage","@id":"/algorithm/2021/01/01/red-black-tree.html"},"url":"/algorithm/2021/01/01/red-black-tree.html"}</script>
 <!-- End Jekyll SEO tag -->
-<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="Algorithm Blog" /></head>
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="Algorithm Blog" /><script>
+if(!(window.doNotTrack === "1" || navigator.doNotTrack === "1" || navigator.doNotTrack === "yes" || navigator.msDoNotTrack === "1")) {
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-123353217-1', 'auto');
+  ga('send', 'pageview');
+}
+</script>
+  
+</head>
 <body><header class="site-header" role="banner">
 
   <div class="wrapper"><a class="site-title" rel="author" href="/">Algorithm Blog</a><nav class="site-nav">
@@ -111,7 +123,7 @@
 </div>
 
       <div class="footer-col footer-col-3">
-        <p>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</p>
+        <p>A collection of classic algorithms, written in OCaml.</p>
       </div>
     </div>
 

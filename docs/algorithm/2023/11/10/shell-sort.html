@@ -19,7 +19,19 @@
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2023-11-10T23:00:00+02:00","datePublished":"2023-11-10T23:00:00+02:00","description":"Introduction Shell sort is an efficient sorting algorithm that is a variation of insertion sort. It was invented by Donald Shell in 1959. The algorithm works by sorting elements that are far apart from each other and then gradually reducing the gap between them. This makes the algorithm faster than insertion sort for larger lists. Implementation Here is an implementation of Shell sort in OCaml: let shell_sort arr = let n = Array.length arr in let gap = ref (n / 2) in while !gap &gt; 0 do for i = !gap to n - 1 do let temp = arr.(i) in let j = ref i in while !j &gt;= !gap &amp;&amp; arr.(!j - !gap) &gt; temp do arr.(!j) &lt;- arr.(!j - !gap); j := !j - !gap done; arr.(!j) &lt;- temp done; gap := !gap / 2 done; arr To use this function, simply pass in an array of elements to sort: let arr = [| 5; 3; 8; 4; 2 |] let sorted_arr = shell_sort arr The sorted_arr variable will contain the sorted array. Step-by-step Explanation Start by dividing the list into sublists of equal intervals. The interval is called the gap. Sort each sublist using insertion sort. Reduce the gap by half and repeat step 2 until the gap is 1. For example, let’s say we have the following list of integers: [5, 3, 8, 4, 2]. We’ll use a gap of 2 for the first pass. Divide the list into sublists with a gap of 2: [5, 8, 2] and [3, 4]. Sort each sublist using insertion sort. The first sublist becomes [2, 5, 8] and the second sublist stays the same: [3, 4]. Reduce the gap to 1 and sort the entire list using insertion sort. The sorted list is [2, 3, 4, 5, 8]. Complexity Analysis The time complexity of Shell sort depends on the gap sequence used. The worst-case time complexity is O(n^2), which occurs when the gap sequence is 1, making the algorithm equivalent to insertion sort. However, the average-case time complexity is O(n log n), which is faster than insertion sort for larger lists. The space complexity of Shell sort is O(1) because it sorts the list in place.","headline":"Selection Sort","mainEntityOfPage":{"@type":"WebPage","@id":"/algorithm/2023/11/10/shell-sort.html"},"url":"/algorithm/2023/11/10/shell-sort.html"}</script>
 <!-- End Jekyll SEO tag -->
-<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="Algorithm Blog" /></head>
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="Algorithm Blog" /><script>
+if(!(window.doNotTrack === "1" || navigator.doNotTrack === "1" || navigator.doNotTrack === "yes" || navigator.msDoNotTrack === "1")) {
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-123353217-1', 'auto');
+  ga('send', 'pageview');
+}
+</script>
+  
+</head>
 <body><header class="site-header" role="banner">
 
   <div class="wrapper"><a class="site-title" rel="author" href="/">Algorithm Blog</a><nav class="site-nav">
@@ -120,7 +132,7 @@
 </div>
 
       <div class="footer-col footer-col-3">
-        <p>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</p>
+        <p>A collection of classic algorithms, written in OCaml.</p>
       </div>
     </div>
 

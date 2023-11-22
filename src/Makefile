@@ -9,11 +9,10 @@ push:
 
 .PHONY: build
 build:
-	jekyll build
+	JEKYLL_ENV=production jekyll build
 
 .PHONY: publish
 publish: build
-	jekyll build
 	cp -r _site/* ../docs/
 	rm ../docs/Makefile
 	git add ../docs
