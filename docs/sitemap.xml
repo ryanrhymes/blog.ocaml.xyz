@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+		<!--	created with www.mysitemapgenerator.com	-->
+		<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<url>
+	<loc>https://blog.ocaml.xyz/</loc>
+	<lastmod>2023-11-23T00:30:30+01:00</lastmod>
+	<priority>1.0</priority>
+</url>
+<url>
+	<loc>https://blog.ocaml.xyz/algorithm/2023/11/20/radix-sort.html</loc>
+	<lastmod>2023-11-23T00:30:30+01:00</lastmod>
+	<priority>0.2</priority>
+</url>
+<url>
+	<loc>https://blog.ocaml.xyz/algorithm/2023/11/20/insertion-sort.html</loc>
+	<lastmod>2023-11-23T00:30:30+01:00</lastmod>
+	<priority>0.2</priority>
+</url>
+<url>
+	<loc>https://blog.ocaml.xyz/algorithm/2023/11/20/mergesort.html</loc>
+	<lastmod>2023-11-23T00:30:30+01:00</lastmod>
+	<priority>0.2</priority>
+</url>
+<url>
+	<loc>https://blog.ocaml.xyz/algorithm/2023/11/20/heapsort.html</loc>
+	<lastmod>2023-11-23T00:30:30+01:00</lastmod>
+	<priority>0.2</priority>
+</url>
+<url>
+	<loc>https://blog.ocaml.xyz/algorithm/2023/11/20/quicksort.html</loc>
+	<lastmod>2023-11-23T00:30:30+01:00</lastmod>
+	<priority>0.2</priority>
+</url>
+<url>
+	<loc>https://blog.ocaml.xyz/algorithm/2023/11/10/shell-sort.html</loc>
+	<lastmod>2023-11-23T00:30:30+01:00</lastmod>
+	<priority>0.2</priority>
+</url>
+<url>
+	<loc>https://blog.ocaml.xyz/algorithm/2023/11/10/counting-sort.html</loc>
+	<lastmod>2023-11-23T00:30:30+01:00</lastmod>
+	<priority>0.2</priority>
+</url>
+<url>
+	<loc>https://blog.ocaml.xyz/algorithm/2023/11/10/selection-sort.html</loc>
+	<lastmod>2023-11-23T00:30:30+01:00</lastmod>
+	<priority>0.2</priority>
+</url>
+<url>
+	<loc>https://blog.ocaml.xyz/algorithm/2023/11/10/bubble-sort.html</loc>
+	<lastmod>2023-11-23T00:30:30+01:00</lastmod>
+	<priority>0.2</priority>
+</url>
+<url>
+	<loc>https://blog.ocaml.xyz/algorithm/2023/11/10/bucket-sort.html</loc>
+	<lastmod>2023-11-23T00:30:30+01:00</lastmod>
+	<priority>0.2</priority>
+</url>
+<url>
+	<loc>https://blog.ocaml.xyz/algorithm/2021/01/01/red-black-tree.html</loc>
+	<lastmod>2023-11-23T00:30:30+01:00</lastmod>
+	<priority>0.2</priority>
+</url>
+</urlset>
