@@ -33,8 +33,9 @@ Here, `find_min` is a helper function that finds the index of the minimum elemen
 Here is an example of using `selection_sort`:  
    
 ```ocaml  
-let arr = [|5; 2; 9; 3; 6|]  
-selection_sort arr  
+let arr = [|5; 2; 9; 3; 6|]
+let () = selection_sort arr
+let () = Array.iter (Printf.printf "%d ") arr
 (* arr is now [|2; 3; 5; 6; 9|] *)  
 ```  
    

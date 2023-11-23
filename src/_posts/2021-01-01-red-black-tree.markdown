@@ -34,6 +34,32 @@ let rec insert x = function
       else node  
 ```  
    
+Some examples are as follow.
+
+```ocaml
+(* Example 1 *)
+let tree1 = Leaf
+let tree1' = insert 5 tree1
+let tree1'' = insert 3 tree1'
+let tree1''' = insert 7 tree1''
+
+(* Example 2 *)
+let tree2 = Leaf
+let tree2' = insert 10 tree2
+let tree2'' = insert 5 tree2'
+let tree2''' = insert 15 tree2''
+let tree2'''' = insert 3 tree2'''
+
+(* Example 3 *)
+let tree3 = Leaf
+let tree3' = insert 8 tree3
+let tree3'' = insert 12 tree3'
+let tree3''' = insert 5 tree3''
+let tree3'''' = insert 10 tree3'''
+let tree3''''' = insert 15 tree3''''
+```
+
+
 Here, we define the type of color as either Red or Black. We also define the type of a tree as either a Leaf or a Node with a color, left subtree, value, and right subtree. The `balance` function takes a tuple and returns a balanced node. The `insert` function takes a value and a tree and returns a new tree with the value inserted in the correct position.  
    
 ## Step-by-step Explanation  

@@ -14,20 +14,21 @@ Breadth First Search (BFS) is a graph traversal algorithm that explores all the 
 Here is an implementation of BFS in OCaml:  
    
 ```ocaml  
-type 'a graph = ('a * 'a list) list  
-   
-let bfs (graph: 'a graph) (start: 'a) : 'a list =  
-  let rec explore visited queue =  
-    match queue with  
-    | [] -> visited  
-    | node :: rest ->  
-      if List.mem node visited then  
-        explore visited rest  
-      else  
-        let neighbors = List.assoc node graph in  
-        let new_nodes = List.filter (fun n -> not (List.mem n visited)) neighbors in  
-        explore (node :: visited) (rest @ new_nodes)  
-  in explore [] [start]  
+type 'a graph = ('a * 'a list) list
+
+let bfs (graph: 'a graph) (start: 'a) : 'a list =
+  let rec explore visited queue =
+    match queue with
+    | [] -> visited
+    | node :: rest ->
+        if List.mem node visited then
+          explore visited rest
+        else
+          let neighbors = List.assoc node graph in
+          let new_nodes = List.filter (fun n -> not (List.mem n visited)) neighbors in
+          let updated_queue = rest @ new_nodes in
+          explore (visited @ [node]) updated_queue
+  in explore [] [start]
 ```  
    
 The `graph` parameter is a list of tuples, where the first element is a node and the second element is a list of its neighboring nodes. The `start` parameter is the node where the search begins. The function returns a list of nodes visited in breadth-first order.  
@@ -35,16 +36,19 @@ The `graph` parameter is a list of tuples, where the first element is a node and
 Here is an example of using the `bfs` function:  
    
 ```ocaml  
-let graph = [  
-  ("A", ["B"; "C"]);  
-  ("B", ["A"; "D"; "E"]);  
-  ("C", ["A"; "F"]);  
-  ("D", ["B"]);  
-  ("E", ["B"; "F"]);  
-  ("F", ["C"; "E"])  
-]  
-   
-let result = bfs graph "A" (* ["A"; "B"; "C"; "D"; "E"; "F"] *)  
+let graph =
+  [
+    ("A", ["B"; "C"]);
+    ("B", ["A"; "D"; "E"]);
+    ("C", ["A"; "F"]);
+    ("D", ["B"]);
+    ("E", ["B"; "F"]);
+    ("F", ["C"; "E"]);
+  ]
+
+let result = bfs graph "A" (* ["A"; "B"; "C"; "D"; "E"; "F"] *)
+
+let () = List.iter print_endline result
 ```  
    
 ## Step-by-step Explanation  

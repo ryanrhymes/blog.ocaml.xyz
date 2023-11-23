@@ -31,7 +31,8 @@ Here's an example usage of the `quicksort` function:
    
 ```  
 let unsorted = [5; 1; 3; 9; 2]  
-let sorted = quicksort unsorted  
+let sorted = quicksort unsorted 
+let () = List.iter print_int sorted 
 ```  
    
 After running this code, the `sorted` variable should contain the list `[1; 2; 3; 5; 9]`, which is the sorted version of the `unsorted` list.

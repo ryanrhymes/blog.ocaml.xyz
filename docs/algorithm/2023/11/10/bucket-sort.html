@@ -63,19 +63,19 @@
 <h2 id="implementation">Implementation</h2>
 <p>Here is an implementation of bucket sort in OCaml:</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>let bucket_sort arr =  
-  let n = Array.length arr in  
-  let buckets = Array.make n [] in  
-  for i = 0 to n - 1 do  
-    let bucket_index = int_of_float (arr.(i) *. (float_of_int n)) in  
-    buckets.(bucket_index) &lt;- arr.(i) :: buckets.(bucket_index)  
-  done;  
-  let sorted = ref [] in  
-  for i = 0 to n - 1 do  
-    buckets.(i) &lt;- List.sort compare buckets.(i);  
-    sorted := !sorted @ buckets.(i)  
-  done;  
-  Array.of_list !sorted  
+<div class="language-ocaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="n">bucket_sort</span> <span class="n">arr</span> <span class="o">=</span>  
+  <span class="k">let</span> <span class="n">n</span> <span class="o">=</span> <span class="nn">Array</span><span class="p">.</span><span class="n">length</span> <span class="n">arr</span> <span class="k">in</span>  
+  <span class="k">let</span> <span class="n">buckets</span> <span class="o">=</span> <span class="nn">Array</span><span class="p">.</span><span class="n">make</span> <span class="n">n</span> <span class="bp">[]</span> <span class="k">in</span>  
+  <span class="k">for</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="k">to</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span> <span class="k">do</span>  
+    <span class="k">let</span> <span class="n">bucket_index</span> <span class="o">=</span> <span class="n">int_of_float</span> <span class="p">(</span><span class="n">arr</span><span class="o">.</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">*.</span> <span class="p">(</span><span class="n">float_of_int</span> <span class="n">n</span><span class="p">))</span> <span class="k">in</span>  
+    <span class="n">buckets</span><span class="o">.</span><span class="p">(</span><span class="n">bucket_index</span><span class="p">)</span> <span class="o">&lt;-</span> <span class="n">arr</span><span class="o">.</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">::</span> <span class="n">buckets</span><span class="o">.</span><span class="p">(</span><span class="n">bucket_index</span><span class="p">)</span>  
+  <span class="k">done</span><span class="p">;</span>  
+  <span class="k">let</span> <span class="n">sorted</span> <span class="o">=</span> <span class="n">ref</span> <span class="bp">[]</span> <span class="k">in</span>  
+  <span class="k">for</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="k">to</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span> <span class="k">do</span>  
+    <span class="n">buckets</span><span class="o">.</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">&lt;-</span> <span class="nn">List</span><span class="p">.</span><span class="n">sort</span> <span class="n">compare</span> <span class="n">buckets</span><span class="o">.</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>  
+    <span class="n">sorted</span> <span class="o">:=</span> <span class="o">!</span><span class="n">sorted</span> <span class="o">@</span> <span class="n">buckets</span><span class="o">.</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>  
+  <span class="k">done</span><span class="p">;</span>  
+  <span class="nn">Array</span><span class="p">.</span><span class="n">of_list</span> <span class="o">!</span><span class="n">sorted</span>  
 </code></pre></div></div>
 
 <p>This implementation takes an array of floating-point numbers as input and returns a sorted array.</p>
@@ -83,29 +83,29 @@
 <h2 id="step-by-step-explanation">Step-by-step Explanation</h2>
 <ol>
   <li>The input array is first traversed to determine the number of buckets required. This is done by taking the length of the array and creating an empty bucket for each index.
-    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>let n = Array.length arr in  
-let buckets = Array.make n [] in  
+    <div class="language-ocaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="n">n</span> <span class="o">=</span> <span class="nn">Array</span><span class="p">.</span><span class="n">length</span> <span class="n">arr</span> <span class="k">in</span>  
+<span class="k">let</span> <span class="n">buckets</span> <span class="o">=</span> <span class="nn">Array</span><span class="p">.</span><span class="n">make</span> <span class="n">n</span> <span class="bp">[]</span> <span class="k">in</span>  
 </code></pre></div>    </div>
   </li>
   <li>The elements of the array are then distributed into the buckets. This is done by iterating over the array and calculating the index of the bucket for each element. The index is calculated by multiplying the element by the number of buckets and taking the integer part of the result.
-    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>for i = 0 to n - 1 do  
-  let bucket_index = int_of_float (arr.(i) *. (float_of_int n)) in  
-  buckets.(bucket_index) &lt;- arr.(i) :: buckets.(bucket_index)  
-done;  
+    <div class="language-ocaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="k">to</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span> <span class="k">do</span>  
+  <span class="k">let</span> <span class="n">bucket_index</span> <span class="o">=</span> <span class="n">int_of_float</span> <span class="p">(</span><span class="n">arr</span><span class="o">.</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">*.</span> <span class="p">(</span><span class="n">float_of_int</span> <span class="n">n</span><span class="p">))</span> <span class="k">in</span>  
+  <span class="n">buckets</span><span class="o">.</span><span class="p">(</span><span class="n">bucket_index</span><span class="p">)</span> <span class="o">&lt;-</span> <span class="n">arr</span><span class="o">.</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">::</span> <span class="n">buckets</span><span class="o">.</span><span class="p">(</span><span class="n">bucket_index</span><span class="p">)</span>  
+<span class="k">done</span><span class="p">;</span>  
 </code></pre></div>    </div>
   </li>
   <li>Each bucket is then sorted individually. This is done using the OCaml <code class="language-plaintext highlighter-rouge">List.sort</code> function, which sorts a list in ascending order using the <code class="language-plaintext highlighter-rouge">compare</code> function.
-    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>for i = 0 to n - 1 do  
-  buckets.(i) &lt;- List.sort compare buckets.(i);  
-done;  
+    <div class="language-ocaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="k">to</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span> <span class="k">do</span>  
+  <span class="n">buckets</span><span class="o">.</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">&lt;-</span> <span class="nn">List</span><span class="p">.</span><span class="n">sort</span> <span class="n">compare</span> <span class="n">buckets</span><span class="o">.</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>  
+<span class="k">done</span><span class="p">;</span>  
 </code></pre></div>    </div>
   </li>
   <li>Finally, the sorted elements are concatenated to form the final sorted array.
-    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>let sorted = ref [] in  
-for i = 0 to n - 1 do  
-  sorted := !sorted @ buckets.(i)  
-done;  
-Array.of_list !sorted  
+    <div class="language-ocaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="n">sorted</span> <span class="o">=</span> <span class="n">ref</span> <span class="bp">[]</span> <span class="k">in</span>  
+<span class="k">for</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="k">to</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span> <span class="k">do</span>  
+  <span class="n">sorted</span> <span class="o">:=</span> <span class="o">!</span><span class="n">sorted</span> <span class="o">@</span> <span class="n">buckets</span><span class="o">.</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>  
+<span class="k">done</span><span class="p">;</span>  
+<span class="nn">Array</span><span class="p">.</span><span class="n">of_list</span> <span class="o">!</span><span class="n">sorted</span>  
 </code></pre></div>    </div>
   </li>
 </ol>

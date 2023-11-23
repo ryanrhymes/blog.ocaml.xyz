@@ -13,13 +13,13 @@ Here is an implementation of DFS in OCaml:
    
 ```ocaml  
 type 'a graph = ('a * 'a list) list  
-   
+  
 let rec explore visited graph node =  
   if List.mem node visited then visited  
-  else node :: List.fold_left (explore (node :: visited) graph) visited (List.assoc node graph)  
-   
+  else node :: List.fold_left (fun acc n -> explore acc graph n) visited (List.assoc node graph)  
+  
 let dfs graph start =  
-  List.rev (explore [] graph start)  
+  List.rev (explore [] graph start)
 ```  
    
 The `graph` is represented as a list of pairs, where each pair consists of a node and its adjacent nodes. The `explore` function recursively explores the graph by visiting each unvisited node and its adjacent nodes. The `visited` parameter keeps track of the visited nodes to avoid visiting them again. The `dfs` function calls `explore` with an empty `visited` list and the starting node and returns the visited nodes in reverse order.  
@@ -34,10 +34,10 @@ let graph = [("A", ["B"; "C"; "D"]);
              ("E", []);  
              ("F", ["G"]);  
              ("G", [])]  
-   
+  
 let visited = dfs graph "A"  
-   
-let () = List.iter print_endline visited  
+  
+let () = List.iter print_endline visited
 ```  
    
 The output should be:  

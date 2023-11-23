@@ -81,7 +81,8 @@
 <p>Here’s an example usage of the <code class="language-plaintext highlighter-rouge">quicksort</code> function:</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>let unsorted = [5; 1; 3; 9; 2]  
-let sorted = quicksort unsorted  
+let sorted = quicksort unsorted 
+let () = List.iter print_int sorted 
 </code></pre></div></div>
 
 <p>After running this code, the <code class="language-plaintext highlighter-rouge">sorted</code> variable should contain the list <code class="language-plaintext highlighter-rouge">[1; 2; 3; 5; 9]</code>, which is the sorted version of the <code class="language-plaintext highlighter-rouge">unsorted</code> list.</p>

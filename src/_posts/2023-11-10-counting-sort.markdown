@@ -12,26 +12,33 @@ Counting sort is an efficient sorting algorithm that can be used to sort element
 Here is an implementation of counting sort in OCaml:  
    
 ```ocaml  
-let counting_sort arr =  
-  let max_val = Array.fold_left max arr 0 in  
-  let count_arr = Array.make (max_val + 1) 0 in  
-  Array.iter (fun x -> count_arr.(x) <- count_arr.(x) + 1) arr;  
-  let index_arr = Array.make (max_val + 1) 0 in  
-  let rec fill_index_arr i j =  
-    if i <= max_val then  
-      begin  
-        index_arr.(i) <- j;  
-        fill_index_arr (i + 1) (j + count_arr.(i))  
-      end  
-  in  
-  fill_index_arr 0 0;  
-  let sorted_arr = Array.make (Array.length arr) 0 in  
-  Array.iter (fun x -> sorted_arr.(index_arr.(x)) <- x; index_arr.(x) <- index_arr.(x) + 1) arr;  
-  sorted_arr  
+let counting_sort arr =
+  let max_val = Array.fold_left (fun acc x -> max acc x) arr.(0) arr in
+  let count_arr = Array.make (max_val + 1) 0 in
+  Array.iter (fun x -> count_arr.(x) <- count_arr.(x) + 1) arr;
+  let index_arr = Array.make (max_val + 1) 0 in
+  let rec fill_index_arr i j =
+    if i <= max_val then
+      begin
+        index_arr.(i) <- j;
+        fill_index_arr (i + 1) (j + count_arr.(i))
+      end
+  in
+  fill_index_arr 0 0;
+  let sorted_arr = Array.make (Array.length arr) 0 in
+  Array.iteri (fun i x -> sorted_arr.(index_arr.(x)) <- x; index_arr.(x) <- index_arr.(x) + 1) arr;
+  sorted_arr
 ```  
    
 Here, `arr` is the input array to be sorted. The function `counting_sort` first finds the maximum value in the input array and creates a new array `count_arr` to count the number of occurrences of each element in the input array. It then creates another array `index_arr` to store the index of each element in the sorted output array. The function `fill_index_arr` is a helper function that fills in the `index_arr` array based on the counts in `count_arr`. Finally, the function creates a new array `sorted_arr` and fills it in by iterating over the input array and using the `index_arr` array to determine the position of each element in the sorted output array.  
-   
+
+```ocaml
+let arr = [|5; 2; 9; 3; 6|]
+let sorted_arr = counting_sort arr
+let () = Array.iter (Printf.printf "%d ") sorted_arr
+```
+
+
 ## Step-by-step Explanation  
 1. Find the maximum value in the input array.  
 2. Create a new array `count_arr` of length `max_val + 1` and initialize all elements to 0.  
