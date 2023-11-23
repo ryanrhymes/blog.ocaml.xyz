@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Red Black Tree"
+title:  "Depth-First Search"
 date:   2023-11-21 01:00:00 +0200
 categories: algorithm
 ---
