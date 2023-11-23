@@ -61,6 +61,6 @@ let () = List.iter print_endline result
 9. Return the `visited` list.  
    
 ## Complexity Analysis  
-The time complexity of BFS is O(|V| + |E|), where |V| is the number of vertices and |E| is the number of edges in the graph. This is because BFS visits each vertex and edge exactly once.   
-  
-The space complexity of BFS is O(|V|), where |V| is the number of vertices in the graph. This is because BFS uses a queue to store the nodes to be visited, and the maximum size of the queue is the number of vertices at the maximum depth of the graph. In the worst case, this is all the vertices, so the space complexity is O(|V|).
+The time complexity of BFS is `O(|V| + |E|)`, where `|V|` is the number of vertices and `|E|` is the number of edges in the graph. This is because BFS visits each vertex and edge exactly once.   
+
+The space complexity of BFS is `O(|V|)`, where `|V|` is the number of vertices in the graph. This is because BFS uses a queue to store the nodes to be visited, and the maximum size of the queue is the number of vertices at the maximum depth of the graph. In the worst case, this is all the vertices, so the space complexity is `O(|V|)`.
