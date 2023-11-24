@@ -63,16 +63,16 @@
 <h2 id="implementation">Implementation</h2>
 <p>Here is an implementation of Bubble Sort in OCaml:</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>let bubble_sort arr =  
-  let n = Array.length arr in  
-  for i = 0 to n - 2 do  
-    for j = 0 to n - i - 2 do  
-      if arr.(j) &gt; arr.(j+1) then  
-        let temp = arr.(j) in  
-        arr.(j) &lt;- arr.(j+1);  
-        arr.(j+1) &lt;- temp  
-    done  
-  done;;  
+<div class="language-ocaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="n">bubble_sort</span> <span class="n">arr</span> <span class="o">=</span>  
+  <span class="k">let</span> <span class="n">n</span> <span class="o">=</span> <span class="nn">Array</span><span class="p">.</span><span class="n">length</span> <span class="n">arr</span> <span class="k">in</span>  
+  <span class="k">for</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="k">to</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">2</span> <span class="k">do</span>  
+    <span class="k">for</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span> <span class="k">to</span> <span class="n">n</span> <span class="o">-</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">2</span> <span class="k">do</span>  
+      <span class="k">if</span> <span class="n">arr</span><span class="o">.</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">arr</span><span class="o">.</span><span class="p">(</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="k">then</span>  
+        <span class="k">let</span> <span class="n">temp</span> <span class="o">=</span> <span class="n">arr</span><span class="o">.</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="k">in</span>  
+        <span class="n">arr</span><span class="o">.</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">&lt;-</span> <span class="n">arr</span><span class="o">.</span><span class="p">(</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">);</span>  
+        <span class="n">arr</span><span class="o">.</span><span class="p">(</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">&lt;-</span> <span class="n">temp</span>  
+    <span class="k">done</span>  
+  <span class="k">done</span><span class="p">;;</span>  
 </code></pre></div></div>
 
 <p>Here, <code class="language-plaintext highlighter-rouge">arr</code> is the array to be sorted. The function <code class="language-plaintext highlighter-rouge">bubble_sort</code> uses two nested loops to iterate through the array and compare adjacent elements. If the elements are in the wrong order, they are swapped. The outer loop iterates from 0 to n-2, while the inner loop iterates from 0 to n-i-2. This is because the largest element in the list will already be in its correct position after each iteration of the outer loop.</p>

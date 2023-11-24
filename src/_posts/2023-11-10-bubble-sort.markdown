@@ -11,7 +11,7 @@ Bubble Sort is a simple sorting algorithm that repeatedly swaps adjacent element
 ## Implementation  
 Here is an implementation of Bubble Sort in OCaml:  
    
-```  
+```ocaml
 let bubble_sort arr =  
   let n = Array.length arr in  
   for i = 0 to n - 2 do  
