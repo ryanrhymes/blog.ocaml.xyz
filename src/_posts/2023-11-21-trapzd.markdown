@@ -1,0 +1,61 @@
+---
+layout: post
+title:  "Extended Trapezoidal Rule"
+date:   2023-11-21 06:00:00 +0200
+categories: algorithm
+---
+
+## Introduction  
+The trapezoidal rule is a numerical integration technique used to approximate the definite integral of a function. It approximates the area under a curve by dividing the area into a series of trapezoids. The trapezoidal rule is widely used in engineering, physics, and other fields that require numerical integration.  
+   
+## Implementation  
+The OCaml code below implements the trapezoidal rule algorithm. The function `trapzd` takes four arguments: `f` is the function to be integrated, `a` and `b` are the lower and upper bounds of the integral, and `n` is the number of trapezoids to be used in the approximation.  
+
+```ocaml
+let trapzd f a b n =
+  let error () =
+    let s =
+      Printf.sprintf
+        "trapzd requires n > 0 and a <= b whereas n = %i, a = %g, b = %g"
+        n
+        a
+        b
+    in
+    Owl_exception.INVALID_ARGUMENT s
+  in
+  Owl_exception.verify (n > 0 && a <= b) error;
+  if n = 1
+  then 0.5 *. (b -. a) *. (f a +. f b)
+  else (
+    let m = 2. ** float_of_int (n - 1) in
+    let d = (b -. a) /. m in
+    let x = ref (a +. (0.5 *. d)) in
+    let s = ref 0. in
+    for _i = 1 to int_of_float m do
+      x := !x +. d;
+      s := !s +. f !x
+    done;
+    (0.5 *. d *. (f a +. f b)) +. (!s *. d))
+```
+
+The function first checks that `n` is greater than zero and that `a` is less than or equal to `b`. If either of these conditions is not met, an exception is raised.  
+   
+If `n` is equal to 1, the function returns the area of a single trapezoid. Otherwise, the function computes the width of each trapezoid `d` and the midpoint of the first trapezoid `x`. It then iterates over the remaining trapezoids, computing the area of each and summing them together.  
+   
+The final result is the sum of the areas of all the trapezoids.  
+   
+## Step-by-step Explanation  
+1. Verify that `n` is greater than zero and that `a` is less than or equal to `b`. If either of these conditions is not met, raise an exception.  
+2. If `n` is equal to 1, return the area of a single trapezoid: `0.5 *. (b -. a) *. (f a +. f b)`  
+3. Compute the width of each trapezoid: `d = (b -. a) /. m`, where `m = 2. ** float_of_int (n - 1)`  
+4. Compute the midpoint of the first trapezoid: `x = ref (a +. (0.5 *. d))`  
+5. Initialize the sum of the areas of all the trapezoids to 0: `s = ref 0.`  
+6. Iterate over the remaining trapezoids, computing the area of each and summing them together:  
+   1. Increment the midpoint by the width of the trapezoid: `x := !x +. d`  
+   2. Compute the area of the trapezoid and add it to the sum: `s := !s +. f !x`  
+7. Compute the final result: `(0.5 *. d *. (f a +. f b)) +. (!s *. d)`  
+   
+## Complexity Analysis  
+The trapezoidal rule algorithm has a time complexity of O(n), where n is the number of trapezoids used in the approximation. This is because the algorithm iterates over each trapezoid once, computing its area and summing them together.  
+   
+The space complexity of the algorithm is O(1), because it only uses a constant amount of memory to store the variables `d`, `x`, and `s`.
