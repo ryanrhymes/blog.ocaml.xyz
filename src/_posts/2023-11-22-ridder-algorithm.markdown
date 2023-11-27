@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Ridder's Algorithm"
-date:   2023-11-22 01:00:00 +0200
+date:   2023-11-22 02:00:00 +0200
 categories: algorithm
 ---
 
