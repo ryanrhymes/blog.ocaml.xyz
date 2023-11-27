@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Dijkstra Algorithm | Algorithm Blog</title>
+<meta name="generator" content="Jekyll v4.3.2" />
+<meta property="og:title" content="Dijkstra Algorithm" />
+<meta name="author" content="Liang Wang" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Introduction Dijkstra algorithm is a shortest path algorithm that is used to find the shortest path between two nodes in a graph. It was conceived by Edsger W. Dijkstra in 1956 and published three years later. The algorithm is used in various applications such as transportation networks, computer networks, and social networks. Implementation The Dijkstra algorithm is implemented in OCaml as follows: ```ocaml let list_vertices graph = List.fold_left (fun acc ((a, b), _) -&gt; let acc = if List.mem b acc then acc else b::acc in let acc = if List.mem a acc then acc else a::acc in acc ) [] graph" />
+<meta property="og:description" content="Introduction Dijkstra algorithm is a shortest path algorithm that is used to find the shortest path between two nodes in a graph. It was conceived by Edsger W. Dijkstra in 1956 and published three years later. The algorithm is used in various applications such as transportation networks, computer networks, and social networks. Implementation The Dijkstra algorithm is implemented in OCaml as follows: ```ocaml let list_vertices graph = List.fold_left (fun acc ((a, b), _) -&gt; let acc = if List.mem b acc then acc else b::acc in let acc = if List.mem a acc then acc else a::acc in acc ) [] graph" />
+<link rel="canonical" href="/algorithm/2023/11/23/dijkstra-algorithm.html" />
+<meta property="og:url" content="/algorithm/2023/11/23/dijkstra-algorithm.html" />
+<meta property="og:site_name" content="Algorithm Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2023-11-23T00:00:00+02:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Dijkstra Algorithm" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Liang Wang"},"dateModified":"2023-11-23T00:00:00+02:00","datePublished":"2023-11-23T00:00:00+02:00","description":"Introduction Dijkstra algorithm is a shortest path algorithm that is used to find the shortest path between two nodes in a graph. It was conceived by Edsger W. Dijkstra in 1956 and published three years later. The algorithm is used in various applications such as transportation networks, computer networks, and social networks. Implementation The Dijkstra algorithm is implemented in OCaml as follows: ```ocaml let list_vertices graph = List.fold_left (fun acc ((a, b), _) -&gt; let acc = if List.mem b acc then acc else b::acc in let acc = if List.mem a acc then acc else a::acc in acc ) [] graph","headline":"Dijkstra Algorithm","mainEntityOfPage":{"@type":"WebPage","@id":"/algorithm/2023/11/23/dijkstra-algorithm.html"},"url":"/algorithm/2023/11/23/dijkstra-algorithm.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="Algorithm Blog" /><script async src="https://www.googletagmanager.com/gtag/js?id=UA-123353217-1"></script>
+<script>
+  window['ga-disable-UA-123353217-1'] = window.doNotTrack === "1" || navigator.doNotTrack === "1" || navigator.doNotTrack === "yes" || navigator.msDoNotTrack === "1";
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){window.dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-123353217-1');
+</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1868946892712371" crossorigin="anonymous"></script></head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Algorithm Blog</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Dijkstra Algorithm</h1>
+    <p class="post-meta"><time class="dt-published" datetime="2023-11-23T00:00:00+02:00" itemprop="datePublished">
+        Nov 23, 2023
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <h2 id="introduction">Introduction</h2>
+<p>Dijkstra algorithm is a shortest path algorithm that is used to find the shortest path between two nodes in a graph. It was conceived by Edsger W. Dijkstra in 1956 and published three years later. The algorithm is used in various applications such as transportation networks, computer networks, and social networks.</p>
+
+<h2 id="implementation">Implementation</h2>
+<p>The Dijkstra algorithm is implemented in OCaml as follows:</p>
+
+<div class="language-ocaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="n">list_vertices</span> <span class="n">graph</span> <span class="o">=</span>
+  <span class="nn">List</span><span class="p">.</span><span class="n">fold_left</span> <span class="p">(</span><span class="k">fun</span> <span class="n">acc</span> <span class="p">((</span><span class="n">a</span><span class="o">,</span> <span class="n">b</span><span class="p">)</span><span class="o">,</span> <span class="n">_</span><span class="p">)</span> <span class="o">-&gt;</span>
+    <span class="k">let</span> <span class="n">acc</span> <span class="o">=</span> <span class="k">if</span> <span class="nn">List</span><span class="p">.</span><span class="n">mem</span> <span class="n">b</span> <span class="n">acc</span> <span class="k">then</span> <span class="n">acc</span> <span class="k">else</span> <span class="n">b</span><span class="o">::</span><span class="n">acc</span> <span class="k">in</span>
+    <span class="k">let</span> <span class="n">acc</span> <span class="o">=</span> <span class="k">if</span> <span class="nn">List</span><span class="p">.</span><span class="n">mem</span> <span class="n">a</span> <span class="n">acc</span> <span class="k">then</span> <span class="n">acc</span> <span class="k">else</span> <span class="n">a</span><span class="o">::</span><span class="n">acc</span> <span class="k">in</span>
+    <span class="n">acc</span>
+  <span class="p">)</span> <span class="bp">[]</span> <span class="n">graph</span>
+
+<span class="k">let</span> <span class="n">neighbors</span> <span class="n">v</span> <span class="o">=</span>
+  <span class="nn">List</span><span class="p">.</span><span class="n">fold_left</span> <span class="p">(</span><span class="k">fun</span> <span class="n">acc</span> <span class="p">((</span><span class="n">a</span><span class="o">,</span> <span class="n">b</span><span class="p">)</span><span class="o">,</span> <span class="n">d</span><span class="p">)</span> <span class="o">-&gt;</span>
+    <span class="k">if</span> <span class="n">a</span> <span class="o">=</span> <span class="n">v</span> <span class="k">then</span> <span class="p">(</span><span class="n">b</span><span class="o">,</span> <span class="n">d</span><span class="p">)</span><span class="o">::</span><span class="n">acc</span> <span class="k">else</span> <span class="n">acc</span>
+  <span class="p">)</span> <span class="bp">[]</span>
+
+<span class="k">let</span> <span class="n">remove_from</span> <span class="n">v</span> <span class="n">lst</span> <span class="o">=</span>
+  <span class="k">let</span> <span class="k">rec</span> <span class="n">aux</span> <span class="n">acc</span> <span class="o">=</span> <span class="k">function</span> <span class="bp">[]</span> <span class="o">-&gt;</span> <span class="n">failwith</span> <span class="s2">"remove_from"</span>
+  <span class="o">|</span> <span class="n">x</span><span class="o">::</span><span class="n">xs</span> <span class="o">-&gt;</span> <span class="k">if</span> <span class="n">x</span> <span class="o">=</span> <span class="n">v</span> <span class="k">then</span> <span class="nn">List</span><span class="p">.</span><span class="n">rev_append</span> <span class="n">acc</span> <span class="n">xs</span> <span class="k">else</span> <span class="n">aux</span> <span class="p">(</span><span class="n">x</span><span class="o">::</span><span class="n">acc</span><span class="p">)</span> <span class="n">xs</span>
+  <span class="k">in</span> <span class="n">aux</span> <span class="bp">[]</span> <span class="n">lst</span>
+
+<span class="k">let</span> <span class="n">with_smallest_distance</span> <span class="n">q</span> <span class="n">dist</span> <span class="o">=</span>
+  <span class="k">match</span> <span class="n">q</span> <span class="k">with</span>
+  <span class="o">|</span> <span class="bp">[]</span> <span class="o">-&gt;</span> <span class="k">assert</span> <span class="bp">false</span>
+  <span class="o">|</span> <span class="n">x</span><span class="o">::</span><span class="n">xs</span> <span class="o">-&gt;</span>
+      <span class="k">let</span> <span class="k">rec</span> <span class="n">aux</span> <span class="n">distance</span> <span class="n">v</span> <span class="o">=</span> <span class="k">function</span>
+      <span class="o">|</span> <span class="n">x</span><span class="o">::</span><span class="n">xs</span> <span class="o">-&gt;</span>
+          <span class="k">let</span> <span class="n">d</span> <span class="o">=</span> <span class="nn">Hashtbl</span><span class="p">.</span><span class="n">find</span> <span class="n">dist</span> <span class="n">x</span> <span class="k">in</span>
+          <span class="k">if</span> <span class="n">d</span> <span class="o">&lt;</span> <span class="n">distance</span>
+          <span class="k">then</span> <span class="n">aux</span> <span class="n">d</span> <span class="n">x</span> <span class="n">xs</span>
+          <span class="k">else</span> <span class="n">aux</span> <span class="n">distance</span> <span class="n">v</span> <span class="n">xs</span>
+      <span class="o">|</span> <span class="bp">[]</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="n">v</span><span class="o">,</span> <span class="n">distance</span><span class="p">)</span>
+      <span class="k">in</span>
+      <span class="n">aux</span> <span class="p">(</span><span class="nn">Hashtbl</span><span class="p">.</span><span class="n">find</span> <span class="n">dist</span> <span class="n">x</span><span class="p">)</span> <span class="n">x</span> <span class="n">xs</span>
+
+<span class="k">let</span> <span class="n">dijkstra</span> <span class="n">max_val</span> <span class="n">zero</span> <span class="n">add</span> <span class="n">graph</span> <span class="n">source</span> <span class="n">target</span> <span class="o">=</span>
+  <span class="k">let</span> <span class="n">vertices</span> <span class="o">=</span> <span class="n">list_vertices</span> <span class="n">graph</span> <span class="k">in</span>
+  <span class="k">let</span> <span class="n">dist_between</span> <span class="n">u</span> <span class="n">v</span> <span class="o">=</span>
+    <span class="k">try</span> <span class="nn">List</span><span class="p">.</span><span class="n">assoc</span> <span class="p">(</span><span class="n">u</span><span class="o">,</span> <span class="n">v</span><span class="p">)</span> <span class="n">graph</span>
+    <span class="k">with</span> <span class="n">_</span> <span class="o">-&gt;</span> <span class="n">zero</span>
+  <span class="k">in</span>
+  <span class="k">let</span> <span class="n">dist</span> <span class="o">=</span> <span class="nn">Hashtbl</span><span class="p">.</span><span class="n">create</span> <span class="mi">1</span> <span class="k">in</span>
+  <span class="k">let</span> <span class="n">previous</span> <span class="o">=</span> <span class="nn">Hashtbl</span><span class="p">.</span><span class="n">create</span> <span class="mi">1</span> <span class="k">in</span>
+  <span class="nn">List</span><span class="p">.</span><span class="n">iter</span> <span class="p">(</span><span class="k">fun</span> <span class="n">v</span> <span class="o">-&gt;</span>                  <span class="c">(* initializations *)</span>
+    <span class="nn">Hashtbl</span><span class="p">.</span><span class="n">add</span> <span class="n">dist</span> <span class="n">v</span> <span class="n">max_val</span>         <span class="c">(* unknown distance function from source to v *)</span>
+  <span class="p">)</span> <span class="n">vertices</span><span class="p">;</span>
+  <span class="nn">Hashtbl</span><span class="p">.</span><span class="n">replace</span> <span class="n">dist</span> <span class="n">source</span> <span class="n">zero</span><span class="p">;</span>    <span class="c">(* distance from source to source *)</span>
+  <span class="k">let</span> <span class="k">rec</span> <span class="n">loop</span> <span class="o">=</span> <span class="k">function</span> <span class="bp">[]</span> <span class="o">-&gt;</span> <span class="bp">()</span>
+  <span class="o">|</span> <span class="n">q</span> <span class="o">-&gt;</span>
+      <span class="k">let</span> <span class="n">u</span><span class="o">,</span> <span class="n">dist_u</span> <span class="o">=</span>
+        <span class="n">with_smallest_distance</span> <span class="n">q</span> <span class="n">dist</span> <span class="k">in</span>   <span class="c">(* vertex in q with smallest distance in dist *)</span>
+      <span class="k">if</span> <span class="n">dist_u</span> <span class="o">=</span> <span class="n">max_val</span> <span class="k">then</span>
+        <span class="n">failwith</span> <span class="s2">"vertices inaccessible"</span><span class="p">;</span>  <span class="c">(* all remaining vertices are inaccessible from source *)</span>
+      <span class="k">if</span> <span class="n">u</span> <span class="o">=</span> <span class="n">target</span> <span class="k">then</span> <span class="bp">()</span> <span class="k">else</span> <span class="k">begin</span>
+        <span class="k">let</span> <span class="n">q</span> <span class="o">=</span> <span class="n">remove_from</span> <span class="n">u</span> <span class="n">q</span> <span class="k">in</span>
+        <span class="nn">List</span><span class="p">.</span><span class="n">iter</span> <span class="p">(</span><span class="k">fun</span> <span class="p">(</span><span class="n">v</span><span class="o">,</span> <span class="n">d</span><span class="p">)</span> <span class="o">-&gt;</span>
+          <span class="k">if</span> <span class="nn">List</span><span class="p">.</span><span class="n">mem</span> <span class="n">v</span> <span class="n">q</span> <span class="k">then</span> <span class="k">begin</span>
+            <span class="k">let</span> <span class="n">alt</span> <span class="o">=</span> <span class="n">add</span> <span class="n">dist_u</span> <span class="p">(</span><span class="n">dist_between</span> <span class="n">u</span> <span class="n">v</span><span class="p">)</span> <span class="k">in</span>
+            <span class="k">let</span> <span class="n">dist_v</span> <span class="o">=</span> <span class="nn">Hashtbl</span><span class="p">.</span><span class="n">find</span> <span class="n">dist</span> <span class="n">v</span> <span class="k">in</span>
+            <span class="k">if</span> <span class="n">alt</span> <span class="o">&lt;</span> <span class="n">dist_v</span> <span class="k">then</span> <span class="k">begin</span>       <span class="c">(* relax (u,v,a) *)</span>
+              <span class="nn">Hashtbl</span><span class="p">.</span><span class="n">replace</span> <span class="n">dist</span> <span class="n">v</span> <span class="n">alt</span><span class="p">;</span>
+              <span class="nn">Hashtbl</span><span class="p">.</span><span class="n">replace</span> <span class="n">previous</span> <span class="n">v</span> <span class="n">u</span><span class="p">;</span>  <span class="c">(* previous node in optimal path from source *)</span>
+            <span class="k">end</span>
+          <span class="k">end</span>
+        <span class="p">)</span> <span class="p">(</span><span class="n">neighbors</span> <span class="n">u</span> <span class="n">graph</span><span class="p">);</span>
+        <span class="n">loop</span> <span class="n">q</span>
+      <span class="k">end</span>
+  <span class="k">in</span>
+  <span class="n">loop</span> <span class="n">vertices</span><span class="p">;</span>
+  <span class="k">let</span> <span class="n">s</span> <span class="o">=</span> <span class="n">ref</span> <span class="bp">[]</span> <span class="k">in</span>
+  <span class="k">let</span> <span class="n">u</span> <span class="o">=</span> <span class="n">ref</span> <span class="n">target</span> <span class="k">in</span>
+  <span class="k">while</span> <span class="nn">Hashtbl</span><span class="p">.</span><span class="n">mem</span> <span class="n">previous</span> <span class="o">!</span><span class="n">u</span> <span class="k">do</span>
+    <span class="n">s</span> <span class="o">:=</span> <span class="o">!</span><span class="n">u</span> <span class="o">::</span> <span class="o">!</span><span class="n">s</span><span class="p">;</span>
+    <span class="n">u</span> <span class="o">:=</span> <span class="nn">Hashtbl</span><span class="p">.</span><span class="n">find</span> <span class="n">previous</span> <span class="o">!</span><span class="n">u</span>
+  <span class="k">done</span><span class="p">;</span>
+  <span class="p">(</span><span class="n">source</span> <span class="o">::</span> <span class="o">!</span><span class="n">s</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>The function <code class="language-plaintext highlighter-rouge">dijkstra</code> takes in a graph represented as a list of edges and their weights, a maximum value, a zero value, an addition function, a source node, and a target node. It returns a list of nodes representing the shortest path from the source to the target.</p>
+
+<p>Here is how to call the function.</p>
+
+<div class="language-ocaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="bp">()</span> <span class="o">=</span>
+  <span class="k">let</span> <span class="n">graph</span> <span class="o">=</span>
+    <span class="p">[</span> <span class="p">(</span><span class="s2">"a"</span><span class="o">,</span> <span class="s2">"b"</span><span class="p">)</span><span class="o">,</span> <span class="mi">7</span><span class="p">;</span>
+      <span class="p">(</span><span class="s2">"a"</span><span class="o">,</span> <span class="s2">"c"</span><span class="p">)</span><span class="o">,</span> <span class="mi">9</span><span class="p">;</span>
+      <span class="p">(</span><span class="s2">"a"</span><span class="o">,</span> <span class="s2">"f"</span><span class="p">)</span><span class="o">,</span> <span class="mi">14</span><span class="p">;</span>
+      <span class="p">(</span><span class="s2">"b"</span><span class="o">,</span> <span class="s2">"c"</span><span class="p">)</span><span class="o">,</span> <span class="mi">10</span><span class="p">;</span>
+      <span class="p">(</span><span class="s2">"b"</span><span class="o">,</span> <span class="s2">"d"</span><span class="p">)</span><span class="o">,</span> <span class="mi">15</span><span class="p">;</span>
+      <span class="p">(</span><span class="s2">"c"</span><span class="o">,</span> <span class="s2">"d"</span><span class="p">)</span><span class="o">,</span> <span class="mi">11</span><span class="p">;</span>
+      <span class="p">(</span><span class="s2">"c"</span><span class="o">,</span> <span class="s2">"f"</span><span class="p">)</span><span class="o">,</span> <span class="mi">2</span><span class="p">;</span>
+      <span class="p">(</span><span class="s2">"d"</span><span class="o">,</span> <span class="s2">"e"</span><span class="p">)</span><span class="o">,</span> <span class="mi">6</span><span class="p">;</span>
+      <span class="p">(</span><span class="s2">"e"</span><span class="o">,</span> <span class="s2">"f"</span><span class="p">)</span><span class="o">,</span> <span class="mi">9</span><span class="p">;</span> <span class="p">]</span>
+  <span class="k">in</span>
+  <span class="k">let</span> <span class="n">p</span> <span class="o">=</span> <span class="n">dijkstra</span> <span class="n">max_int</span> <span class="mi">0</span> <span class="p">(</span><span class="o">+</span><span class="p">)</span> <span class="n">graph</span> <span class="s2">"a"</span> <span class="s2">"e"</span> <span class="k">in</span>
+  <span class="n">print_endline</span> <span class="p">(</span><span class="nn">String</span><span class="p">.</span><span class="n">concat</span> <span class="s2">" -&gt; "</span> <span class="n">p</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h2 id="step-by-step-explanation">Step-by-step Explanation</h2>
+<ol>
+  <li>
+    <p>The function <code class="language-plaintext highlighter-rouge">list_vertices</code> takes in the graph and returns a list of all the vertices in the graph. It does this by iterating over each edge in the graph and adding its endpoints to the list of vertices if they are not already in it.</p>
+  </li>
+  <li>
+    <p>The function <code class="language-plaintext highlighter-rouge">neighbors</code> takes in a vertex <code class="language-plaintext highlighter-rouge">v</code> and returns a list of its neighbors and their distances. It does this by iterating over each edge in the graph and adding the neighbor of <code class="language-plaintext highlighter-rouge">v</code> and its distance to the list if <code class="language-plaintext highlighter-rouge">v</code> is the start point of the edge.</p>
+  </li>
+  <li>
+    <p>The function <code class="language-plaintext highlighter-rouge">remove_from</code> takes in a vertex <code class="language-plaintext highlighter-rouge">v</code> and a list <code class="language-plaintext highlighter-rouge">lst</code> and returns a new list with <code class="language-plaintext highlighter-rouge">v</code> removed from it. It does this by recursively iterating over the list and adding each element to a new list except for <code class="language-plaintext highlighter-rouge">v</code>.</p>
+  </li>
+  <li>
+    <p>The function <code class="language-plaintext highlighter-rouge">with_smallest_distance</code> takes in a list of vertices <code class="language-plaintext highlighter-rouge">q</code> and a hash table of distances <code class="language-plaintext highlighter-rouge">dist</code> and returns the vertex in <code class="language-plaintext highlighter-rouge">q</code> with the smallest distance in <code class="language-plaintext highlighter-rouge">dist</code>. It does this by recursively iterating over the list and comparing the distance of each vertex to the current smallest distance.</p>
+  </li>
+  <li>
+    <p>The function <code class="language-plaintext highlighter-rouge">dijkstra</code> initializes the hash table of distances <code class="language-plaintext highlighter-rouge">dist</code> and the hash table of previous vertices <code class="language-plaintext highlighter-rouge">previous</code>. It then iterates over each vertex in the graph and adds it to <code class="language-plaintext highlighter-rouge">dist</code> with a distance of <code class="language-plaintext highlighter-rouge">max_val</code> except for the source node, which is added with a distance of <code class="language-plaintext highlighter-rouge">zero</code>. It then enters a loop where it selects the vertex in <code class="language-plaintext highlighter-rouge">q</code> with the smallest distance in <code class="language-plaintext highlighter-rouge">dist</code> using <code class="language-plaintext highlighter-rouge">with_smallest_distance</code>. If the distance is <code class="language-plaintext highlighter-rouge">max_val</code>, it means all remaining vertices are inaccessible from the source, so it throws an error. If the selected vertex is the target node, it exits the loop. Otherwise, it removes the selected vertex from <code class="language-plaintext highlighter-rouge">q</code> and iterates over its neighbors. For each neighbor, it computes a new distance <code class="language-plaintext highlighter-rouge">alt</code> from the source to the neighbor through the selected vertex and updates <code class="language-plaintext highlighter-rouge">dist</code> and <code class="language-plaintext highlighter-rouge">previous</code> if <code class="language-plaintext highlighter-rouge">alt</code> is smaller than the current distance in <code class="language-plaintext highlighter-rouge">dist</code>. It then continues the loop with the updated <code class="language-plaintext highlighter-rouge">q</code>.</p>
+  </li>
+  <li>
+    <p>The function <code class="language-plaintext highlighter-rouge">dijkstra</code> ends by constructing the shortest path from the source to the target using the hash table of previous vertices <code class="language-plaintext highlighter-rouge">previous</code>. It starts at the target and iteratively adds the previous vertex to the path until it reaches the source.</p>
+  </li>
+</ol>
+
+<h2 id="complexity-analysis">Complexity Analysis</h2>
+<p>The time complexity of Dijkstra’s algorithm is O((E+V)logV), where E is the number of edges and V is the number of vertices in the graph. This is because the algorithm iterates over each vertex once and each edge once, and it uses a priority queue to select the vertex with the smallest distance in each iteration, which takes logV time. The space complexity is O(V+E) because it stores the hash tables of distances and previous vertices, which have a size proportional to the number of vertices and edges in the graph.</p>
+
+<p>In terms of the input parameters, the time complexity of <code class="language-plaintext highlighter-rouge">list_vertices</code> is O(E), where E is the number of edges in the graph, because it iterates over each edge once. The time complexity of <code class="language-plaintext highlighter-rouge">neighbors</code> is also O(E), because it iterates over each edge once. The time complexity of <code class="language-plaintext highlighter-rouge">remove_from</code> is O(n), where n is the length of the input list, because it iterates over each element once. The time complexity of <code class="language-plaintext highlighter-rouge">with_smallest_distance</code> is O(V), where V is the number of vertices in the input list, because it iterates over each vertex once. Therefore, the overall time complexity of the Dijkstra algorithm is dominated by the time complexity of the main loop, which is O((E+V)logV).</p>
+
+<p>In terms of the space complexity, the hash tables used in the algorithm have a size proportional to the number of vertices in the graph, which is O(V). The priority queue used in <code class="language-plaintext highlighter-rouge">with_smallest_distance</code> also has a size proportional to the number of vertices, which is O(V). Therefore, the overall space complexity of the algorithm is O(V+E).</p>
+
+<p>Overall, the Dijkstra algorithm is an efficient algorithm for finding the shortest path between two nodes in a graph. Its time complexity is proportional to the number of edges and vertices in the graph, and its space complexity is proportional to the number of vertices.</p>
+
+
+  </div><a class="u-url" href="/algorithm/2023/11/23/dijkstra-algorithm.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+        <ul class="contact-list">
+          <li class="p-name">Liang Wang</li>
+          <li><a class="u-email" href="mailto:liang@ocaml.xyz">liang@ocaml.xyz</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p>Explore the elegance of classic and numerical algorithms through practical OCaml implementations, unraveling their inner workings and unveiling the art and science of algorithmic programming.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
