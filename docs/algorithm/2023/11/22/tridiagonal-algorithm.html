@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Tridiagonal Matrix Algorithm | Algorithm Blog</title>
+<meta name="generator" content="Jekyll v4.3.2" />
+<meta property="og:title" content="Tridiagonal Matrix Algorithm" />
+<meta name="author" content="Liang Wang" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Introduction The tridiagonal matrix algorithm is a numerical method used to solve a system of linear equations where the matrix is tridiagonal. A tridiagonal matrix is a matrix where all the elements are zero except for those on the main diagonal, the diagonal above it, and the diagonal below it. The algorithm is used in various fields such as physics, engineering, and finance. Implementation" />
+<meta property="og:description" content="Introduction The tridiagonal matrix algorithm is a numerical method used to solve a system of linear equations where the matrix is tridiagonal. A tridiagonal matrix is a matrix where all the elements are zero except for those on the main diagonal, the diagonal above it, and the diagonal below it. The algorithm is used in various fields such as physics, engineering, and finance. Implementation" />
+<link rel="canonical" href="/algorithm/2023/11/22/tridiagonal-algorithm.html" />
+<meta property="og:url" content="/algorithm/2023/11/22/tridiagonal-algorithm.html" />
+<meta property="og:site_name" content="Algorithm Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2023-11-22T05:00:00+02:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Tridiagonal Matrix Algorithm" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Liang Wang"},"dateModified":"2023-11-22T05:00:00+02:00","datePublished":"2023-11-22T05:00:00+02:00","description":"Introduction The tridiagonal matrix algorithm is a numerical method used to solve a system of linear equations where the matrix is tridiagonal. A tridiagonal matrix is a matrix where all the elements are zero except for those on the main diagonal, the diagonal above it, and the diagonal below it. The algorithm is used in various fields such as physics, engineering, and finance. Implementation","headline":"Tridiagonal Matrix Algorithm","mainEntityOfPage":{"@type":"WebPage","@id":"/algorithm/2023/11/22/tridiagonal-algorithm.html"},"url":"/algorithm/2023/11/22/tridiagonal-algorithm.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="Algorithm Blog" /><script async src="https://www.googletagmanager.com/gtag/js?id=UA-123353217-1"></script>
+<script>
+  window['ga-disable-UA-123353217-1'] = window.doNotTrack === "1" || navigator.doNotTrack === "1" || navigator.doNotTrack === "yes" || navigator.msDoNotTrack === "1";
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){window.dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-123353217-1');
+</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1868946892712371" crossorigin="anonymous"></script></head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Algorithm Blog</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Tridiagonal Matrix Algorithm</h1>
+    <p class="post-meta"><time class="dt-published" datetime="2023-11-22T05:00:00+02:00" itemprop="datePublished">
+        Nov 22, 2023
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <h2 id="introduction">Introduction</h2>
+<p>The tridiagonal matrix algorithm is a numerical method used to solve a system of linear equations where the matrix is tridiagonal. A tridiagonal matrix is a matrix where all the elements are zero except for those on the main diagonal, the diagonal above it, and the diagonal below it. The algorithm is used in various fields such as physics, engineering, and finance.</p>
+
+<h2 id="implementation">Implementation</h2>
+
+<div class="language-ocaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">(* Solver for tridiagonal matrix
+ * Input: a[n], b[n], c[n], which together consist the tridiagonal matrix A, and the right side vector r[n]. Return: x[n].
+ *)</span>
+
+<span class="k">let</span> <span class="n">tridiag_solve_vec</span> <span class="n">a</span> <span class="n">b</span> <span class="n">c</span> <span class="n">r</span> <span class="o">=</span>
+  <span class="k">let</span> <span class="n">n</span> <span class="o">=</span> <span class="nn">Array</span><span class="p">.</span><span class="n">length</span> <span class="n">a</span> <span class="k">in</span>
+  <span class="k">let</span> <span class="n">n1</span> <span class="o">=</span> <span class="nn">Array</span><span class="p">.</span><span class="n">length</span> <span class="n">b</span> <span class="k">in</span>
+  <span class="k">let</span> <span class="n">n2</span> <span class="o">=</span> <span class="nn">Array</span><span class="p">.</span><span class="n">length</span> <span class="n">c</span> <span class="k">in</span>
+  <span class="k">assert</span> <span class="p">(</span><span class="n">n</span> <span class="o">=</span> <span class="n">n1</span> <span class="o">&amp;&amp;</span> <span class="n">n</span> <span class="o">=</span> <span class="n">n2</span><span class="p">);</span>
+  <span class="k">if</span> <span class="n">b</span><span class="o">.</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">=</span> <span class="mi">0</span><span class="o">.</span>
+  <span class="k">then</span> <span class="k">raise</span> <span class="p">(</span><span class="nc">Invalid_argument</span> <span class="s2">"tridiag_solve_vec: 0 at the beginning of diagonal vector"</span><span class="p">);</span>
+  <span class="k">let</span> <span class="n">bet</span> <span class="o">=</span> <span class="n">ref</span> <span class="n">b</span><span class="o">.</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="k">in</span>
+  <span class="k">let</span> <span class="n">gam</span> <span class="o">=</span> <span class="nn">Array</span><span class="p">.</span><span class="n">make</span> <span class="n">n</span> <span class="mi">0</span><span class="o">.</span> <span class="k">in</span>
+  <span class="k">let</span> <span class="n">x</span> <span class="o">=</span> <span class="nn">Array</span><span class="p">.</span><span class="n">make</span> <span class="n">n</span> <span class="mi">0</span><span class="o">.</span> <span class="k">in</span>
+  <span class="n">x</span><span class="o">.</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">&lt;-</span> <span class="n">r</span><span class="o">.</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">/.</span> <span class="o">!</span><span class="n">bet</span><span class="p">;</span>
+  <span class="k">for</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">1</span> <span class="k">to</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span> <span class="k">do</span>
+    <span class="n">gam</span><span class="o">.</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">&lt;-</span> <span class="n">c</span><span class="o">.</span><span class="p">(</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/.</span> <span class="o">!</span><span class="n">bet</span><span class="p">;</span>
+    <span class="n">bet</span> <span class="o">:=</span> <span class="n">b</span><span class="o">.</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">-.</span> <span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">*.</span> <span class="n">gam</span><span class="o">.</span><span class="p">(</span><span class="n">j</span><span class="p">));</span>
+    <span class="k">if</span> <span class="o">!</span><span class="n">bet</span> <span class="o">=</span> <span class="mi">0</span><span class="o">.</span> <span class="k">then</span> <span class="k">raise</span> <span class="p">(</span><span class="nc">Invalid_argument</span> <span class="s2">"tridiag_solve_vec: algorithm fails"</span><span class="p">);</span>
+    <span class="n">x</span><span class="o">.</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">&lt;-</span> <span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">-.</span> <span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">*.</span> <span class="n">x</span><span class="o">.</span><span class="p">(</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)))</span> <span class="o">/.</span> <span class="o">!</span><span class="n">bet</span>
+  <span class="k">done</span><span class="p">;</span>
+  <span class="k">for</span> <span class="n">j</span> <span class="o">=</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">2</span> <span class="k">downto</span> <span class="mi">0</span> <span class="k">do</span>
+    <span class="n">x</span><span class="o">.</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">&lt;-</span> <span class="n">x</span><span class="o">.</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">-.</span> <span class="p">(</span><span class="n">gam</span><span class="o">.</span><span class="p">(</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*.</span> <span class="n">x</span><span class="o">.</span><span class="p">(</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+  <span class="k">done</span><span class="p">;</span>
+  <span class="n">x</span>
+</code></pre></div></div>
+
+<p>The implementation of the tridiagonal matrix algorithm is provided in OCaml. The function <code class="language-plaintext highlighter-rouge">tridiag_solve_vec</code> takes four input arrays <code class="language-plaintext highlighter-rouge">a</code>, <code class="language-plaintext highlighter-rouge">b</code>, <code class="language-plaintext highlighter-rouge">c</code>, and <code class="language-plaintext highlighter-rouge">r</code>, where <code class="language-plaintext highlighter-rouge">a</code>, <code class="language-plaintext highlighter-rouge">b</code>, and <code class="language-plaintext highlighter-rouge">c</code> are the arrays representing the tridiagonal matrix and <code class="language-plaintext highlighter-rouge">r</code> is the right-hand side vector. The function returns the solution vector <code class="language-plaintext highlighter-rouge">x</code>.</p>
+
+<h2 id="step-by-step-explanation">Step-by-step Explanation</h2>
+<p>The tridiagonal matrix algorithm works by eliminating the coefficients below and above the main diagonal. The algorithm can be divided into three steps:</p>
+
+<ol>
+  <li>
+    <p>Decomposition: In this step, the algorithm decomposes the matrix into two matrices, L and U, where L is a lower triangular matrix and U is an upper triangular matrix. The decomposition is done in such a way that the product of L and U is equal to the original matrix.</p>
+  </li>
+  <li>
+    <p>Forward substitution: In this step, the algorithm solves the equation Ly = r, where L is the lower triangular matrix obtained in the previous step, y is an intermediate vector, and r is the right-hand side vector. This step is called forward substitution because it starts from the first equation and solves for y in terms of the previous y values.</p>
+  </li>
+  <li>
+    <p>Backward substitution: In this step, the algorithm solves the equation Ux = y, where U is the upper triangular matrix obtained in the first step, x is the solution vector, and y is the intermediate vector obtained in the previous step. This step is called backward substitution because it starts from the last equation and solves for x in terms of the previous x values.</p>
+  </li>
+</ol>
+
+<p>The implementation of the tridiagonal matrix algorithm provided in OCaml is based on the Thomas algorithm, which is a simplified version of the tridiagonal matrix algorithm. The algorithm starts by checking that the diagonal element of the matrix is not zero. If it is zero, the algorithm raises an exception.</p>
+
+<p>The algorithm then proceeds to calculate the intermediate values <code class="language-plaintext highlighter-rouge">gam</code> and <code class="language-plaintext highlighter-rouge">bet</code>, which are used in the forward substitution step. The intermediate value <code class="language-plaintext highlighter-rouge">bet</code> is updated at each iteration, and if it becomes zero, the algorithm raises an exception. The solution vector <code class="language-plaintext highlighter-rouge">x</code> is also updated at each iteration.</p>
+
+<p>Finally, the algorithm performs the backward substitution step to obtain the final solution vector <code class="language-plaintext highlighter-rouge">x</code>.</p>
+
+<h2 id="complexity-analysis">Complexity Analysis</h2>
+<p>The time complexity of the tridiagonal matrix algorithm is O(n), where n is the size of the matrix. The algorithm performs two loops, one for the forward substitution step and one for the backward substitution step, each of which takes O(n) time. The intermediate calculations take constant time, so the overall time complexity is O(n).</p>
+
+<p>The space complexity of the algorithm is also O(n), as it requires arrays of size n to store the intermediate values and the solution vector.</p>
+
+  </div><a class="u-url" href="/algorithm/2023/11/22/tridiagonal-algorithm.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+        <ul class="contact-list">
+          <li class="p-name">Liang Wang</li>
+          <li><a class="u-email" href="mailto:liang@ocaml.xyz">liang@ocaml.xyz</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p>Explore the elegance of classic and numerical algorithms through practical OCaml implementations, unraveling their inner workings and unveiling the art and science of algorithmic programming.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

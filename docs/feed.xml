@@ -1,4 +1,62 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2023-11-27T22:37:32+02:00</updated><id>/feed.xml</id><title type="html">Algorithm Blog</title><subtitle>Explore the elegance of classic and numerical algorithms through practical OCaml implementations, unraveling their inner workings and unveiling the art and science of algorithmic programming.</subtitle><author><name>Liang Wang</name><email>liang@ocaml.xyz</email></author><entry><title type="html">LU Decomposition</title><link href="/algorithm/2023/11/22/lu-decomposition.html" rel="alternate" type="text/html" title="LU Decomposition" /><published>2023-11-22T04:00:00+02:00</published><updated>2023-11-22T04:00:00+02:00</updated><id>/algorithm/2023/11/22/lu-decomposition</id><content type="html" xml:base="/algorithm/2023/11/22/lu-decomposition.html"><![CDATA[<h2 id="introduction">Introduction</h2>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2023-11-27T22:41:05+02:00</updated><id>/feed.xml</id><title type="html">Algorithm Blog</title><subtitle>Explore the elegance of classic and numerical algorithms through practical OCaml implementations, unraveling their inner workings and unveiling the art and science of algorithmic programming.</subtitle><author><name>Liang Wang</name><email>liang@ocaml.xyz</email></author><entry><title type="html">Tridiagonal Matrix Algorithm</title><link href="/algorithm/2023/11/22/tridiagonal-algorithm.html" rel="alternate" type="text/html" title="Tridiagonal Matrix Algorithm" /><published>2023-11-22T05:00:00+02:00</published><updated>2023-11-22T05:00:00+02:00</updated><id>/algorithm/2023/11/22/tridiagonal-algorithm</id><content type="html" xml:base="/algorithm/2023/11/22/tridiagonal-algorithm.html"><![CDATA[<h2 id="introduction">Introduction</h2>
+<p>The tridiagonal matrix algorithm is a numerical method used to solve a system of linear equations where the matrix is tridiagonal. A tridiagonal matrix is a matrix where all the elements are zero except for those on the main diagonal, the diagonal above it, and the diagonal below it. The algorithm is used in various fields such as physics, engineering, and finance.</p>
+
+<h2 id="implementation">Implementation</h2>
+
+<div class="language-ocaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">(* Solver for tridiagonal matrix
+ * Input: a[n], b[n], c[n], which together consist the tridiagonal matrix A, and the right side vector r[n]. Return: x[n].
+ *)</span>
+
+<span class="k">let</span> <span class="n">tridiag_solve_vec</span> <span class="n">a</span> <span class="n">b</span> <span class="n">c</span> <span class="n">r</span> <span class="o">=</span>
+  <span class="k">let</span> <span class="n">n</span> <span class="o">=</span> <span class="nn">Array</span><span class="p">.</span><span class="n">length</span> <span class="n">a</span> <span class="k">in</span>
+  <span class="k">let</span> <span class="n">n1</span> <span class="o">=</span> <span class="nn">Array</span><span class="p">.</span><span class="n">length</span> <span class="n">b</span> <span class="k">in</span>
+  <span class="k">let</span> <span class="n">n2</span> <span class="o">=</span> <span class="nn">Array</span><span class="p">.</span><span class="n">length</span> <span class="n">c</span> <span class="k">in</span>
+  <span class="k">assert</span> <span class="p">(</span><span class="n">n</span> <span class="o">=</span> <span class="n">n1</span> <span class="o">&amp;&amp;</span> <span class="n">n</span> <span class="o">=</span> <span class="n">n2</span><span class="p">);</span>
+  <span class="k">if</span> <span class="n">b</span><span class="o">.</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">=</span> <span class="mi">0</span><span class="o">.</span>
+  <span class="k">then</span> <span class="k">raise</span> <span class="p">(</span><span class="nc">Invalid_argument</span> <span class="s2">"tridiag_solve_vec: 0 at the beginning of diagonal vector"</span><span class="p">);</span>
+  <span class="k">let</span> <span class="n">bet</span> <span class="o">=</span> <span class="n">ref</span> <span class="n">b</span><span class="o">.</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="k">in</span>
+  <span class="k">let</span> <span class="n">gam</span> <span class="o">=</span> <span class="nn">Array</span><span class="p">.</span><span class="n">make</span> <span class="n">n</span> <span class="mi">0</span><span class="o">.</span> <span class="k">in</span>
+  <span class="k">let</span> <span class="n">x</span> <span class="o">=</span> <span class="nn">Array</span><span class="p">.</span><span class="n">make</span> <span class="n">n</span> <span class="mi">0</span><span class="o">.</span> <span class="k">in</span>
+  <span class="n">x</span><span class="o">.</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">&lt;-</span> <span class="n">r</span><span class="o">.</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">/.</span> <span class="o">!</span><span class="n">bet</span><span class="p">;</span>
+  <span class="k">for</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">1</span> <span class="k">to</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span> <span class="k">do</span>
+    <span class="n">gam</span><span class="o">.</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">&lt;-</span> <span class="n">c</span><span class="o">.</span><span class="p">(</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/.</span> <span class="o">!</span><span class="n">bet</span><span class="p">;</span>
+    <span class="n">bet</span> <span class="o">:=</span> <span class="n">b</span><span class="o">.</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">-.</span> <span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">*.</span> <span class="n">gam</span><span class="o">.</span><span class="p">(</span><span class="n">j</span><span class="p">));</span>
+    <span class="k">if</span> <span class="o">!</span><span class="n">bet</span> <span class="o">=</span> <span class="mi">0</span><span class="o">.</span> <span class="k">then</span> <span class="k">raise</span> <span class="p">(</span><span class="nc">Invalid_argument</span> <span class="s2">"tridiag_solve_vec: algorithm fails"</span><span class="p">);</span>
+    <span class="n">x</span><span class="o">.</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">&lt;-</span> <span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">-.</span> <span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">*.</span> <span class="n">x</span><span class="o">.</span><span class="p">(</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)))</span> <span class="o">/.</span> <span class="o">!</span><span class="n">bet</span>
+  <span class="k">done</span><span class="p">;</span>
+  <span class="k">for</span> <span class="n">j</span> <span class="o">=</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">2</span> <span class="k">downto</span> <span class="mi">0</span> <span class="k">do</span>
+    <span class="n">x</span><span class="o">.</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">&lt;-</span> <span class="n">x</span><span class="o">.</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">-.</span> <span class="p">(</span><span class="n">gam</span><span class="o">.</span><span class="p">(</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*.</span> <span class="n">x</span><span class="o">.</span><span class="p">(</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+  <span class="k">done</span><span class="p">;</span>
+  <span class="n">x</span>
+</code></pre></div></div>
+
+<p>The implementation of the tridiagonal matrix algorithm is provided in OCaml. The function <code class="language-plaintext highlighter-rouge">tridiag_solve_vec</code> takes four input arrays <code class="language-plaintext highlighter-rouge">a</code>, <code class="language-plaintext highlighter-rouge">b</code>, <code class="language-plaintext highlighter-rouge">c</code>, and <code class="language-plaintext highlighter-rouge">r</code>, where <code class="language-plaintext highlighter-rouge">a</code>, <code class="language-plaintext highlighter-rouge">b</code>, and <code class="language-plaintext highlighter-rouge">c</code> are the arrays representing the tridiagonal matrix and <code class="language-plaintext highlighter-rouge">r</code> is the right-hand side vector. The function returns the solution vector <code class="language-plaintext highlighter-rouge">x</code>.</p>
+
+<h2 id="step-by-step-explanation">Step-by-step Explanation</h2>
+<p>The tridiagonal matrix algorithm works by eliminating the coefficients below and above the main diagonal. The algorithm can be divided into three steps:</p>
+
+<ol>
+  <li>
+    <p>Decomposition: In this step, the algorithm decomposes the matrix into two matrices, L and U, where L is a lower triangular matrix and U is an upper triangular matrix. The decomposition is done in such a way that the product of L and U is equal to the original matrix.</p>
+  </li>
+  <li>
+    <p>Forward substitution: In this step, the algorithm solves the equation Ly = r, where L is the lower triangular matrix obtained in the previous step, y is an intermediate vector, and r is the right-hand side vector. This step is called forward substitution because it starts from the first equation and solves for y in terms of the previous y values.</p>
+  </li>
+  <li>
+    <p>Backward substitution: In this step, the algorithm solves the equation Ux = y, where U is the upper triangular matrix obtained in the first step, x is the solution vector, and y is the intermediate vector obtained in the previous step. This step is called backward substitution because it starts from the last equation and solves for x in terms of the previous x values.</p>
+  </li>
+</ol>
+
+<p>The implementation of the tridiagonal matrix algorithm provided in OCaml is based on the Thomas algorithm, which is a simplified version of the tridiagonal matrix algorithm. The algorithm starts by checking that the diagonal element of the matrix is not zero. If it is zero, the algorithm raises an exception.</p>
+
+<p>The algorithm then proceeds to calculate the intermediate values <code class="language-plaintext highlighter-rouge">gam</code> and <code class="language-plaintext highlighter-rouge">bet</code>, which are used in the forward substitution step. The intermediate value <code class="language-plaintext highlighter-rouge">bet</code> is updated at each iteration, and if it becomes zero, the algorithm raises an exception. The solution vector <code class="language-plaintext highlighter-rouge">x</code> is also updated at each iteration.</p>
+
+<p>Finally, the algorithm performs the backward substitution step to obtain the final solution vector <code class="language-plaintext highlighter-rouge">x</code>.</p>
+
+<h2 id="complexity-analysis">Complexity Analysis</h2>
+<p>The time complexity of the tridiagonal matrix algorithm is O(n), where n is the size of the matrix. The algorithm performs two loops, one for the forward substitution step and one for the backward substitution step, each of which takes O(n) time. The intermediate calculations take constant time, so the overall time complexity is O(n).</p>
+
+<p>The space complexity of the algorithm is also O(n), as it requires arrays of size n to store the intermediate values and the solution vector.</p>]]></content><author><name>Liang Wang</name><email>liang@ocaml.xyz</email></author><category term="algorithm" /><summary type="html"><![CDATA[Introduction The tridiagonal matrix algorithm is a numerical method used to solve a system of linear equations where the matrix is tridiagonal. A tridiagonal matrix is a matrix where all the elements are zero except for those on the main diagonal, the diagonal above it, and the diagonal below it. The algorithm is used in various fields such as physics, engineering, and finance. Implementation]]></summary></entry><entry><title type="html">LU Decomposition</title><link href="/algorithm/2023/11/22/lu-decomposition.html" rel="alternate" type="text/html" title="LU Decomposition" /><published>2023-11-22T04:00:00+02:00</published><updated>2023-11-22T04:00:00+02:00</updated><id>/algorithm/2023/11/22/lu-decomposition</id><content type="html" xml:base="/algorithm/2023/11/22/lu-decomposition.html"><![CDATA[<h2 id="introduction">Introduction</h2>
 <p>LU decomposition is a numerical method for solving systems of linear equations. It decomposes a square matrix into two triangular matrices, one lower triangular matrix (L) and one upper triangular matrix (U). This decomposition can be used to solve linear equations in the form Ax = b, where A is the matrix, x is the vector of unknowns, and b is the vector of constants.</p>
 
 <h2 id="implementation">Implementation</h2>
@@ -1137,92 +1195,4 @@ e = xb - xa
 
 <p>This is because the algorithm has two nested loops, each iterating over the <code class="language-plaintext highlighter-rouge">c</code> and <code class="language-plaintext highlighter-rouge">d</code> arrays. The outer loop iterates <code class="language-plaintext highlighter-rouge">n-1</code> times, and the inner loop iterates <code class="language-plaintext highlighter-rouge">n-m</code> times, where <code class="language-plaintext highlighter-rouge">m</code> is the current iteration of the outer loop. This gives a total of <code class="language-plaintext highlighter-rouge">(n-1) + (n-2) + ... + 1</code> iterations for the outer loop, which is equal to <code class="language-plaintext highlighter-rouge">n(n-1)/2</code>. The inner loop has a similar number of iterations, giving a total of <code class="language-plaintext highlighter-rouge">n(n-1)^2/2</code> iterations for both loops combined.</p>
 
-<p>Therefore, the time complexity of the algorithm is O(n^2). This means that as the length of the input arrays <code class="language-plaintext highlighter-rouge">xs</code> and <code class="language-plaintext highlighter-rouge">ys</code> increases, the time taken by the algorithm to compute the approximation of the function at <code class="language-plaintext highlighter-rouge">x</code> and its derivative also increases quadratically.</p>]]></content><author><name>Liang Wang</name><email>liang@ocaml.xyz</email></author><category term="algorithm" /><summary type="html"><![CDATA[Introduction Rational interpolation is a numerical method used to approximate a function using a rational function. The algorithm is used in various fields including engineering, physics, and finance.]]></summary></entry><entry><title type="html">Bisection Algorithm</title><link href="/algorithm/2023/11/21/bisec-algorithm.html" rel="alternate" type="text/html" title="Bisection Algorithm" /><published>2023-11-21T04:00:00+02:00</published><updated>2023-11-21T04:00:00+02:00</updated><id>/algorithm/2023/11/21/bisec-algorithm</id><content type="html" xml:base="/algorithm/2023/11/21/bisec-algorithm.html"><![CDATA[<h2 id="introduction">Introduction</h2>
-
-<p>The bisection algorithm is a root-finding algorithm that repeatedly bisects an interval and then selects a subinterval in which a root must lie for further processing. It is a simple and robust method that is guaranteed to converge to a root if the function is continuous and changes sign exactly once over the interval.</p>
-
-<h2 id="implementation">Implementation</h2>
-
-<p>The implementation below is in OCaml. It takes a function f, and two points a and b, such that f(a) and f(b) have opposite signs, indicating that there is a root in between the two points. The algorithm then bisects the interval and checks the sign of the function at the midpoint. If the sign is negative, the root must be in the left subinterval, and if the sign is positive, the root must be in the right subinterval. The algorithm repeats this process until it converges to a root.</p>
-
-<div class="language-ocaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="n">bisec</span> <span class="o">?</span><span class="p">(</span><span class="n">max_iter</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">)</span> <span class="o">?</span><span class="p">(</span><span class="n">xtol</span> <span class="o">=</span> <span class="mf">1e-6</span><span class="p">)</span> <span class="n">f</span> <span class="n">a</span> <span class="n">b</span> <span class="o">=</span>
-  <span class="k">let</span> <span class="n">fa</span> <span class="o">=</span> <span class="n">f</span> <span class="n">a</span> <span class="k">in</span>
-  <span class="k">let</span> <span class="n">fb</span> <span class="o">=</span> <span class="n">f</span> <span class="n">b</span> <span class="k">in</span>
-  <span class="k">let</span> <span class="n">error</span> <span class="bp">()</span> <span class="o">=</span>
-    <span class="k">let</span> <span class="n">s</span> <span class="o">=</span> <span class="nn">Printf</span><span class="p">.</span><span class="n">sprintf</span> <span class="s2">"f(a) *. f(b) = %g *. %g should be negative."</span> <span class="n">fa</span> <span class="n">fb</span> <span class="k">in</span>
-    <span class="nn">Owl_exception</span><span class="p">.</span><span class="nc">INVALID_ARGUMENT</span> <span class="n">s</span>
-  <span class="k">in</span>
-  <span class="nn">Owl_exception</span><span class="p">.</span><span class="n">verify</span> <span class="p">(</span><span class="n">fa</span> <span class="o">*.</span> <span class="n">fb</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="o">.</span><span class="p">)</span> <span class="n">error</span><span class="p">;</span>
-  <span class="k">if</span> <span class="n">fa</span> <span class="o">=</span> <span class="mi">0</span><span class="o">.</span>
-  <span class="k">then</span> <span class="n">a</span>
-  <span class="k">else</span> <span class="k">if</span> <span class="n">fb</span> <span class="o">=</span> <span class="mi">0</span><span class="o">.</span>
-  <span class="k">then</span> <span class="n">b</span>
-  <span class="k">else</span> <span class="p">(</span>
-    <span class="k">let</span> <span class="n">x</span><span class="o">,</span> <span class="n">d</span> <span class="o">=</span>
-      <span class="k">match</span> <span class="n">fa</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="o">.</span> <span class="k">with</span>
-      <span class="o">|</span> <span class="bp">true</span>  <span class="o">-&gt;</span> <span class="n">ref</span> <span class="n">a</span><span class="o">,</span> <span class="n">ref</span> <span class="p">(</span><span class="n">b</span> <span class="o">-.</span> <span class="n">a</span><span class="p">)</span>
-      <span class="o">|</span> <span class="bp">false</span> <span class="o">-&gt;</span> <span class="n">ref</span> <span class="n">b</span><span class="o">,</span> <span class="n">ref</span> <span class="p">(</span><span class="n">a</span> <span class="o">-.</span> <span class="n">b</span><span class="p">)</span>
-    <span class="k">in</span>
-    <span class="k">try</span>
-      <span class="k">for</span> <span class="n">_i</span> <span class="o">=</span> <span class="mi">1</span> <span class="k">to</span> <span class="n">max_iter</span> <span class="k">do</span>
-        <span class="n">d</span> <span class="o">:=</span> <span class="o">!</span><span class="n">d</span> <span class="o">*.</span> <span class="mi">0</span><span class="o">.</span><span class="mi">5</span><span class="p">;</span>
-        <span class="k">let</span> <span class="n">c</span> <span class="o">=</span> <span class="o">!</span><span class="n">x</span> <span class="o">+.</span> <span class="o">!</span><span class="n">d</span> <span class="k">in</span>
-        <span class="k">let</span> <span class="n">fc</span> <span class="o">=</span> <span class="n">f</span> <span class="n">c</span> <span class="k">in</span>
-        <span class="k">if</span> <span class="n">fc</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="o">.</span> <span class="k">then</span> <span class="n">x</span> <span class="o">:=</span> <span class="n">c</span><span class="p">;</span>
-        <span class="k">assert</span> <span class="p">(</span><span class="n">abs_float</span> <span class="o">!</span><span class="n">d</span> <span class="o">&gt;=</span> <span class="n">xtol</span> <span class="o">&amp;&amp;</span> <span class="n">fc</span> <span class="o">!=</span> <span class="mi">0</span><span class="o">.</span><span class="p">)</span>
-      <span class="k">done</span><span class="p">;</span>
-      <span class="o">!</span><span class="n">x</span>
-    <span class="k">with</span>
-    <span class="o">|</span> <span class="n">_</span> <span class="o">-&gt;</span> <span class="o">!</span><span class="n">x</span><span class="p">)</span>
-</code></pre></div></div>
-
-<h2 id="step-by-step-explanation">Step-by-step Explanation</h2>
-
-<ol>
-  <li>
-    <p>The function takes a function f, and two points a and b, such that f(a) and f(b) have opposite signs, indicating that there is a root in between the two points.</p>
-  </li>
-  <li>
-    <p>The function checks that f(a) and f(b) have opposite signs. If they do not, the function raises an error.</p>
-  </li>
-  <li>
-    <p>If f(a) is 0, the function returns a, since a is already a root.</p>
-  </li>
-  <li>
-    <p>If f(b) is 0, the function returns b, since b is already a root.</p>
-  </li>
-  <li>
-    <p>The function initializes x to a or b, depending on whether f(a) is negative or positive, and initializes d to the distance between a and b.</p>
-  </li>
-  <li>
-    <p>The function enters a loop that runs for a maximum of max_iter iterations.</p>
-  </li>
-  <li>
-    <p>In each iteration, the function bisects the interval by setting d to d/2.</p>
-  </li>
-  <li>
-    <p>The function computes the midpoint c of the interval by adding d to x.</p>
-  </li>
-  <li>
-    <p>The function evaluates the function at c.</p>
-  </li>
-  <li>
-    <p>If the sign of the function at c is negative, the function sets x to c, indicating that the root must be in the left subinterval.</p>
-  </li>
-  <li>
-    <p>The function checks that the distance between the endpoints of the interval is greater than xtol, and that the function value at c is not 0. If either of these conditions is false, the function exits the loop.</p>
-  </li>
-  <li>
-    <p>If the loop completes without finding a root, the function returns the last value of x.</p>
-  </li>
-</ol>
-
-<h2 id="complexity-analysis">Complexity Analysis</h2>
-
-<p>The bisection algorithm has a guaranteed convergence rate of O(log2((b-a)/xtol)), where a and b are the endpoints of the interval and xtol is the desired tolerance. This means that the number of iterations required to find a root decreases by a factor of 2 with each doubling of the number of correct digits.</p>
-
-<p>The algorithm’s time complexity is O(max_iter), where max_iter is the maximum number of iterations allowed. In practice, the algorithm usually converges much faster than this worst-case bound, and the number of iterations required depends on the function being evaluated and the desired accuracy.</p>
-
-<p>The space complexity of the algorithm is O(1), as it only requires a constant amount of memory to store the variables used in the algorithm.</p>
-
-<p>Overall, the bisection algorithm is a simple and robust method for finding roots of continuous functions that is guaranteed to converge to a root if the function changes sign exactly once over the interval. Its time complexity depends on the maximum number of iterations allowed and the convergence rate, while its space complexity is constant.</p>]]></content><author><name>Liang Wang</name><email>liang@ocaml.xyz</email></author><category term="algorithm" /><summary type="html"><![CDATA[Introduction The bisection algorithm is a root-finding algorithm that repeatedly bisects an interval and then selects a subinterval in which a root must lie for further processing. It is a simple and robust method that is guaranteed to converge to a root if the function is continuous and changes sign exactly once over the interval. Implementation The implementation below is in OCaml. It takes a function f, and two points a and b, such that f(a) and f(b) have opposite signs, indicating that there is a root in between the two points. The algorithm then bisects the interval and checks the sign of the function at the midpoint. If the sign is negative, the root must be in the left subinterval, and if the sign is positive, the root must be in the right subinterval. The algorithm repeats this process until it converges to a root. let bisec ?(max_iter = 1000) ?(xtol = 1e-6) f a b = let fa = f a in let fb = f b in let error () = let s = Printf.sprintf "f(a) *. f(b) = %g *. %g should be negative." fa fb in Owl_exception.INVALID_ARGUMENT s in Owl_exception.verify (fa *. fb &lt; 0.) error; if fa = 0. then a else if fb = 0. then b else ( let x, d = match fa &lt; 0. with | true -&gt; ref a, ref (b -. a) | false -&gt; ref b, ref (a -. b) in try for _i = 1 to max_iter do d := !d *. 0.5; let c = !x +. !d in let fc = f c in if fc &lt;= 0. then x := c; assert (abs_float !d &gt;= xtol &amp;&amp; fc != 0.) done; !x with | _ -&gt; !x) Step-by-step Explanation The function takes a function f, and two points a and b, such that f(a) and f(b) have opposite signs, indicating that there is a root in between the two points. The function checks that f(a) and f(b) have opposite signs. If they do not, the function raises an error. If f(a) is 0, the function returns a, since a is already a root. If f(b) is 0, the function returns b, since b is already a root. The function initializes x to a or b, depending on whether f(a) is negative or positive, and initializes d to the distance between a and b. The function enters a loop that runs for a maximum of max_iter iterations. In each iteration, the function bisects the interval by setting d to d/2. The function computes the midpoint c of the interval by adding d to x. The function evaluates the function at c. If the sign of the function at c is negative, the function sets x to c, indicating that the root must be in the left subinterval. The function checks that the distance between the endpoints of the interval is greater than xtol, and that the function value at c is not 0. If either of these conditions is false, the function exits the loop. If the loop completes without finding a root, the function returns the last value of x. Complexity Analysis The bisection algorithm has a guaranteed convergence rate of O(log2((b-a)/xtol)), where a and b are the endpoints of the interval and xtol is the desired tolerance. This means that the number of iterations required to find a root decreases by a factor of 2 with each doubling of the number of correct digits. The algorithm’s time complexity is O(max_iter), where max_iter is the maximum number of iterations allowed. In practice, the algorithm usually converges much faster than this worst-case bound, and the number of iterations required depends on the function being evaluated and the desired accuracy. The space complexity of the algorithm is O(1), as it only requires a constant amount of memory to store the variables used in the algorithm. Overall, the bisection algorithm is a simple and robust method for finding roots of continuous functions that is guaranteed to converge to a root if the function changes sign exactly once over the interval. Its time complexity depends on the maximum number of iterations allowed and the convergence rate, while its space complexity is constant.]]></summary></entry></feed>
+<p>Therefore, the time complexity of the algorithm is O(n^2). This means that as the length of the input arrays <code class="language-plaintext highlighter-rouge">xs</code> and <code class="language-plaintext highlighter-rouge">ys</code> increases, the time taken by the algorithm to compute the approximation of the function at <code class="language-plaintext highlighter-rouge">x</code> and its derivative also increases quadratically.</p>]]></content><author><name>Liang Wang</name><email>liang@ocaml.xyz</email></author><category term="algorithm" /><summary type="html"><![CDATA[Introduction Rational interpolation is a numerical method used to approximate a function using a rational function. The algorithm is used in various fields including engineering, physics, and finance.]]></summary></entry></feed>
