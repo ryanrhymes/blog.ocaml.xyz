@@ -1,0 +1,90 @@
+---
+layout: post
+title:  "False Position Algorithm"
+date:   2023-11-22 00:00:00 +0200
+categories: algorithm
+---
+
+## Introduction  
+The false position algorithm, also known as the regula falsi method, is a root-finding algorithm that uses linear interpolation to approximate the root of a given function. It is a bracketing method, which means that it requires an initial interval containing the root. The algorithm is commonly used in engineering, physics, and other scientific fields to solve equations that cannot be solved analytically.  
+   
+## Implementation  
+
+```ocaml
+let false_pos ?(max_iter = 1000) ?(xtol = 1e-6) f a b =
+  let fa = f a in
+  let fb = f b in
+  let error () =
+    let s = Printf.sprintf "f(a) *. f(b) = %g *. %g should be negative." fa fb in
+    Owl_exception.INVALID_ARGUMENT s
+  in
+  Owl_exception.verify (fa *. fb < 0.) error;
+  if fa = 0.
+  then a
+  else if fb = 0.
+  then b
+  else (
+    let xa, xb, fa, fb =
+      match fa < 0. with
+      | true  -> ref a, ref b, ref fa, ref fb
+      | false -> ref b, ref a, ref fb, ref fa
+    in
+    let x = ref infinity in
+    let e = ref infinity in
+    try
+      for _i = 1 to max_iter do
+        let d = !xb -. !xa in
+        x := !xa +. (d *. !fa /. (!fa -. !fb));
+        let fc = f !x in
+        if fc < 0.
+        then (
+          e := !xa -. !x;
+          xa := !x;
+          fa := fc)
+        else (
+          e := !xb -. !x;
+          xb := !x;
+          fb := fc);
+        assert (abs_float !e >= xtol && fc != 0.)
+      done;
+      !x
+    with
+    | _ -> !x)
+```
+
+The false position algorithm is implemented in OCaml in the code above. The function `false_pos` takes as input a function `f` and two initial guesses `a` and `b`. The optional arguments `max_iter` and `xtol` specify the maximum number of iterations and the tolerance for the solution, respectively. The function returns an approximation of the root of `f` within the interval `[a,b]`.  
+
+## Step-by-step Explanation  
+1. Verify that the function `f` changes sign between `a` and `b`. If not, raise an error.  
+2. If `f(a) = 0`, return `a`.  
+3. If `f(b) = 0`, return `b`.  
+4. Choose the interval endpoints `xa` and `xb` such that `f(xa) < 0` and `f(xb) > 0`.  
+5. Initialize `x` to infinity and `e` to infinity.  
+6. Repeat the following steps until the maximum number of iterations is reached or the solution is within the tolerance:  
+   - Compute the new estimate of the root `x` using linear interpolation:  
+     ```  
+     x = xa - (f(xa) * (xb - xa)) / (f(xb) - f(xa))  
+     ```  
+   - Evaluate the function `f` at `x`.  
+   - If `f(x) < 0`, update `xa`, `fa`, and `e`:  
+     ```  
+     xa = x  
+     fa = f(xa)  
+     e = xa - xb  
+     ```  
+   - If `f(x) > 0`, update `xb`, `fb`, and `e`:  
+     ```  
+     xb = x  
+     fb = f(xb)  
+     e = xb - xa  
+     ```  
+   - Check if the solution is within the tolerance:  
+     ```  
+     |e| >= xtol && f(x) != 0  
+     ```  
+7. Return the final estimate of the root `x`.  
+   
+## Complexity Analysis  
+The false position algorithm is guaranteed to converge to a root of a continuous function if the initial interval contains the root and the function is continuous and changes sign within the interval. The rate of convergence is linear, which means that the error decreases at a rate proportional to the error of the previous iteration. The algorithm is also sensitive to the choice of the initial interval, and may converge slowly or not at all if the interval is not well-chosen.  
+   
+The time complexity of the false position algorithm is proportional to the maximum number of iterations `max_iter` specified by the user. The choice of `max_iter` depends on the desired accuracy of the solution and the complexity of the function `f`. The space complexity of the algorithm is constant, as it only requires a small number of variables to store the current estimates of the root and the function values.
