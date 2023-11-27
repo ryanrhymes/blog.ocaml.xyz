@@ -12,60 +12,60 @@ Rational interpolation is a numerical method used to approximate a function usin
 The `ratint` algorithm is implemented in OCaml as shown below. The function takes three arguments: `xs`, `ys`, and `x`. `xs` is an array of length `n` representing the x-coordinates of the function, `ys` is an array of length `n` representing the y-coordinates of the function, and `x` is the point at which the function is to be approximated. The function returns a tuple containing the approximation of the function at `x` and the derivative of the approximation at `x`.  
    
 ```ocaml  
-let ratint xs ys x =  
-  let n = Array.length xs in  
-  let m = Array.length ys in  
-  let error () =  
-    let s =  
-      Printf.sprintf  
-        "ratint requires that xs and ys have the same length, but xs length is %i \  
-         whereas ys length is %i"  
-        n  
-        m  
-    in  
-    Owl_exception.INVALID_ARGUMENT s  
-  in  
-  Owl_exception.verify (m = n) error;  
-  let c = Array.copy ys in  
-  let d = Array.copy ys in  
-  let hh = ref (abs_float (x -. xs.(0))) in  
-  let y = ref 0. in  
-  let dy = ref 0. in  
-  let ns = ref 0 in  
-  let eps = 1e-25 in  
-  try  
-    for i = 0 to n do  
-      let h = abs_float (x -. xs.(i)) in  
-      if h = 0.  
-      then (  
-        y := ys.(i);  
-        dy := 0.;  
-        raise Owl_exception.FOUND)  
-      else if h < !hh  
-      then (  
-        ns := i;  
-        hh := h;  
-        c.(i) <- ys.(i);  
-        d.(i) <- ys.(i) +. eps)  
-    done;  
-    y := ys.(!ns);  
-    ns := !ns - 1;  
-    for m = 1 to n - 1 do  
-      for i = 1 to n - m do  
-        let w = c.(i) -. d.(i - 1) in  
-        let h = xs.(i + m - 1) -. x in  
-        let t = (xs.(i - 1) -. x) *. d.(i - 1) /. h in  
-        let dd = t -. c.(i) in  
-        if dd = 0. then failwith "Has a pole";  
-        let dd = w /. dd in  
-        d.(i - 1) <- c.(i) *. dd;  
-        c.(i - 1) <- t *. dd  
-      done  
-    done;  
-    !y, !dy  
-  with  
-  | Owl_exception.FOUND -> !y, !dy  
-  | e                   -> raise e  
+let ratint xs ys x =
+  let n = Array.length xs in
+  let m = Array.length ys in
+  let error () =
+    let s =
+      Printf.sprintf
+        "ratint requires that xs and ys have the same length, but xs length is %i \
+         whereas ys length is %i"
+        n
+        m
+    in
+    Owl_exception.INVALID_ARGUMENT s
+  in
+  Owl_exception.verify (m = n) error;
+  let c = Array.copy ys in
+  let d = Array.copy ys in
+  let hh = ref (abs_float (x -. xs.(0))) in
+  let y = ref 0. in
+  let dy = ref 0. in
+  let ns = ref 0 in
+  let eps = 1e-25 in
+  try
+    for i = 0 to n do
+      let h = abs_float (x -. xs.(i)) in
+      if h = 0.
+      then (
+        y := ys.(i);
+        dy := 0.;
+        raise Owl_exception.FOUND)
+      else if h < !hh
+      then (
+        ns := i;
+        hh := h;
+        c.(i) <- ys.(i);
+        d.(i) <- ys.(i) +. eps)
+    done;
+    y := ys.(!ns);
+    ns := !ns - 1;
+    for m = 1 to n - 1 do
+      for i = 1 to n - m do
+        let w = c.(i) -. d.(i - 1) in
+        let h = xs.(i + m - 1) -. x in
+        let t = (xs.(i - 1) -. x) *. d.(i - 1) /. h in
+        let dd = t -. c.(i) in
+        if dd = 0. then failwith "Has a pole";
+        let dd = w /. dd in
+        d.(i - 1) <- c.(i) *. dd;
+        c.(i - 1) <- t *. dd
+      done
+    done;
+    !y, !dy
+  with
+  | Owl_exception.FOUND -> !y, !dy
+  | e                   -> raise e
 ```  
    
 1. The `ratint` function takes three arguments: `xs`, `ys`, and `x`.  

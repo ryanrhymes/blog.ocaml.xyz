@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2023-11-27T21:30:54+02:00</updated><id>/feed.xml</id><title type="html">Algorithm Blog</title><subtitle>Explore the elegance of classic and numerical algorithms through practical OCaml implementations, unraveling their inner workings and unveiling the art and science of algorithmic programming.</subtitle><author><name>Liang Wang</name><email>liang@ocaml.xyz</email></author><entry><title type="html">Polynomial Interpolation</title><link href="/algorithm/2023/11/21/polynomial-interpolation.html" rel="alternate" type="text/html" title="Polynomial Interpolation" /><published>2023-11-21T05:00:00+02:00</published><updated>2023-11-21T05:00:00+02:00</updated><id>/algorithm/2023/11/21/polynomial-interpolation</id><content type="html" xml:base="/algorithm/2023/11/21/polynomial-interpolation.html"><![CDATA[<h2 id="introduction">Introduction</h2>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2023-11-27T21:32:39+02:00</updated><id>/feed.xml</id><title type="html">Algorithm Blog</title><subtitle>Explore the elegance of classic and numerical algorithms through practical OCaml implementations, unraveling their inner workings and unveiling the art and science of algorithmic programming.</subtitle><author><name>Liang Wang</name><email>liang@ocaml.xyz</email></author><entry><title type="html">Polynomial Interpolation</title><link href="/algorithm/2023/11/21/polynomial-interpolation.html" rel="alternate" type="text/html" title="Polynomial Interpolation" /><published>2023-11-21T05:00:00+02:00</published><updated>2023-11-21T05:00:00+02:00</updated><id>/algorithm/2023/11/21/polynomial-interpolation</id><content type="html" xml:base="/algorithm/2023/11/21/polynomial-interpolation.html"><![CDATA[<h2 id="introduction">Introduction</h2>
 
 <p>Polynomial interpolation is a mathematical technique used to construct a polynomial function that passes through a given set of points. Given a set of n points (x_0, y_0), (x_1, y_1), …, (x_n-1, y_n-1), polynomial interpolation finds a unique polynomial of degree n-1 or less that passes through these points. This technique is widely used in various fields such as computer graphics, numerical analysis, and signal processing.</p>
 
@@ -118,60 +118,60 @@
 <h2 id="implementation">Implementation</h2>
 <p>The <code class="language-plaintext highlighter-rouge">ratint</code> algorithm is implemented in OCaml as shown below. The function takes three arguments: <code class="language-plaintext highlighter-rouge">xs</code>, <code class="language-plaintext highlighter-rouge">ys</code>, and <code class="language-plaintext highlighter-rouge">x</code>. <code class="language-plaintext highlighter-rouge">xs</code> is an array of length <code class="language-plaintext highlighter-rouge">n</code> representing the x-coordinates of the function, <code class="language-plaintext highlighter-rouge">ys</code> is an array of length <code class="language-plaintext highlighter-rouge">n</code> representing the y-coordinates of the function, and <code class="language-plaintext highlighter-rouge">x</code> is the point at which the function is to be approximated. The function returns a tuple containing the approximation of the function at <code class="language-plaintext highlighter-rouge">x</code> and the derivative of the approximation at <code class="language-plaintext highlighter-rouge">x</code>.</p>
 
-<div class="language-ocaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="n">ratint</span> <span class="n">xs</span> <span class="n">ys</span> <span class="n">x</span> <span class="o">=</span>  
-  <span class="k">let</span> <span class="n">n</span> <span class="o">=</span> <span class="nn">Array</span><span class="p">.</span><span class="n">length</span> <span class="n">xs</span> <span class="k">in</span>  
-  <span class="k">let</span> <span class="n">m</span> <span class="o">=</span> <span class="nn">Array</span><span class="p">.</span><span class="n">length</span> <span class="n">ys</span> <span class="k">in</span>  
-  <span class="k">let</span> <span class="n">error</span> <span class="bp">()</span> <span class="o">=</span>  
-    <span class="k">let</span> <span class="n">s</span> <span class="o">=</span>  
-      <span class="nn">Printf</span><span class="p">.</span><span class="n">sprintf</span>  
-        <span class="s2">"ratint requires that xs and ys have the same length, but xs length is %i </span><span class="err">\</span><span class="s2">  
-         whereas ys length is %i"</span>  
-        <span class="n">n</span>  
-        <span class="n">m</span>  
-    <span class="k">in</span>  
-    <span class="nn">Owl_exception</span><span class="p">.</span><span class="nc">INVALID_ARGUMENT</span> <span class="n">s</span>  
-  <span class="k">in</span>  
-  <span class="nn">Owl_exception</span><span class="p">.</span><span class="n">verify</span> <span class="p">(</span><span class="n">m</span> <span class="o">=</span> <span class="n">n</span><span class="p">)</span> <span class="n">error</span><span class="p">;</span>  
-  <span class="k">let</span> <span class="n">c</span> <span class="o">=</span> <span class="nn">Array</span><span class="p">.</span><span class="n">copy</span> <span class="n">ys</span> <span class="k">in</span>  
-  <span class="k">let</span> <span class="n">d</span> <span class="o">=</span> <span class="nn">Array</span><span class="p">.</span><span class="n">copy</span> <span class="n">ys</span> <span class="k">in</span>  
-  <span class="k">let</span> <span class="n">hh</span> <span class="o">=</span> <span class="n">ref</span> <span class="p">(</span><span class="n">abs_float</span> <span class="p">(</span><span class="n">x</span> <span class="o">-.</span> <span class="n">xs</span><span class="o">.</span><span class="p">(</span><span class="mi">0</span><span class="p">)))</span> <span class="k">in</span>  
-  <span class="k">let</span> <span class="n">y</span> <span class="o">=</span> <span class="n">ref</span> <span class="mi">0</span><span class="o">.</span> <span class="k">in</span>  
-  <span class="k">let</span> <span class="n">dy</span> <span class="o">=</span> <span class="n">ref</span> <span class="mi">0</span><span class="o">.</span> <span class="k">in</span>  
-  <span class="k">let</span> <span class="n">ns</span> <span class="o">=</span> <span class="n">ref</span> <span class="mi">0</span> <span class="k">in</span>  
-  <span class="k">let</span> <span class="n">eps</span> <span class="o">=</span> <span class="mf">1e-25</span> <span class="k">in</span>  
-  <span class="k">try</span>  
-    <span class="k">for</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="k">to</span> <span class="n">n</span> <span class="k">do</span>  
-      <span class="k">let</span> <span class="n">h</span> <span class="o">=</span> <span class="n">abs_float</span> <span class="p">(</span><span class="n">x</span> <span class="o">-.</span> <span class="n">xs</span><span class="o">.</span><span class="p">(</span><span class="n">i</span><span class="p">))</span> <span class="k">in</span>  
-      <span class="k">if</span> <span class="n">h</span> <span class="o">=</span> <span class="mi">0</span><span class="o">.</span>  
-      <span class="k">then</span> <span class="p">(</span>  
-        <span class="n">y</span> <span class="o">:=</span> <span class="n">ys</span><span class="o">.</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>  
-        <span class="n">dy</span> <span class="o">:=</span> <span class="mi">0</span><span class="o">.;</span>  
-        <span class="k">raise</span> <span class="nn">Owl_exception</span><span class="p">.</span><span class="nc">FOUND</span><span class="p">)</span>  
-      <span class="k">else</span> <span class="k">if</span> <span class="n">h</span> <span class="o">&lt;</span> <span class="o">!</span><span class="n">hh</span>  
-      <span class="k">then</span> <span class="p">(</span>  
-        <span class="n">ns</span> <span class="o">:=</span> <span class="n">i</span><span class="p">;</span>  
-        <span class="n">hh</span> <span class="o">:=</span> <span class="n">h</span><span class="p">;</span>  
-        <span class="n">c</span><span class="o">.</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">&lt;-</span> <span class="n">ys</span><span class="o">.</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>  
-        <span class="n">d</span><span class="o">.</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">&lt;-</span> <span class="n">ys</span><span class="o">.</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">+.</span> <span class="n">eps</span><span class="p">)</span>  
-    <span class="k">done</span><span class="p">;</span>  
-    <span class="n">y</span> <span class="o">:=</span> <span class="n">ys</span><span class="o">.</span><span class="p">(</span><span class="o">!</span><span class="n">ns</span><span class="p">);</span>  
-    <span class="n">ns</span> <span class="o">:=</span> <span class="o">!</span><span class="n">ns</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span>  
-    <span class="k">for</span> <span class="n">m</span> <span class="o">=</span> <span class="mi">1</span> <span class="k">to</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span> <span class="k">do</span>  
-      <span class="k">for</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="k">to</span> <span class="n">n</span> <span class="o">-</span> <span class="n">m</span> <span class="k">do</span>  
-        <span class="k">let</span> <span class="n">w</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">-.</span> <span class="n">d</span><span class="o">.</span><span class="p">(</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="k">in</span>  
-        <span class="k">let</span> <span class="n">h</span> <span class="o">=</span> <span class="n">xs</span><span class="o">.</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="n">m</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-.</span> <span class="n">x</span> <span class="k">in</span>  
-        <span class="k">let</span> <span class="n">t</span> <span class="o">=</span> <span class="p">(</span><span class="n">xs</span><span class="o">.</span><span class="p">(</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-.</span> <span class="n">x</span><span class="p">)</span> <span class="o">*.</span> <span class="n">d</span><span class="o">.</span><span class="p">(</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/.</span> <span class="n">h</span> <span class="k">in</span>  
-        <span class="k">let</span> <span class="n">dd</span> <span class="o">=</span> <span class="n">t</span> <span class="o">-.</span> <span class="n">c</span><span class="o">.</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">in</span>  
-        <span class="k">if</span> <span class="n">dd</span> <span class="o">=</span> <span class="mi">0</span><span class="o">.</span> <span class="k">then</span> <span class="n">failwith</span> <span class="s2">"Has a pole"</span><span class="p">;</span>  
-        <span class="k">let</span> <span class="n">dd</span> <span class="o">=</span> <span class="n">w</span> <span class="o">/.</span> <span class="n">dd</span> <span class="k">in</span>  
-        <span class="n">d</span><span class="o">.</span><span class="p">(</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&lt;-</span> <span class="n">c</span><span class="o">.</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">*.</span> <span class="n">dd</span><span class="p">;</span>  
-        <span class="n">c</span><span class="o">.</span><span class="p">(</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&lt;-</span> <span class="n">t</span> <span class="o">*.</span> <span class="n">dd</span>  
-      <span class="k">done</span>  
-    <span class="k">done</span><span class="p">;</span>  
-    <span class="o">!</span><span class="n">y</span><span class="o">,</span> <span class="o">!</span><span class="n">dy</span>  
-  <span class="k">with</span>  
-  <span class="o">|</span> <span class="nn">Owl_exception</span><span class="p">.</span><span class="nc">FOUND</span> <span class="o">-&gt;</span> <span class="o">!</span><span class="n">y</span><span class="o">,</span> <span class="o">!</span><span class="n">dy</span>  
-  <span class="o">|</span> <span class="n">e</span>                   <span class="o">-&gt;</span> <span class="k">raise</span> <span class="n">e</span>  
+<div class="language-ocaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="n">ratint</span> <span class="n">xs</span> <span class="n">ys</span> <span class="n">x</span> <span class="o">=</span>
+  <span class="k">let</span> <span class="n">n</span> <span class="o">=</span> <span class="nn">Array</span><span class="p">.</span><span class="n">length</span> <span class="n">xs</span> <span class="k">in</span>
+  <span class="k">let</span> <span class="n">m</span> <span class="o">=</span> <span class="nn">Array</span><span class="p">.</span><span class="n">length</span> <span class="n">ys</span> <span class="k">in</span>
+  <span class="k">let</span> <span class="n">error</span> <span class="bp">()</span> <span class="o">=</span>
+    <span class="k">let</span> <span class="n">s</span> <span class="o">=</span>
+      <span class="nn">Printf</span><span class="p">.</span><span class="n">sprintf</span>
+        <span class="s2">"ratint requires that xs and ys have the same length, but xs length is %i \
+         whereas ys length is %i"</span>
+        <span class="n">n</span>
+        <span class="n">m</span>
+    <span class="k">in</span>
+    <span class="nn">Owl_exception</span><span class="p">.</span><span class="nc">INVALID_ARGUMENT</span> <span class="n">s</span>
+  <span class="k">in</span>
+  <span class="nn">Owl_exception</span><span class="p">.</span><span class="n">verify</span> <span class="p">(</span><span class="n">m</span> <span class="o">=</span> <span class="n">n</span><span class="p">)</span> <span class="n">error</span><span class="p">;</span>
+  <span class="k">let</span> <span class="n">c</span> <span class="o">=</span> <span class="nn">Array</span><span class="p">.</span><span class="n">copy</span> <span class="n">ys</span> <span class="k">in</span>
+  <span class="k">let</span> <span class="n">d</span> <span class="o">=</span> <span class="nn">Array</span><span class="p">.</span><span class="n">copy</span> <span class="n">ys</span> <span class="k">in</span>
+  <span class="k">let</span> <span class="n">hh</span> <span class="o">=</span> <span class="n">ref</span> <span class="p">(</span><span class="n">abs_float</span> <span class="p">(</span><span class="n">x</span> <span class="o">-.</span> <span class="n">xs</span><span class="o">.</span><span class="p">(</span><span class="mi">0</span><span class="p">)))</span> <span class="k">in</span>
+  <span class="k">let</span> <span class="n">y</span> <span class="o">=</span> <span class="n">ref</span> <span class="mi">0</span><span class="o">.</span> <span class="k">in</span>
+  <span class="k">let</span> <span class="n">dy</span> <span class="o">=</span> <span class="n">ref</span> <span class="mi">0</span><span class="o">.</span> <span class="k">in</span>
+  <span class="k">let</span> <span class="n">ns</span> <span class="o">=</span> <span class="n">ref</span> <span class="mi">0</span> <span class="k">in</span>
+  <span class="k">let</span> <span class="n">eps</span> <span class="o">=</span> <span class="mf">1e-25</span> <span class="k">in</span>
+  <span class="k">try</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="k">to</span> <span class="n">n</span> <span class="k">do</span>
+      <span class="k">let</span> <span class="n">h</span> <span class="o">=</span> <span class="n">abs_float</span> <span class="p">(</span><span class="n">x</span> <span class="o">-.</span> <span class="n">xs</span><span class="o">.</span><span class="p">(</span><span class="n">i</span><span class="p">))</span> <span class="k">in</span>
+      <span class="k">if</span> <span class="n">h</span> <span class="o">=</span> <span class="mi">0</span><span class="o">.</span>
+      <span class="k">then</span> <span class="p">(</span>
+        <span class="n">y</span> <span class="o">:=</span> <span class="n">ys</span><span class="o">.</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+        <span class="n">dy</span> <span class="o">:=</span> <span class="mi">0</span><span class="o">.;</span>
+        <span class="k">raise</span> <span class="nn">Owl_exception</span><span class="p">.</span><span class="nc">FOUND</span><span class="p">)</span>
+      <span class="k">else</span> <span class="k">if</span> <span class="n">h</span> <span class="o">&lt;</span> <span class="o">!</span><span class="n">hh</span>
+      <span class="k">then</span> <span class="p">(</span>
+        <span class="n">ns</span> <span class="o">:=</span> <span class="n">i</span><span class="p">;</span>
+        <span class="n">hh</span> <span class="o">:=</span> <span class="n">h</span><span class="p">;</span>
+        <span class="n">c</span><span class="o">.</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">&lt;-</span> <span class="n">ys</span><span class="o">.</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+        <span class="n">d</span><span class="o">.</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">&lt;-</span> <span class="n">ys</span><span class="o">.</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">+.</span> <span class="n">eps</span><span class="p">)</span>
+    <span class="k">done</span><span class="p">;</span>
+    <span class="n">y</span> <span class="o">:=</span> <span class="n">ys</span><span class="o">.</span><span class="p">(</span><span class="o">!</span><span class="n">ns</span><span class="p">);</span>
+    <span class="n">ns</span> <span class="o">:=</span> <span class="o">!</span><span class="n">ns</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="k">for</span> <span class="n">m</span> <span class="o">=</span> <span class="mi">1</span> <span class="k">to</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span> <span class="k">do</span>
+      <span class="k">for</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="k">to</span> <span class="n">n</span> <span class="o">-</span> <span class="n">m</span> <span class="k">do</span>
+        <span class="k">let</span> <span class="n">w</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">-.</span> <span class="n">d</span><span class="o">.</span><span class="p">(</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="k">in</span>
+        <span class="k">let</span> <span class="n">h</span> <span class="o">=</span> <span class="n">xs</span><span class="o">.</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="n">m</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-.</span> <span class="n">x</span> <span class="k">in</span>
+        <span class="k">let</span> <span class="n">t</span> <span class="o">=</span> <span class="p">(</span><span class="n">xs</span><span class="o">.</span><span class="p">(</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-.</span> <span class="n">x</span><span class="p">)</span> <span class="o">*.</span> <span class="n">d</span><span class="o">.</span><span class="p">(</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/.</span> <span class="n">h</span> <span class="k">in</span>
+        <span class="k">let</span> <span class="n">dd</span> <span class="o">=</span> <span class="n">t</span> <span class="o">-.</span> <span class="n">c</span><span class="o">.</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">in</span>
+        <span class="k">if</span> <span class="n">dd</span> <span class="o">=</span> <span class="mi">0</span><span class="o">.</span> <span class="k">then</span> <span class="n">failwith</span> <span class="s2">"Has a pole"</span><span class="p">;</span>
+        <span class="k">let</span> <span class="n">dd</span> <span class="o">=</span> <span class="n">w</span> <span class="o">/.</span> <span class="n">dd</span> <span class="k">in</span>
+        <span class="n">d</span><span class="o">.</span><span class="p">(</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&lt;-</span> <span class="n">c</span><span class="o">.</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">*.</span> <span class="n">dd</span><span class="p">;</span>
+        <span class="n">c</span><span class="o">.</span><span class="p">(</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&lt;-</span> <span class="n">t</span> <span class="o">*.</span> <span class="n">dd</span>
+      <span class="k">done</span>
+    <span class="k">done</span><span class="p">;</span>
+    <span class="o">!</span><span class="n">y</span><span class="o">,</span> <span class="o">!</span><span class="n">dy</span>
+  <span class="k">with</span>
+  <span class="o">|</span> <span class="nn">Owl_exception</span><span class="p">.</span><span class="nc">FOUND</span> <span class="o">-&gt;</span> <span class="o">!</span><span class="n">y</span><span class="o">,</span> <span class="o">!</span><span class="n">dy</span>
+  <span class="o">|</span> <span class="n">e</span>                   <span class="o">-&gt;</span> <span class="k">raise</span> <span class="n">e</span>
 </code></pre></div></div>
 
 <ol>
