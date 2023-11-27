@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Caesar Cipher | Algorithm Blog</title>
+<meta name="generator" content="Jekyll v4.3.2" />
+<meta property="og:title" content="Caesar Cipher" />
+<meta name="author" content="Liang Wang" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Introduction The Caesar cipher is one of the simplest and most widely known encryption techniques. It is a type of substitution cipher in which each letter in the plaintext is shifted a certain number of places down the alphabet. For example, with a shift of 1, A would be replaced by B, B would become C, and so on. The method is apparently named after Julius Caesar, who used it to communicate with his officials. Implementation The Caesar cipher is implemented in OCaml as follows: ```ocaml let islower c = c &gt;= ‘a’ &amp;&amp; c &lt;= ‘z’" />
+<meta property="og:description" content="Introduction The Caesar cipher is one of the simplest and most widely known encryption techniques. It is a type of substitution cipher in which each letter in the plaintext is shifted a certain number of places down the alphabet. For example, with a shift of 1, A would be replaced by B, B would become C, and so on. The method is apparently named after Julius Caesar, who used it to communicate with his officials. Implementation The Caesar cipher is implemented in OCaml as follows: ```ocaml let islower c = c &gt;= ‘a’ &amp;&amp; c &lt;= ‘z’" />
+<link rel="canonical" href="/algorithm/2023/11/22/caesar-cipher.html" />
+<meta property="og:url" content="/algorithm/2023/11/22/caesar-cipher.html" />
+<meta property="og:site_name" content="Algorithm Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2023-11-22T14:00:00+02:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Caesar Cipher" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Liang Wang"},"dateModified":"2023-11-22T14:00:00+02:00","datePublished":"2023-11-22T14:00:00+02:00","description":"Introduction The Caesar cipher is one of the simplest and most widely known encryption techniques. It is a type of substitution cipher in which each letter in the plaintext is shifted a certain number of places down the alphabet. For example, with a shift of 1, A would be replaced by B, B would become C, and so on. The method is apparently named after Julius Caesar, who used it to communicate with his officials. Implementation The Caesar cipher is implemented in OCaml as follows: ```ocaml let islower c = c &gt;= ‘a’ &amp;&amp; c &lt;= ‘z’","headline":"Caesar Cipher","mainEntityOfPage":{"@type":"WebPage","@id":"/algorithm/2023/11/22/caesar-cipher.html"},"url":"/algorithm/2023/11/22/caesar-cipher.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="Algorithm Blog" /><script async src="https://www.googletagmanager.com/gtag/js?id=UA-123353217-1"></script>
+<script>
+  window['ga-disable-UA-123353217-1'] = window.doNotTrack === "1" || navigator.doNotTrack === "1" || navigator.doNotTrack === "yes" || navigator.msDoNotTrack === "1";
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){window.dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-123353217-1');
+</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1868946892712371" crossorigin="anonymous"></script></head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Algorithm Blog</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Caesar Cipher</h1>
+    <p class="post-meta"><time class="dt-published" datetime="2023-11-22T14:00:00+02:00" itemprop="datePublished">
+        Nov 22, 2023
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <h2 id="introduction">Introduction</h2>
+<p>The Caesar cipher is one of the simplest and most widely known encryption techniques. It is a type of substitution cipher in which each letter in the plaintext is shifted a certain number of places down the alphabet. For example, with a shift of 1, A would be replaced by B, B would become C, and so on. The method is apparently named after Julius Caesar, who used it to communicate with his officials.</p>
+
+<h2 id="implementation">Implementation</h2>
+<p>The Caesar cipher is implemented in OCaml as follows:</p>
+
+<div class="language-ocaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="n">islower</span> <span class="n">c</span> <span class="o">=</span>
+  <span class="n">c</span> <span class="o">&gt;=</span> <span class="k">'</span><span class="n">a'</span> <span class="o">&amp;&amp;</span> <span class="n">c</span> <span class="o">&lt;=</span> <span class="k">'</span><span class="n">z'</span>
+
+<span class="k">let</span> <span class="n">isupper</span> <span class="n">c</span> <span class="o">=</span>
+  <span class="n">c</span> <span class="o">&gt;=</span> <span class="k">'</span><span class="nc">A'</span> <span class="o">&amp;&amp;</span> <span class="n">c</span> <span class="o">&lt;=</span> <span class="k">'</span><span class="nc">Z'</span>
+
+<span class="k">let</span> <span class="n">rot</span> <span class="n">x</span> <span class="n">str</span> <span class="o">=</span>
+  <span class="k">let</span> <span class="n">upchars</span> <span class="o">=</span> <span class="s2">"ABCDEFGHIJKLMNOPQRSTUVWXYZ"</span>
+  <span class="ow">and</span> <span class="n">lowchars</span> <span class="o">=</span> <span class="s2">"abcdefghijklmnopqrstuvwxyz"</span> <span class="k">in</span>
+  <span class="k">let</span> <span class="k">rec</span> <span class="n">decal</span> <span class="n">x</span> <span class="o">=</span>
+    <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="k">then</span> <span class="n">decal</span> <span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="mi">26</span><span class="p">)</span> <span class="k">else</span> <span class="n">x</span>
+  <span class="k">in</span>
+  <span class="k">let</span> <span class="n">x</span> <span class="o">=</span> <span class="p">(</span><span class="n">decal</span> <span class="n">x</span><span class="p">)</span> <span class="ow">mod</span> <span class="mi">26</span> <span class="k">in</span>
+  <span class="k">let</span> <span class="n">decal_up</span> <span class="o">=</span> <span class="n">x</span> <span class="o">-</span> <span class="p">(</span><span class="n">int_of_char</span> <span class="k">'</span><span class="nc">A'</span><span class="p">)</span>
+  <span class="ow">and</span> <span class="n">decal_low</span> <span class="o">=</span> <span class="n">x</span> <span class="o">-</span> <span class="p">(</span><span class="n">int_of_char</span> <span class="k">'</span><span class="n">a'</span><span class="p">)</span> <span class="k">in</span>
+  <span class="nn">String</span><span class="p">.</span><span class="n">map</span> <span class="p">(</span><span class="k">fun</span> <span class="n">c</span> <span class="o">-&gt;</span>
+    <span class="k">if</span> <span class="n">islower</span> <span class="n">c</span> <span class="k">then</span>
+      <span class="k">let</span> <span class="n">j</span> <span class="o">=</span> <span class="p">((</span><span class="n">int_of_char</span> <span class="n">c</span><span class="p">)</span> <span class="o">+</span> <span class="n">decal_low</span><span class="p">)</span> <span class="ow">mod</span> <span class="mi">26</span> <span class="k">in</span>
+      <span class="n">lowchars</span><span class="o">.</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+    <span class="k">else</span> <span class="k">if</span> <span class="n">isupper</span> <span class="n">c</span> <span class="k">then</span>
+      <span class="k">let</span> <span class="n">j</span> <span class="o">=</span> <span class="p">((</span><span class="n">int_of_char</span> <span class="n">c</span><span class="p">)</span> <span class="o">+</span> <span class="n">decal_up</span><span class="p">)</span> <span class="ow">mod</span> <span class="mi">26</span> <span class="k">in</span>
+      <span class="n">upchars</span><span class="o">.</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+    <span class="k">else</span>
+      <span class="n">c</span>
+  <span class="p">)</span> <span class="n">str</span>
+</code></pre></div></div>
+
+<p>The <code class="language-plaintext highlighter-rouge">rot</code> function takes an integer <code class="language-plaintext highlighter-rouge">x</code> and a string <code class="language-plaintext highlighter-rouge">str</code> as arguments. The integer <code class="language-plaintext highlighter-rouge">x</code> represents the number of positions to shift each letter in the string <code class="language-plaintext highlighter-rouge">str</code>. The function returns a new string that is the result of applying the Caesar cipher with the given shift.</p>
+
+<p>Here is how to use the function.</p>
+
+<div class="language-ocaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="bp">()</span> <span class="o">=</span>
+  <span class="k">let</span> <span class="n">key</span> <span class="o">=</span> <span class="mi">3</span> <span class="k">in</span>
+  <span class="k">let</span> <span class="n">orig</span> <span class="o">=</span> <span class="s2">"The five boxing wizards jump quickly"</span> <span class="k">in</span>
+  <span class="k">let</span> <span class="n">enciphered</span> <span class="o">=</span> <span class="n">rot</span> <span class="n">key</span> <span class="n">orig</span> <span class="k">in</span>
+  <span class="n">print_endline</span> <span class="n">enciphered</span><span class="p">;</span>
+  <span class="k">let</span> <span class="n">deciphered</span> <span class="o">=</span> <span class="n">rot</span> <span class="p">(</span><span class="o">-</span> <span class="n">key</span><span class="p">)</span> <span class="n">enciphered</span> <span class="k">in</span>
+  <span class="n">print_endline</span> <span class="n">deciphered</span><span class="p">;</span>
+  <span class="nn">Printf</span><span class="p">.</span><span class="n">printf</span> <span class="s2">"equal: %b</span><span class="se">\n</span><span class="s2">"</span> <span class="p">(</span><span class="n">orig</span> <span class="o">=</span> <span class="n">deciphered</span><span class="p">)</span>
+<span class="p">;;</span>
+</code></pre></div></div>
+
+<h2 id="step-by-step-explanation">Step-by-Step Explanation</h2>
+<ol>
+  <li>The <code class="language-plaintext highlighter-rouge">islower</code> function checks if a given character is a lowercase letter.</li>
+  <li>The <code class="language-plaintext highlighter-rouge">isupper</code> function checks if a given character is an uppercase letter.</li>
+  <li>The <code class="language-plaintext highlighter-rouge">rot</code> function initializes two strings: <code class="language-plaintext highlighter-rouge">upchars</code> containing all uppercase letters and <code class="language-plaintext highlighter-rouge">lowchars</code> containing all lowercase letters.</li>
+  <li>The <code class="language-plaintext highlighter-rouge">decal</code> function takes an integer <code class="language-plaintext highlighter-rouge">x</code> and returns the result of decrementing <code class="language-plaintext highlighter-rouge">x</code> by 26 until it is non-negative.</li>
+  <li>The <code class="language-plaintext highlighter-rouge">x</code> variable is assigned the result of applying <code class="language-plaintext highlighter-rouge">decal</code> to <code class="language-plaintext highlighter-rouge">x</code> and then taking the modulus of 26.</li>
+  <li>The <code class="language-plaintext highlighter-rouge">decal_up</code> variable is assigned the value of <code class="language-plaintext highlighter-rouge">x</code> minus the integer value of the character ‘A’.</li>
+  <li>The <code class="language-plaintext highlighter-rouge">decal_low</code> variable is assigned the value of <code class="language-plaintext highlighter-rouge">x</code> minus the integer value of the character ‘a’.</li>
+  <li>The <code class="language-plaintext highlighter-rouge">String.map</code> function applies a function to each character in the string <code class="language-plaintext highlighter-rouge">str</code>.</li>
+  <li>For each character <code class="language-plaintext highlighter-rouge">c</code> in the string <code class="language-plaintext highlighter-rouge">str</code>, the function checks if it is a lowercase letter using the <code class="language-plaintext highlighter-rouge">islower</code> function.</li>
+  <li>If <code class="language-plaintext highlighter-rouge">c</code> is a lowercase letter, the function calculates a new index <code class="language-plaintext highlighter-rouge">j</code> by adding the integer value of <code class="language-plaintext highlighter-rouge">c</code> to <code class="language-plaintext highlighter-rouge">decal_low</code> and taking the modulus of 26. The new character is then obtained by taking the <code class="language-plaintext highlighter-rouge">j</code>-th character of the <code class="language-plaintext highlighter-rouge">lowchars</code> string.</li>
+  <li>If <code class="language-plaintext highlighter-rouge">c</code> is an uppercase letter, the function calculates a new index <code class="language-plaintext highlighter-rouge">j</code> by adding the integer value of <code class="language-plaintext highlighter-rouge">c</code> to <code class="language-plaintext highlighter-rouge">decal_up</code> and taking the modulus of 26. The new character is then obtained by taking the <code class="language-plaintext highlighter-rouge">j</code>-th character of the <code class="language-plaintext highlighter-rouge">upchars</code> string.</li>
+  <li>If <code class="language-plaintext highlighter-rouge">c</code> is not a letter, the function returns <code class="language-plaintext highlighter-rouge">c</code> unchanged.</li>
+  <li>The function returns the resulting string.</li>
+</ol>
+
+<h2 id="complexity-analysis">Complexity Analysis</h2>
+<p>The time complexity of the Caesar cipher algorithm is O(n), where <code class="language-plaintext highlighter-rouge">n</code> is the length of the input string <code class="language-plaintext highlighter-rouge">str</code>. This is because the <code class="language-plaintext highlighter-rouge">String.map</code> function applies a function to each character in the string <code class="language-plaintext highlighter-rouge">str</code>, and this operation takes O(1) time per character. Therefore, the overall time complexity is O(n).</p>
+
+<p>The space complexity of the algorithm is also O(n), since the resulting string has the same length as the input string.</p>
+
+<p>In terms of security, the Caesar cipher is very weak and easy to break, since there are only 26 possible shifts and an attacker can easily try all of them. Therefore, it is not suitable for use in modern cryptography, but it can still be used for simple purposes such as obfuscation or educational purposes.</p>
+
+  </div><a class="u-url" href="/algorithm/2023/11/22/caesar-cipher.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+        <ul class="contact-list">
+          <li class="p-name">Liang Wang</li>
+          <li><a class="u-email" href="mailto:liang@ocaml.xyz">liang@ocaml.xyz</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p>Explore the elegance of classic and numerical algorithms through practical OCaml implementations, unraveling their inner workings and unveiling the art and science of algorithmic programming.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
