@@ -1,0 +1,181 @@
+---
+layout: post
+title:  "A* (A-Star) Algorithm"
+date:   2023-11-22 09:00:00 +0200
+categories: algorithm
+---
+
+## Introduction  
+   
+The A* algorithm is a pathfinding algorithm used in artificial intelligence and robotics to find the shortest path between two points. It is widely used in video games, GPS systems, and other applications that require finding optimal paths. The algorithm uses a heuristic function to estimate the distance between the current node and the goal node, and combines it with the cost of the path from the start node to the current node to determine the best next step.   
+  
+## Implementation  
+   
+The A* algorithm is implemented in OCaml using a priority queue to store the open set of nodes to be explored. The algorithm also uses two sets, closedSet and openSet, to keep track of visited and unvisited nodes, respectively. The function `find_path` takes the starting and goal positions, as well as a board representing the environment in which the path is to be found. The board is represented as a two-dimensional array of integers, where 0 represents an obstacle and any positive integer represents a clear path.   
+  
+```ocaml
+module IntPairs =
+  struct
+    type t = int * int
+    let compare (x0,y0) (x1,y1) =
+      match Stdlib.compare x0 x1 with
+      | 0 -> Stdlib.compare y0 y1
+      | c -> c
+  end
+
+module PairsMap = Map.Make(IntPairs)
+module PairsSet = Set.Make(IntPairs)
+
+
+let find_path start goal board =
+  let max_y = Array.length board in
+  let max_x = Array.length board.(0) in
+
+  let get_neighbors (x, y) =
+    let moves = [(0, 1); (0, -1); (1, 0); (-1, 0);
+                 (1, 1); (1, -1); (-1, 1); (-1, -1)] in
+    let ms = List.map (fun (_x, _y) -> x+_x, y+_y) moves in
+    let ms = List.filter (fun (x, y) ->
+        x >= 0 && x < max_x && y >= 0 && y < max_y
+        && board.(y).(x) <> 0
+      ) ms in
+    (ms)
+  in
+  let h (x0, y0) (x1, y1) =
+    abs (x0 - x1) + abs (y0 - y1)
+  in
+  let openSet = PairsSet.add start PairsSet.empty in
+  let closedSet = PairsSet.empty in
+
+  let fScore = PairsMap.add start (h goal start) PairsMap.empty in
+  let gScore = PairsMap.add start 0 PairsMap.empty in
+
+  let cameFrom = PairsMap.empty in
+
+  let reconstruct_path cameFrom current =
+    let rec aux acc current =
+      let from = PairsMap.find current cameFrom in
+      if from = start then (from::acc)
+      else aux (from::acc) from
+    in
+    aux [current] current
+  in
+  let d current neighbor =
+    let x, y = neighbor in
+    board.(y).(x)
+  in
+  let g gScore cell =
+    match PairsMap.find_opt cell gScore with
+    | Some v -> v | None -> max_int
+  in
+
+  let rec _find_path (openSet, closedSet, fScore, gScore, cameFrom) =
+    if PairsSet.is_empty openSet then None else
+    let current =
+      PairsSet.fold (fun p1 p2 ->
+        if p2 = (-1, -1) then p1 else
+          let s1 = PairsMap.find p1 fScore
+          and s2 = PairsMap.find p2 fScore in
+          if s1 < s2 then p1 else p2
+      ) openSet (-1, -1)
+    in
+    if current = goal then Some (reconstruct_path cameFrom current) else
+    let openSet = PairsSet.remove current openSet in
+    let closedSet = PairsSet.add current closedSet in
+    let neighbors = get_neighbors current in
+    neighbors |>
+      List.fold_left
+        (fun ((openSet, closedSet, fScore, gScore, cameFrom) as v) neighbor ->
+          if PairsSet.mem neighbor closedSet then (v) else
+            let tentative_gScore = (g gScore current) + (d current neighbor) in
+            if tentative_gScore < (g gScore neighbor) then
+              let cameFrom = PairsMap.add neighbor current cameFrom in
+              let gScore = PairsMap.add neighbor tentative_gScore gScore in
+              let f = (g gScore neighbor) + (h neighbor goal) in
+              let fScore = PairsMap.add neighbor f fScore in
+              let openSet =
+                if not (PairsSet.mem neighbor openSet)
+                then PairsSet.add neighbor openSet else openSet
+              in
+              (openSet, closedSet, fScore, gScore, cameFrom)
+            else (v)
+        ) (openSet, closedSet, fScore, gScore, cameFrom)
+    |> _find_path
+  in
+  _find_path (openSet, closedSet, fScore, gScore, cameFrom)
+
+```
+
+Here is an example.
+
+```ocaml
+let () =
+  let board = [|
+    [| 1; 1; 1; 1; 1; 1; 1; 1; |];
+    [| 1; 1; 1; 1; 1; 1; 1; 1; |];
+    [| 1; 1; 1; 0; 0; 0; 1; 1; |];
+    [| 1; 1; 1; 1; 1; 0; 1; 1; |];
+    [| 1; 1; 0; 1; 1; 0; 1; 1; |];
+    [| 1; 1; 0; 1; 1; 0; 1; 1; |];
+    [| 1; 1; 0; 0; 0; 0; 1; 1; |];
+    [| 1; 1; 1; 1; 1; 1; 1; 1; |];
+  |] in
+  let start = (0, 0) in
+  let goal = (7, 7) in
+
+  let dim_x = Array.length board.(0) in
+  let dim_y = Array.length board in
+
+  let r = find_path start goal board in
+
+  match r with
+  | None -> failwith "path not found"
+  | Some p ->
+      List.iter (fun (x, y) -> Printf.printf " (%d, %d)\n" x y) p;
+      print_newline ();
+      let _board =
+        Array.init dim_y (fun y ->
+          Array.init dim_x (fun x ->
+            if board.(y).(x) = 0 then '#' else '.'))
+      in
+      List.iter (fun (x, y) -> _board.(y).(x) <- '*') p;
+
+      Array.iter (fun line ->
+        Array.iter (fun c ->
+          Printf.printf " %c" c;
+        ) line;
+        print_newline ()
+      ) _board;
+      print_newline ()
+```
+
+## Step-by-step Explanation  
+   
+1. The maximum x and y coordinates of the board are obtained using the `Array.length` function.  
+2. The `get_neighbors` function takes a position (x,y) and returns a list of neighboring positions that are not obstacles.  
+3. The `h` function takes two positions and returns the Manhattan distance between them.  
+4. The openSet is initialized with the starting position, and the closedSet is empty.  
+5. The `fScore` and `gScore` maps are initialized with the starting position, where `fScore` is the sum of `gScore` and the heuristic function.  
+6. The `cameFrom` map is initialized as empty.  
+7. The `reconstruct_path` function takes the `cameFrom` map and the current position and returns the path from the starting position to the current position.  
+8. The `d` function takes two positions and returns the cost of moving from the first position to the second.  
+9. The `g` function takes the `gScore` map and a position and returns its `gScore` value.  
+10. The `_find_path` function takes the current state of the search and performs the following steps:  
+  - If the openSet is empty, return None.  
+  - Select the node with the lowest `fScore` value from the openSet.  
+  - If the selected node is the goal, return the reconstructed path from the starting position to the goal.  
+  - Remove the selected node from the openSet and add it to the closedSet.  
+  - Generate a list of neighboring nodes.  
+  - For each neighboring node:  
+    - If it is in the closedSet, skip it.  
+    - Calculate the tentative `gScore` value for the node.  
+    - If the `gScore` value is better than the current value, update the `gScore`, `fScore`, and `cameFrom` maps.  
+    - If the node is not in the openSet, add it to the openSet.  
+  - Recursively call `_find_path` with the updated state.  
+11. Call `_find_path` with the initial state.  
+   
+## Complexity Analysis  
+   
+The time complexity of the A* algorithm depends on the heuristic function used and the size of the board. In the worst case, where the heuristic function overestimates the true distance, the algorithm can explore all nodes in the board, resulting in a time complexity of O(b^d), where b is the branching factor (number of neighbors per node) and d is the depth of the goal node. However, in practice, the algorithm often explores fewer nodes than this worst-case bound.   
+  
+The space complexity of the algorithm is also dependent on the size of the board, as it stores the openSet, closedSet, `fScore`, `gScore`, and `cameFrom` maps. However, the space complexity can be reduced by using a more memory-efficient data structure for the
