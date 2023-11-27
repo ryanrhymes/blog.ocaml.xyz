@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>LU Decomposition | Algorithm Blog</title>
+<meta name="generator" content="Jekyll v4.3.2" />
+<meta property="og:title" content="LU Decomposition" />
+<meta name="author" content="Liang Wang" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Introduction LU decomposition is a numerical method for solving systems of linear equations. It decomposes a square matrix into two triangular matrices, one lower triangular matrix (L) and one upper triangular matrix (U). This decomposition can be used to solve linear equations in the form Ax = b, where A is the matrix, x is the vector of unknowns, and b is the vector of constants. Implementation The following implementation of LU decomposition is written in OCaml. It takes a matrix a as input and returns the L and U matrices, as well as a row permutation vector. The _lu_base function performs the decomposition and returns the L and U matrices and the permutation vector. The lu function calls _lu_base and then formats the output into the L and U matrices. The _lu_solve_vec function uses the output of _lu_base to solve a system of linear equations. ```ocaml (* LU decomposition. Input matrix: a[n][n]; return L/U in one matrix, and the row permutation vector. Test: https://github.com/scipy/scipy/blob/master/scipy/linalg/tests/test_decomp.py ) let _lu_base a = let k = M.kind a in let _abs = Owl_base_dense_common._abs_elt k in let _mul = Owl_base_dense_common._mul_elt k in let _div = Owl_base_dense_common._div_elt k in let _sub = Owl_base_dense_common._sub_elt k in let _flt = Owl_base_dense_common._float_typ_elt k in let _zero = Owl_const.zero k in let _one = Owl_const.one k in let lu = M.copy a in let n = (M.shape a).(0) in let m = (M.shape a).(1) in assert (n = m); let indx = Array.make n 0 in ( implicit scaling of each row ) let vv = Array.make n _zero in let tiny = _flt 1.0e-40 in let big = ref _zero in let temp = ref _zero in ( flag of row exchange ) let d = ref 1.0 in let imax = ref 0 in ( loop over rows to get the implicit scaling information ) for i = 0 to n - 1 do big := _zero; for j = 0 to n - 1 do temp := M.get lu [| i; j |] |&gt; _abs; if !temp &gt; !big then big := !temp done; if !big = _zero then raise Owl_exception.SINGULAR; vv.(i) &lt;- _div _one !big done; for k = 0 to n - 1 do big := _zero; ( choose suitable pivot ) for i = k to n - 1 do temp := _mul (M.get lu [| i; k |] |&gt; _abs) vv.(i); if !temp &gt; !big then ( big := !temp; imax := i) done; ( interchange rows *) if k &lt;&gt; !imax then ( for j = 0 to n - 1 do temp := M.get lu [| !imax; j |]; let tmp = M.get lu [| k; j |] in M.set lu [| !imax; j |] tmp; M.set lu [| k; j |] !temp done; d := !d *. -1.; vv.(!imax) &lt;- vv.(k)); indx.(k) &lt;- !imax; if M.get lu [| k; k |] = _zero then M.set lu [| k; k |] tiny; for i = k + 1 to n - 1 do let tmp0 = M.get lu [| i; k |] in let tmp1 = M.get lu [| k; k |] in temp := _div tmp0 tmp1; M.set lu [| i; k |] !temp; for j = k + 1 to n - 1 do let prev = M.get lu [| i; j |] in M.set lu [| i; j |] (_sub prev (_mul !temp (M.get lu [| k; j |]))) done done done; lu, indx, !d" />
+<meta property="og:description" content="Introduction LU decomposition is a numerical method for solving systems of linear equations. It decomposes a square matrix into two triangular matrices, one lower triangular matrix (L) and one upper triangular matrix (U). This decomposition can be used to solve linear equations in the form Ax = b, where A is the matrix, x is the vector of unknowns, and b is the vector of constants. Implementation The following implementation of LU decomposition is written in OCaml. It takes a matrix a as input and returns the L and U matrices, as well as a row permutation vector. The _lu_base function performs the decomposition and returns the L and U matrices and the permutation vector. The lu function calls _lu_base and then formats the output into the L and U matrices. The _lu_solve_vec function uses the output of _lu_base to solve a system of linear equations. ```ocaml (* LU decomposition. Input matrix: a[n][n]; return L/U in one matrix, and the row permutation vector. Test: https://github.com/scipy/scipy/blob/master/scipy/linalg/tests/test_decomp.py ) let _lu_base a = let k = M.kind a in let _abs = Owl_base_dense_common._abs_elt k in let _mul = Owl_base_dense_common._mul_elt k in let _div = Owl_base_dense_common._div_elt k in let _sub = Owl_base_dense_common._sub_elt k in let _flt = Owl_base_dense_common._float_typ_elt k in let _zero = Owl_const.zero k in let _one = Owl_const.one k in let lu = M.copy a in let n = (M.shape a).(0) in let m = (M.shape a).(1) in assert (n = m); let indx = Array.make n 0 in ( implicit scaling of each row ) let vv = Array.make n _zero in let tiny = _flt 1.0e-40 in let big = ref _zero in let temp = ref _zero in ( flag of row exchange ) let d = ref 1.0 in let imax = ref 0 in ( loop over rows to get the implicit scaling information ) for i = 0 to n - 1 do big := _zero; for j = 0 to n - 1 do temp := M.get lu [| i; j |] |&gt; _abs; if !temp &gt; !big then big := !temp done; if !big = _zero then raise Owl_exception.SINGULAR; vv.(i) &lt;- _div _one !big done; for k = 0 to n - 1 do big := _zero; ( choose suitable pivot ) for i = k to n - 1 do temp := _mul (M.get lu [| i; k |] |&gt; _abs) vv.(i); if !temp &gt; !big then ( big := !temp; imax := i) done; ( interchange rows *) if k &lt;&gt; !imax then ( for j = 0 to n - 1 do temp := M.get lu [| !imax; j |]; let tmp = M.get lu [| k; j |] in M.set lu [| !imax; j |] tmp; M.set lu [| k; j |] !temp done; d := !d *. -1.; vv.(!imax) &lt;- vv.(k)); indx.(k) &lt;- !imax; if M.get lu [| k; k |] = _zero then M.set lu [| k; k |] tiny; for i = k + 1 to n - 1 do let tmp0 = M.get lu [| i; k |] in let tmp1 = M.get lu [| k; k |] in temp := _div tmp0 tmp1; M.set lu [| i; k |] !temp; for j = k + 1 to n - 1 do let prev = M.get lu [| i; j |] in M.set lu [| i; j |] (_sub prev (_mul !temp (M.get lu [| k; j |]))) done done done; lu, indx, !d" />
+<link rel="canonical" href="/algorithm/2023/11/22/lu-decomposition.html" />
+<meta property="og:url" content="/algorithm/2023/11/22/lu-decomposition.html" />
+<meta property="og:site_name" content="Algorithm Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2023-11-22T04:00:00+02:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="LU Decomposition" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Liang Wang"},"dateModified":"2023-11-22T04:00:00+02:00","datePublished":"2023-11-22T04:00:00+02:00","description":"Introduction LU decomposition is a numerical method for solving systems of linear equations. It decomposes a square matrix into two triangular matrices, one lower triangular matrix (L) and one upper triangular matrix (U). This decomposition can be used to solve linear equations in the form Ax = b, where A is the matrix, x is the vector of unknowns, and b is the vector of constants. Implementation The following implementation of LU decomposition is written in OCaml. It takes a matrix a as input and returns the L and U matrices, as well as a row permutation vector. The _lu_base function performs the decomposition and returns the L and U matrices and the permutation vector. The lu function calls _lu_base and then formats the output into the L and U matrices. The _lu_solve_vec function uses the output of _lu_base to solve a system of linear equations. ```ocaml (* LU decomposition. Input matrix: a[n][n]; return L/U in one matrix, and the row permutation vector. Test: https://github.com/scipy/scipy/blob/master/scipy/linalg/tests/test_decomp.py ) let _lu_base a = let k = M.kind a in let _abs = Owl_base_dense_common._abs_elt k in let _mul = Owl_base_dense_common._mul_elt k in let _div = Owl_base_dense_common._div_elt k in let _sub = Owl_base_dense_common._sub_elt k in let _flt = Owl_base_dense_common._float_typ_elt k in let _zero = Owl_const.zero k in let _one = Owl_const.one k in let lu = M.copy a in let n = (M.shape a).(0) in let m = (M.shape a).(1) in assert (n = m); let indx = Array.make n 0 in ( implicit scaling of each row ) let vv = Array.make n _zero in let tiny = _flt 1.0e-40 in let big = ref _zero in let temp = ref _zero in ( flag of row exchange ) let d = ref 1.0 in let imax = ref 0 in ( loop over rows to get the implicit scaling information ) for i = 0 to n - 1 do big := _zero; for j = 0 to n - 1 do temp := M.get lu [| i; j |] |&gt; _abs; if !temp &gt; !big then big := !temp done; if !big = _zero then raise Owl_exception.SINGULAR; vv.(i) &lt;- _div _one !big done; for k = 0 to n - 1 do big := _zero; ( choose suitable pivot ) for i = k to n - 1 do temp := _mul (M.get lu [| i; k |] |&gt; _abs) vv.(i); if !temp &gt; !big then ( big := !temp; imax := i) done; ( interchange rows *) if k &lt;&gt; !imax then ( for j = 0 to n - 1 do temp := M.get lu [| !imax; j |]; let tmp = M.get lu [| k; j |] in M.set lu [| !imax; j |] tmp; M.set lu [| k; j |] !temp done; d := !d *. -1.; vv.(!imax) &lt;- vv.(k)); indx.(k) &lt;- !imax; if M.get lu [| k; k |] = _zero then M.set lu [| k; k |] tiny; for i = k + 1 to n - 1 do let tmp0 = M.get lu [| i; k |] in let tmp1 = M.get lu [| k; k |] in temp := _div tmp0 tmp1; M.set lu [| i; k |] !temp; for j = k + 1 to n - 1 do let prev = M.get lu [| i; j |] in M.set lu [| i; j |] (_sub prev (_mul !temp (M.get lu [| k; j |]))) done done done; lu, indx, !d","headline":"LU Decomposition","mainEntityOfPage":{"@type":"WebPage","@id":"/algorithm/2023/11/22/lu-decomposition.html"},"url":"/algorithm/2023/11/22/lu-decomposition.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="Algorithm Blog" /><script async src="https://www.googletagmanager.com/gtag/js?id=UA-123353217-1"></script>
+<script>
+  window['ga-disable-UA-123353217-1'] = window.doNotTrack === "1" || navigator.doNotTrack === "1" || navigator.doNotTrack === "yes" || navigator.msDoNotTrack === "1";
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){window.dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-123353217-1');
+</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1868946892712371" crossorigin="anonymous"></script></head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Algorithm Blog</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">LU Decomposition</h1>
+    <p class="post-meta"><time class="dt-published" datetime="2023-11-22T04:00:00+02:00" itemprop="datePublished">
+        Nov 22, 2023
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <h2 id="introduction">Introduction</h2>
+<p>LU decomposition is a numerical method for solving systems of linear equations. It decomposes a square matrix into two triangular matrices, one lower triangular matrix (L) and one upper triangular matrix (U). This decomposition can be used to solve linear equations in the form Ax = b, where A is the matrix, x is the vector of unknowns, and b is the vector of constants.</p>
+
+<h2 id="implementation">Implementation</h2>
+<p>The following implementation of LU decomposition is written in OCaml. It takes a matrix <code class="language-plaintext highlighter-rouge">a</code> as input and returns the L and U matrices, as well as a row permutation vector. The <code class="language-plaintext highlighter-rouge">_lu_base</code> function performs the decomposition and returns the L and U matrices and the permutation vector. The <code class="language-plaintext highlighter-rouge">lu</code> function calls <code class="language-plaintext highlighter-rouge">_lu_base</code> and then formats the output into the L and U matrices. The <code class="language-plaintext highlighter-rouge">_lu_solve_vec</code> function uses the output of <code class="language-plaintext highlighter-rouge">_lu_base</code> to solve a system of linear equations.</p>
+
+<div class="language-ocaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">(* LU decomposition.
+ * Input matrix: a[n][n]; return L/U in one matrix, and the row permutation vector.
+ * Test: https://github.com/scipy/scipy/blob/master/scipy/linalg/tests/test_decomp.py
+ *)</span>
+<span class="k">let</span> <span class="n">_lu_base</span> <span class="n">a</span> <span class="o">=</span>
+  <span class="k">let</span> <span class="n">k</span> <span class="o">=</span> <span class="nn">M</span><span class="p">.</span><span class="n">kind</span> <span class="n">a</span> <span class="k">in</span>
+  <span class="k">let</span> <span class="n">_abs</span> <span class="o">=</span> <span class="nn">Owl_base_dense_common</span><span class="p">.</span><span class="n">_abs_elt</span> <span class="n">k</span> <span class="k">in</span>
+  <span class="k">let</span> <span class="n">_mul</span> <span class="o">=</span> <span class="nn">Owl_base_dense_common</span><span class="p">.</span><span class="n">_mul_elt</span> <span class="n">k</span> <span class="k">in</span>
+  <span class="k">let</span> <span class="n">_div</span> <span class="o">=</span> <span class="nn">Owl_base_dense_common</span><span class="p">.</span><span class="n">_div_elt</span> <span class="n">k</span> <span class="k">in</span>
+  <span class="k">let</span> <span class="n">_sub</span> <span class="o">=</span> <span class="nn">Owl_base_dense_common</span><span class="p">.</span><span class="n">_sub_elt</span> <span class="n">k</span> <span class="k">in</span>
+  <span class="k">let</span> <span class="n">_flt</span> <span class="o">=</span> <span class="nn">Owl_base_dense_common</span><span class="p">.</span><span class="n">_float_typ_elt</span> <span class="n">k</span> <span class="k">in</span>
+  <span class="k">let</span> <span class="n">_zero</span> <span class="o">=</span> <span class="nn">Owl_const</span><span class="p">.</span><span class="n">zero</span> <span class="n">k</span> <span class="k">in</span>
+  <span class="k">let</span> <span class="n">_one</span> <span class="o">=</span> <span class="nn">Owl_const</span><span class="p">.</span><span class="n">one</span> <span class="n">k</span> <span class="k">in</span>
+  <span class="k">let</span> <span class="n">lu</span> <span class="o">=</span> <span class="nn">M</span><span class="p">.</span><span class="n">copy</span> <span class="n">a</span> <span class="k">in</span>
+  <span class="k">let</span> <span class="n">n</span> <span class="o">=</span> <span class="p">(</span><span class="nn">M</span><span class="p">.</span><span class="n">shape</span> <span class="n">a</span><span class="p">)</span><span class="o">.</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="k">in</span>
+  <span class="k">let</span> <span class="n">m</span> <span class="o">=</span> <span class="p">(</span><span class="nn">M</span><span class="p">.</span><span class="n">shape</span> <span class="n">a</span><span class="p">)</span><span class="o">.</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="k">in</span>
+  <span class="k">assert</span> <span class="p">(</span><span class="n">n</span> <span class="o">=</span> <span class="n">m</span><span class="p">);</span>
+  <span class="k">let</span> <span class="n">indx</span> <span class="o">=</span> <span class="nn">Array</span><span class="p">.</span><span class="n">make</span> <span class="n">n</span> <span class="mi">0</span> <span class="k">in</span>
+  <span class="c">(* implicit scaling of each row *)</span>
+  <span class="k">let</span> <span class="n">vv</span> <span class="o">=</span> <span class="nn">Array</span><span class="p">.</span><span class="n">make</span> <span class="n">n</span> <span class="n">_zero</span> <span class="k">in</span>
+  <span class="k">let</span> <span class="n">tiny</span> <span class="o">=</span> <span class="n">_flt</span> <span class="mf">1.0e-40</span> <span class="k">in</span>
+  <span class="k">let</span> <span class="n">big</span> <span class="o">=</span> <span class="n">ref</span> <span class="n">_zero</span> <span class="k">in</span>
+  <span class="k">let</span> <span class="n">temp</span> <span class="o">=</span> <span class="n">ref</span> <span class="n">_zero</span> <span class="k">in</span>
+  <span class="c">(* flag of row exchange *)</span>
+  <span class="k">let</span> <span class="n">d</span> <span class="o">=</span> <span class="n">ref</span> <span class="mi">1</span><span class="o">.</span><span class="mi">0</span> <span class="k">in</span>
+  <span class="k">let</span> <span class="n">imax</span> <span class="o">=</span> <span class="n">ref</span> <span class="mi">0</span> <span class="k">in</span>
+  <span class="c">(* loop over rows to get the implicit scaling information *)</span>
+  <span class="k">for</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="k">to</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span> <span class="k">do</span>
+    <span class="n">big</span> <span class="o">:=</span> <span class="n">_zero</span><span class="p">;</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span> <span class="k">to</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span> <span class="k">do</span>
+      <span class="n">temp</span> <span class="o">:=</span> <span class="nn">M</span><span class="p">.</span><span class="n">get</span> <span class="n">lu</span> <span class="p">[</span><span class="o">|</span> <span class="n">i</span><span class="p">;</span> <span class="n">j</span> <span class="o">|</span><span class="p">]</span> <span class="o">|&gt;</span> <span class="n">_abs</span><span class="p">;</span>
+      <span class="k">if</span> <span class="o">!</span><span class="n">temp</span> <span class="o">&gt;</span> <span class="o">!</span><span class="n">big</span> <span class="k">then</span> <span class="n">big</span> <span class="o">:=</span> <span class="o">!</span><span class="n">temp</span>
+    <span class="k">done</span><span class="p">;</span>
+    <span class="k">if</span> <span class="o">!</span><span class="n">big</span> <span class="o">=</span> <span class="n">_zero</span> <span class="k">then</span> <span class="k">raise</span> <span class="nn">Owl_exception</span><span class="p">.</span><span class="nc">SINGULAR</span><span class="p">;</span>
+    <span class="n">vv</span><span class="o">.</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">&lt;-</span> <span class="n">_div</span> <span class="n">_one</span> <span class="o">!</span><span class="n">big</span>
+  <span class="k">done</span><span class="p">;</span>
+  <span class="k">for</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">0</span> <span class="k">to</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span> <span class="k">do</span>
+    <span class="n">big</span> <span class="o">:=</span> <span class="n">_zero</span><span class="p">;</span>
+    <span class="c">(* choose suitable pivot *)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="o">=</span> <span class="n">k</span> <span class="k">to</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span> <span class="k">do</span>
+      <span class="n">temp</span> <span class="o">:=</span> <span class="n">_mul</span> <span class="p">(</span><span class="nn">M</span><span class="p">.</span><span class="n">get</span> <span class="n">lu</span> <span class="p">[</span><span class="o">|</span> <span class="n">i</span><span class="p">;</span> <span class="n">k</span> <span class="o">|</span><span class="p">]</span> <span class="o">|&gt;</span> <span class="n">_abs</span><span class="p">)</span> <span class="n">vv</span><span class="o">.</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+      <span class="k">if</span> <span class="o">!</span><span class="n">temp</span> <span class="o">&gt;</span> <span class="o">!</span><span class="n">big</span>
+      <span class="k">then</span> <span class="p">(</span>
+        <span class="n">big</span> <span class="o">:=</span> <span class="o">!</span><span class="n">temp</span><span class="p">;</span>
+        <span class="n">imax</span> <span class="o">:=</span> <span class="n">i</span><span class="p">)</span>
+    <span class="k">done</span><span class="p">;</span>
+    <span class="c">(* interchange rows *)</span>
+    <span class="k">if</span> <span class="n">k</span> <span class="o">&lt;&gt;</span> <span class="o">!</span><span class="n">imax</span>
+    <span class="k">then</span> <span class="p">(</span>
+      <span class="k">for</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span> <span class="k">to</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span> <span class="k">do</span>
+        <span class="n">temp</span> <span class="o">:=</span> <span class="nn">M</span><span class="p">.</span><span class="n">get</span> <span class="n">lu</span> <span class="p">[</span><span class="o">|</span> <span class="o">!</span><span class="n">imax</span><span class="p">;</span> <span class="n">j</span> <span class="o">|</span><span class="p">];</span>
+        <span class="k">let</span> <span class="n">tmp</span> <span class="o">=</span> <span class="nn">M</span><span class="p">.</span><span class="n">get</span> <span class="n">lu</span> <span class="p">[</span><span class="o">|</span> <span class="n">k</span><span class="p">;</span> <span class="n">j</span> <span class="o">|</span><span class="p">]</span> <span class="k">in</span>
+        <span class="nn">M</span><span class="p">.</span><span class="n">set</span> <span class="n">lu</span> <span class="p">[</span><span class="o">|</span> <span class="o">!</span><span class="n">imax</span><span class="p">;</span> <span class="n">j</span> <span class="o">|</span><span class="p">]</span> <span class="n">tmp</span><span class="p">;</span>
+        <span class="nn">M</span><span class="p">.</span><span class="n">set</span> <span class="n">lu</span> <span class="p">[</span><span class="o">|</span> <span class="n">k</span><span class="p">;</span> <span class="n">j</span> <span class="o">|</span><span class="p">]</span> <span class="o">!</span><span class="n">temp</span>
+      <span class="k">done</span><span class="p">;</span>
+      <span class="n">d</span> <span class="o">:=</span> <span class="o">!</span><span class="n">d</span> <span class="o">*.</span> <span class="o">-</span><span class="mi">1</span><span class="o">.;</span>
+      <span class="n">vv</span><span class="o">.</span><span class="p">(</span><span class="o">!</span><span class="n">imax</span><span class="p">)</span> <span class="o">&lt;-</span> <span class="n">vv</span><span class="o">.</span><span class="p">(</span><span class="n">k</span><span class="p">));</span>
+    <span class="n">indx</span><span class="o">.</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="o">&lt;-</span> <span class="o">!</span><span class="n">imax</span><span class="p">;</span>
+    <span class="k">if</span> <span class="nn">M</span><span class="p">.</span><span class="n">get</span> <span class="n">lu</span> <span class="p">[</span><span class="o">|</span> <span class="n">k</span><span class="p">;</span> <span class="n">k</span> <span class="o">|</span><span class="p">]</span> <span class="o">=</span> <span class="n">_zero</span> <span class="k">then</span> <span class="nn">M</span><span class="p">.</span><span class="n">set</span> <span class="n">lu</span> <span class="p">[</span><span class="o">|</span> <span class="n">k</span><span class="p">;</span> <span class="n">k</span> <span class="o">|</span><span class="p">]</span> <span class="n">tiny</span><span class="p">;</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="o">=</span> <span class="n">k</span> <span class="o">+</span> <span class="mi">1</span> <span class="k">to</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span> <span class="k">do</span>
+      <span class="k">let</span> <span class="n">tmp0</span> <span class="o">=</span> <span class="nn">M</span><span class="p">.</span><span class="n">get</span> <span class="n">lu</span> <span class="p">[</span><span class="o">|</span> <span class="n">i</span><span class="p">;</span> <span class="n">k</span> <span class="o">|</span><span class="p">]</span> <span class="k">in</span>
+      <span class="k">let</span> <span class="n">tmp1</span> <span class="o">=</span> <span class="nn">M</span><span class="p">.</span><span class="n">get</span> <span class="n">lu</span> <span class="p">[</span><span class="o">|</span> <span class="n">k</span><span class="p">;</span> <span class="n">k</span> <span class="o">|</span><span class="p">]</span> <span class="k">in</span>
+      <span class="n">temp</span> <span class="o">:=</span> <span class="n">_div</span> <span class="n">tmp0</span> <span class="n">tmp1</span><span class="p">;</span>
+      <span class="nn">M</span><span class="p">.</span><span class="n">set</span> <span class="n">lu</span> <span class="p">[</span><span class="o">|</span> <span class="n">i</span><span class="p">;</span> <span class="n">k</span> <span class="o">|</span><span class="p">]</span> <span class="o">!</span><span class="n">temp</span><span class="p">;</span>
+      <span class="k">for</span> <span class="n">j</span> <span class="o">=</span> <span class="n">k</span> <span class="o">+</span> <span class="mi">1</span> <span class="k">to</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span> <span class="k">do</span>
+        <span class="k">let</span> <span class="n">prev</span> <span class="o">=</span> <span class="nn">M</span><span class="p">.</span><span class="n">get</span> <span class="n">lu</span> <span class="p">[</span><span class="o">|</span> <span class="n">i</span><span class="p">;</span> <span class="n">j</span> <span class="o">|</span><span class="p">]</span> <span class="k">in</span>
+        <span class="nn">M</span><span class="p">.</span><span class="n">set</span> <span class="n">lu</span> <span class="p">[</span><span class="o">|</span> <span class="n">i</span><span class="p">;</span> <span class="n">j</span> <span class="o">|</span><span class="p">]</span> <span class="p">(</span><span class="n">_sub</span> <span class="n">prev</span> <span class="p">(</span><span class="n">_mul</span> <span class="o">!</span><span class="n">temp</span> <span class="p">(</span><span class="nn">M</span><span class="p">.</span><span class="n">get</span> <span class="n">lu</span> <span class="p">[</span><span class="o">|</span> <span class="n">k</span><span class="p">;</span> <span class="n">j</span> <span class="o">|</span><span class="p">])))</span>
+      <span class="k">done</span>
+    <span class="k">done</span>
+  <span class="k">done</span><span class="p">;</span>
+  <span class="n">lu</span><span class="o">,</span> <span class="n">indx</span><span class="o">,</span> <span class="o">!</span><span class="n">d</span>
+
+
+<span class="c">(* LU decomposition, return L, U, and permutation vector *)</span>
+<span class="k">let</span> <span class="n">lu</span> <span class="n">a</span> <span class="o">=</span>
+  <span class="k">let</span> <span class="n">k</span> <span class="o">=</span> <span class="nn">M</span><span class="p">.</span><span class="n">kind</span> <span class="n">a</span> <span class="k">in</span>
+  <span class="k">let</span> <span class="n">_zero</span> <span class="o">=</span> <span class="nn">Owl_const</span><span class="p">.</span><span class="n">zero</span> <span class="n">k</span> <span class="k">in</span>
+  <span class="k">let</span> <span class="n">lu</span><span class="o">,</span> <span class="n">indx</span><span class="o">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">_lu_base</span> <span class="n">a</span> <span class="k">in</span>
+  <span class="k">let</span> <span class="n">n</span> <span class="o">=</span> <span class="p">(</span><span class="nn">M</span><span class="p">.</span><span class="n">shape</span> <span class="n">lu</span><span class="p">)</span><span class="o">.</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="k">in</span>
+  <span class="k">let</span> <span class="n">m</span> <span class="o">=</span> <span class="p">(</span><span class="nn">M</span><span class="p">.</span><span class="n">shape</span> <span class="n">lu</span><span class="p">)</span><span class="o">.</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="k">in</span>
+  <span class="k">assert</span> <span class="p">(</span><span class="n">n</span> <span class="o">=</span> <span class="n">m</span> <span class="o">&amp;&amp;</span> <span class="n">n</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="p">);</span>
+  <span class="k">let</span> <span class="n">l</span> <span class="o">=</span> <span class="nn">M</span><span class="p">.</span><span class="n">eye</span> <span class="n">k</span> <span class="n">n</span> <span class="k">in</span>
+  <span class="k">for</span> <span class="n">r</span> <span class="o">=</span> <span class="mi">1</span> <span class="k">to</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span> <span class="k">do</span>
+    <span class="k">for</span> <span class="n">c</span> <span class="o">=</span> <span class="mi">0</span> <span class="k">to</span> <span class="n">r</span> <span class="o">-</span> <span class="mi">1</span> <span class="k">do</span>
+      <span class="k">let</span> <span class="n">v</span> <span class="o">=</span> <span class="nn">M</span><span class="p">.</span><span class="n">get</span> <span class="n">lu</span> <span class="p">[</span><span class="o">|</span> <span class="n">r</span><span class="p">;</span> <span class="n">c</span> <span class="o">|</span><span class="p">]</span> <span class="k">in</span>
+      <span class="nn">M</span><span class="p">.</span><span class="n">set</span> <span class="n">l</span> <span class="p">[</span><span class="o">|</span> <span class="n">r</span><span class="p">;</span> <span class="n">c</span> <span class="o">|</span><span class="p">]</span> <span class="n">v</span><span class="p">;</span>
+      <span class="nn">M</span><span class="p">.</span><span class="n">set</span> <span class="n">lu</span> <span class="p">[</span><span class="o">|</span> <span class="n">r</span><span class="p">;</span> <span class="n">c</span> <span class="o">|</span><span class="p">]</span> <span class="n">_zero</span>
+    <span class="k">done</span>
+  <span class="k">done</span><span class="p">;</span>
+  <span class="n">l</span><span class="o">,</span> <span class="n">lu</span><span class="o">,</span> <span class="n">indx</span>
+
+
+<span class="k">let</span> <span class="n">_lu_solve_vec</span> <span class="n">a</span> <span class="n">b</span> <span class="o">=</span>
+  <span class="k">let</span> <span class="n">_k</span> <span class="o">=</span> <span class="nn">M</span><span class="p">.</span><span class="n">kind</span> <span class="n">a</span> <span class="k">in</span>
+  <span class="k">let</span> <span class="n">_mul</span> <span class="o">=</span> <span class="nn">Owl_base_dense_common</span><span class="p">.</span><span class="n">_mul_elt</span> <span class="n">_k</span> <span class="k">in</span>
+  <span class="k">let</span> <span class="n">_div</span> <span class="o">=</span> <span class="nn">Owl_base_dense_common</span><span class="p">.</span><span class="n">_div_elt</span> <span class="n">_k</span> <span class="k">in</span>
+  <span class="k">let</span> <span class="n">_sub</span> <span class="o">=</span> <span class="nn">Owl_base_dense_common</span><span class="p">.</span><span class="n">_sub_elt</span> <span class="n">_k</span> <span class="k">in</span>
+  <span class="k">let</span> <span class="n">_zero</span> <span class="o">=</span> <span class="nn">Owl_const</span><span class="p">.</span><span class="n">zero</span> <span class="n">_k</span> <span class="k">in</span>
+  <span class="k">assert</span> <span class="p">(</span><span class="nn">Array</span><span class="p">.</span><span class="n">length</span> <span class="p">(</span><span class="nn">M</span><span class="p">.</span><span class="n">shape</span> <span class="n">b</span><span class="p">)</span> <span class="o">=</span> <span class="mi">1</span><span class="p">);</span>
+  <span class="k">let</span> <span class="n">n</span> <span class="o">=</span> <span class="p">(</span><span class="nn">M</span><span class="p">.</span><span class="n">shape</span> <span class="n">a</span><span class="p">)</span><span class="o">.</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="k">in</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nn">M</span><span class="p">.</span><span class="n">shape</span> <span class="n">b</span><span class="p">)</span><span class="o">.</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">&lt;&gt;</span> <span class="n">n</span> <span class="k">then</span> <span class="n">failwith</span> <span class="s2">"LUdcmp::solve bad sizes"</span><span class="p">;</span>
+  <span class="k">let</span> <span class="n">ii</span> <span class="o">=</span> <span class="n">ref</span> <span class="mi">0</span> <span class="k">in</span>
+  <span class="k">let</span> <span class="n">sum</span> <span class="o">=</span> <span class="n">ref</span> <span class="n">_zero</span> <span class="k">in</span>
+  <span class="k">let</span> <span class="n">x</span> <span class="o">=</span> <span class="nn">M</span><span class="p">.</span><span class="n">copy</span> <span class="n">b</span> <span class="k">in</span>
+  <span class="k">let</span> <span class="n">lu</span><span class="o">,</span> <span class="n">indx</span><span class="o">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">_lu_base</span> <span class="n">a</span> <span class="k">in</span>
+  <span class="k">for</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="k">to</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span> <span class="k">do</span>
+    <span class="k">let</span> <span class="n">ip</span> <span class="o">=</span> <span class="n">indx</span><span class="o">.</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">in</span>
+    <span class="n">sum</span> <span class="o">:=</span> <span class="nn">M</span><span class="p">.</span><span class="n">get</span> <span class="n">x</span> <span class="p">[</span><span class="o">|</span> <span class="n">ip</span> <span class="o">|</span><span class="p">];</span>
+    <span class="nn">M</span><span class="p">.</span><span class="n">set</span> <span class="n">x</span> <span class="p">[</span><span class="o">|</span> <span class="n">ip</span> <span class="o">|</span><span class="p">]</span> <span class="p">(</span><span class="nn">M</span><span class="p">.</span><span class="n">get</span> <span class="n">x</span> <span class="p">[</span><span class="o">|</span> <span class="n">i</span> <span class="o">|</span><span class="p">]);</span>
+    <span class="k">if</span> <span class="o">!</span><span class="n">ii</span> <span class="o">&lt;&gt;</span> <span class="mi">0</span>
+    <span class="k">then</span>
+      <span class="k">for</span> <span class="n">j</span> <span class="o">=</span> <span class="o">!</span><span class="n">ii</span> <span class="o">-</span> <span class="mi">1</span> <span class="k">to</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span> <span class="k">do</span>
+        <span class="n">sum</span> <span class="o">:=</span> <span class="n">_sub</span> <span class="o">!</span><span class="n">sum</span> <span class="p">(</span><span class="n">_mul</span> <span class="p">(</span><span class="nn">M</span><span class="p">.</span><span class="n">get</span> <span class="n">lu</span> <span class="p">[</span><span class="o">|</span> <span class="n">i</span><span class="p">;</span> <span class="n">j</span> <span class="o">|</span><span class="p">])</span> <span class="p">(</span><span class="nn">M</span><span class="p">.</span><span class="n">get</span> <span class="n">x</span> <span class="p">[</span><span class="o">|</span> <span class="n">j</span> <span class="o">|</span><span class="p">]))</span>
+      <span class="k">done</span>
+    <span class="k">else</span> <span class="k">if</span> <span class="o">!</span><span class="n">sum</span> <span class="o">&lt;&gt;</span> <span class="n">_zero</span>
+    <span class="k">then</span> <span class="n">ii</span> <span class="o">:=</span> <span class="o">!</span><span class="n">ii</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="nn">M</span><span class="p">.</span><span class="n">set</span> <span class="n">x</span> <span class="p">[</span><span class="o">|</span> <span class="n">i</span> <span class="o">|</span><span class="p">]</span> <span class="o">!</span><span class="n">sum</span>
+  <span class="k">done</span><span class="p">;</span>
+  <span class="k">for</span> <span class="n">i</span> <span class="o">=</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span> <span class="k">downto</span> <span class="mi">0</span> <span class="k">do</span>
+    <span class="n">sum</span> <span class="o">:=</span> <span class="nn">M</span><span class="p">.</span><span class="n">get</span> <span class="n">x</span> <span class="p">[</span><span class="o">|</span> <span class="n">i</span> <span class="o">|</span><span class="p">];</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span> <span class="k">to</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span> <span class="k">do</span>
+      <span class="n">sum</span> <span class="o">:=</span> <span class="n">_sub</span> <span class="o">!</span><span class="n">sum</span> <span class="p">(</span><span class="n">_mul</span> <span class="p">(</span><span class="nn">M</span><span class="p">.</span><span class="n">get</span> <span class="n">lu</span> <span class="p">[</span><span class="o">|</span> <span class="n">i</span><span class="p">;</span> <span class="n">j</span> <span class="o">|</span><span class="p">])</span> <span class="p">(</span><span class="nn">M</span><span class="p">.</span><span class="n">get</span> <span class="n">x</span> <span class="p">[</span><span class="o">|</span> <span class="n">j</span> <span class="o">|</span><span class="p">]))</span>
+    <span class="k">done</span><span class="p">;</span>
+    <span class="nn">M</span><span class="p">.</span><span class="n">set</span> <span class="n">x</span> <span class="p">[</span><span class="o">|</span> <span class="n">i</span> <span class="o">|</span><span class="p">]</span> <span class="p">(</span><span class="n">_div</span> <span class="o">!</span><span class="n">sum</span> <span class="p">(</span><span class="nn">M</span><span class="p">.</span><span class="n">get</span> <span class="n">lu</span> <span class="p">[</span><span class="o">|</span> <span class="n">i</span><span class="p">;</span> <span class="n">i</span> <span class="o">|</span><span class="p">]))</span>
+  <span class="k">done</span><span class="p">;</span>
+  <span class="n">x</span>
+</code></pre></div></div>
+
+<h2 id="step-by-step-explanation">Step-by-step Explanation</h2>
+<ol>
+  <li>
+    <p>The <code class="language-plaintext highlighter-rouge">_lu_base</code> function takes a square matrix <code class="language-plaintext highlighter-rouge">a</code> as input and returns the L and U matrices, as well as a row permutation vector.</p>
+  </li>
+  <li>
+    <p>The function first makes a copy of the input matrix <code class="language-plaintext highlighter-rouge">a</code> into a new matrix <code class="language-plaintext highlighter-rouge">lu</code>.</p>
+  </li>
+  <li>
+    <p>It initializes some variables, including the row permutation vector <code class="language-plaintext highlighter-rouge">indx</code>, the scaling vector <code class="language-plaintext highlighter-rouge">vv</code>, a small value <code class="language-plaintext highlighter-rouge">tiny</code>, and a flag <code class="language-plaintext highlighter-rouge">d</code>.</p>
+  </li>
+  <li>
+    <p>The function then calculates the implicit scaling of each row by finding the maximum absolute value in each row and storing the reciprocal of that value in the <code class="language-plaintext highlighter-rouge">vv</code> vector.</p>
+  </li>
+  <li>
+    <p>It then performs the LU decomposition using Gaussian elimination with partial pivoting. The function loops over each column <code class="language-plaintext highlighter-rouge">k</code> and selects the pivot element as the one with the largest scaled value in the column. If necessary, it exchanges rows to bring the pivot element to the diagonal. It stores the row index of each pivot element in the <code class="language-plaintext highlighter-rouge">indx</code> vector.</p>
+  </li>
+  <li>
+    <p>During the elimination process, the function stores the multipliers used to eliminate the elements below the pivot element in the <code class="language-plaintext highlighter-rouge">lu</code> matrix.</p>
+  </li>
+  <li>
+    <p>The function also keeps track of the sign of the row exchanges in the <code class="language-plaintext highlighter-rouge">d</code> flag.</p>
+  </li>
+  <li>
+    <p>After the elimination process is complete, the function returns the <code class="language-plaintext highlighter-rouge">lu</code> matrix, the <code class="language-plaintext highlighter-rouge">indx</code> vector, and the <code class="language-plaintext highlighter-rouge">d</code> flag.</p>
+  </li>
+  <li>
+    <p>The <code class="language-plaintext highlighter-rouge">lu</code> function calls <code class="language-plaintext highlighter-rouge">_lu_base</code> and then formats the output into the L and U matrices. It first calls <code class="language-plaintext highlighter-rouge">_lu_base</code> to get the <code class="language-plaintext highlighter-rouge">lu</code> matrix, <code class="language-plaintext highlighter-rouge">indx</code> vector, and <code class="language-plaintext highlighter-rouge">d</code> flag. It then creates an identity matrix <code class="language-plaintext highlighter-rouge">l</code> with the same size as <code class="language-plaintext highlighter-rouge">lu</code>.</p>
+  </li>
+  <li>
+    <p>The function sets the elements of <code class="language-plaintext highlighter-rouge">l</code> to the corresponding elements of <code class="language-plaintext highlighter-rouge">lu</code> below the diagonal.</p>
+  </li>
+  <li>
+    <p>The function returns the <code class="language-plaintext highlighter-rouge">l</code> and <code class="language-plaintext highlighter-rouge">lu</code> matrices, as well as the <code class="language-plaintext highlighter-rouge">indx</code> vector.</p>
+  </li>
+  <li>
+    <p>The <code class="language-plaintext highlighter-rouge">_lu_solve_vec</code> function uses the output of <code class="language-plaintext highlighter-rouge">_lu_base</code> to solve a system of linear equations. It takes a matrix <code class="language-plaintext highlighter-rouge">a</code> and a vector <code class="language-plaintext highlighter-rouge">b</code> as input and returns the solution vector <code class="language-plaintext highlighter-rouge">x</code>.</p>
+  </li>
+  <li>
+    <p>The function first checks that the dimensions of <code class="language-plaintext highlighter-rouge">a</code> and <code class="language-plaintext highlighter-rouge">b</code> are compatible.</p>
+  </li>
+  <li>
+    <p>It then calls <code class="language-plaintext highlighter-rouge">_lu_base</code> to get the <code class="language-plaintext highlighter-rouge">lu</code> matrix, <code class="language-plaintext highlighter-rouge">indx</code> vector, and <code class="language-plaintext highlighter-rouge">d</code> flag.</p>
+  </li>
+  <li>
+    <p>The function initializes some variables and loops over each row of the <code class="language-plaintext highlighter-rouge">lu</code> matrix to solve for the intermediate solution vector <code class="language-plaintext highlighter-rouge">y</code>.</p>
+  </li>
+  <li>
+    <p>The function then loops over each row of the <code class="language-plaintext highlighter-rouge">lu</code> matrix again to solve for the final solution vector <code class="language-plaintext highlighter-rouge">x</code>.</p>
+  </li>
+  <li>
+    <p>The function returns the solution vector <code class="language-plaintext highlighter-rouge">x</code>.</p>
+  </li>
+</ol>
+
+<h2 id="complexity-analysis">Complexity Analysis</h2>
+<p>The time complexity of LU decomposition is O(n^3), where n is the size of the input matrix. This is because the algorithm involves performing Gaussian elimination on the matrix, which requires O(n^3) operations. The space complexity of the algorithm is also O(n^2), since it requires storing the L and U matrices, as well as the row permutation vector. However, the algorithm is numerically stable and is widely used in practice for solving systems of linear equations.</p>
+
+  </div><a class="u-url" href="/algorithm/2023/11/22/lu-decomposition.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+        <ul class="contact-list">
+          <li class="p-name">Liang Wang</li>
+          <li><a class="u-email" href="mailto:liang@ocaml.xyz">liang@ocaml.xyz</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p>Explore the elegance of classic and numerical algorithms through practical OCaml implementations, unraveling their inner workings and unveiling the art and science of algorithmic programming.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
