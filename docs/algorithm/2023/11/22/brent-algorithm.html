@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Brent’ss Algorithm | Algorithm Blog</title>
+<meta name="generator" content="Jekyll v4.3.2" />
+<meta property="og:title" content="Brent’ss Algorithm" />
+<meta name="author" content="Liang Wang" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Introduction Brent’s algorithm, also known as Brent’s method or the Brent–dekker method, is a root-finding algorithm that combines the bisection method, the secant method, and inverse quadratic interpolation. It is an iterative algorithm that can find the root of a continuous function in a given interval. The algorithm is widely used in numerical analysis, optimization, and computer science. Implementation The following is an implementation of Brent’s algorithm in OCaml. The function takes a function f and two endpoints a and b of an interval [a, b] as input, and returns an approximate root of f in the interval. The optional parameters max_iter and xtol are the maximum number of iterations and the tolerance for convergence, respectively. let brent ?(max_iter = 1000) ?(xtol = 1e-6) f a b = let fa = f a in let fb = f b in let error () = let s = Printf.sprintf &quot;f(a) *. f(b) = %g *. %g should be negative.&quot; fa fb in Owl_exception.INVALID_ARGUMENT s in Owl_exception.verify (fa *. fb &lt; 0.) error; if fa = 0. then a else if fb = 0. then b else ( let xa = ref a in let xb = ref b in let xc = ref b in let fc = ref fb in let fa = ref fa in let fb = ref fb in let d = ref infinity in let e = ref infinity in let p = ref infinity in let q = ref infinity in let r = ref infinity in let eps = 3e-16 in try for _i = 1 to max_iter do if (!fb &gt; 0. &amp;&amp; !fc &gt; 0.) || (!fb &lt; 0. &amp;&amp; !fc &lt; 0.) then ( xc := !xa; fc := !fa; d := !xb -. !xa; e := !d); if abs_float !fc &lt; abs_float !fb then ( xa := !xb; xb := !xc; xc := !xa; fa := !fb; fb := !fc; fc := !fa); let tol = (2. *. eps *. abs_float !xb) +. (0.5 *. xtol) in let xm = 0.5 *. (!xc -. !xb) in assert (abs_float xm &gt;= tol &amp;&amp; !fb != 0.); (* 1st strategy: inverse quadratic interpolation *) if abs_float !e &gt;= tol &amp;&amp; abs_float !fa &gt; abs_float !fb then ( let s = !fb /. !fa in if !xa = !xc then ( p := 2. *. xm *. s; q := 1. -. s) else ( q := !fa /. !fc; r := !fb /. !fc; p := s *. ((2. *. xm *. !q *. (!q -. !r)) -. ((!xb -. !xa) *. (!r -. 1.))); q := (!q -. 1.) *. (!r -. 1.) *. (s -. 1.)); if !p &gt; 0. then q := -. !q; p := abs_float !p; let min1 = (3. *. xm *. !q) -. abs_float (tol *. !q) in let min2 = abs_float (!e *. !q) in if 2. *. !p &lt; min min1 min2 then ( e := !d; d := !p /. !q) else ( d := xm; e := !d) (* 2nd strategy: bisection method *)) else ( d := xm; e := !d); (* adjust the position *) xa := !xb; fa := !fb; if abs_float !d &gt; tol then xb := !xb +. !d else xb := !xb +. if tol &gt; 0. then xm else -.xm; fb := f !xb done; !xb with | _ -&gt; !xb) Here is an example of using the function to find the root of the function f(x) = x^3 - 2x - 5 in the interval [2, 3]. let f x = x ** 3. -. 2. *. x -. 5. let root = brent f 2. 3. let () = Printf.printf &quot;The root of f(x) = x^3 - 2x - 5 in [2, 3] is %g.\n&quot; root The output should be: The root of f(x) = x^3 - 2x - 5 in [2, 3] is 2.09455. Step-by-step Explanation Brent’s algorithm is an iterative algorithm that combines the bisection method, the secant method, and inverse quadratic interpolation. The algorithm starts with two endpoints a and b of an interval [a, b] that contains a root of a continuous function f(x). The algorithm then iteratively refines the estimate of the root until it converges to a desired level of accuracy. Initialize variables" />
+<meta property="og:description" content="Introduction Brent’s algorithm, also known as Brent’s method or the Brent–dekker method, is a root-finding algorithm that combines the bisection method, the secant method, and inverse quadratic interpolation. It is an iterative algorithm that can find the root of a continuous function in a given interval. The algorithm is widely used in numerical analysis, optimization, and computer science. Implementation The following is an implementation of Brent’s algorithm in OCaml. The function takes a function f and two endpoints a and b of an interval [a, b] as input, and returns an approximate root of f in the interval. The optional parameters max_iter and xtol are the maximum number of iterations and the tolerance for convergence, respectively. let brent ?(max_iter = 1000) ?(xtol = 1e-6) f a b = let fa = f a in let fb = f b in let error () = let s = Printf.sprintf &quot;f(a) *. f(b) = %g *. %g should be negative.&quot; fa fb in Owl_exception.INVALID_ARGUMENT s in Owl_exception.verify (fa *. fb &lt; 0.) error; if fa = 0. then a else if fb = 0. then b else ( let xa = ref a in let xb = ref b in let xc = ref b in let fc = ref fb in let fa = ref fa in let fb = ref fb in let d = ref infinity in let e = ref infinity in let p = ref infinity in let q = ref infinity in let r = ref infinity in let eps = 3e-16 in try for _i = 1 to max_iter do if (!fb &gt; 0. &amp;&amp; !fc &gt; 0.) || (!fb &lt; 0. &amp;&amp; !fc &lt; 0.) then ( xc := !xa; fc := !fa; d := !xb -. !xa; e := !d); if abs_float !fc &lt; abs_float !fb then ( xa := !xb; xb := !xc; xc := !xa; fa := !fb; fb := !fc; fc := !fa); let tol = (2. *. eps *. abs_float !xb) +. (0.5 *. xtol) in let xm = 0.5 *. (!xc -. !xb) in assert (abs_float xm &gt;= tol &amp;&amp; !fb != 0.); (* 1st strategy: inverse quadratic interpolation *) if abs_float !e &gt;= tol &amp;&amp; abs_float !fa &gt; abs_float !fb then ( let s = !fb /. !fa in if !xa = !xc then ( p := 2. *. xm *. s; q := 1. -. s) else ( q := !fa /. !fc; r := !fb /. !fc; p := s *. ((2. *. xm *. !q *. (!q -. !r)) -. ((!xb -. !xa) *. (!r -. 1.))); q := (!q -. 1.) *. (!r -. 1.) *. (s -. 1.)); if !p &gt; 0. then q := -. !q; p := abs_float !p; let min1 = (3. *. xm *. !q) -. abs_float (tol *. !q) in let min2 = abs_float (!e *. !q) in if 2. *. !p &lt; min min1 min2 then ( e := !d; d := !p /. !q) else ( d := xm; e := !d) (* 2nd strategy: bisection method *)) else ( d := xm; e := !d); (* adjust the position *) xa := !xb; fa := !fb; if abs_float !d &gt; tol then xb := !xb +. !d else xb := !xb +. if tol &gt; 0. then xm else -.xm; fb := f !xb done; !xb with | _ -&gt; !xb) Here is an example of using the function to find the root of the function f(x) = x^3 - 2x - 5 in the interval [2, 3]. let f x = x ** 3. -. 2. *. x -. 5. let root = brent f 2. 3. let () = Printf.printf &quot;The root of f(x) = x^3 - 2x - 5 in [2, 3] is %g.\n&quot; root The output should be: The root of f(x) = x^3 - 2x - 5 in [2, 3] is 2.09455. Step-by-step Explanation Brent’s algorithm is an iterative algorithm that combines the bisection method, the secant method, and inverse quadratic interpolation. The algorithm starts with two endpoints a and b of an interval [a, b] that contains a root of a continuous function f(x). The algorithm then iteratively refines the estimate of the root until it converges to a desired level of accuracy. Initialize variables" />
+<link rel="canonical" href="/algorithm/2023/11/22/brent-algorithm.html" />
+<meta property="og:url" content="/algorithm/2023/11/22/brent-algorithm.html" />
+<meta property="og:site_name" content="Algorithm Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2023-11-22T01:00:00+02:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Brent’ss Algorithm" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Liang Wang"},"dateModified":"2023-11-22T01:00:00+02:00","datePublished":"2023-11-22T01:00:00+02:00","description":"Introduction Brent’s algorithm, also known as Brent’s method or the Brent–dekker method, is a root-finding algorithm that combines the bisection method, the secant method, and inverse quadratic interpolation. It is an iterative algorithm that can find the root of a continuous function in a given interval. The algorithm is widely used in numerical analysis, optimization, and computer science. Implementation The following is an implementation of Brent’s algorithm in OCaml. The function takes a function f and two endpoints a and b of an interval [a, b] as input, and returns an approximate root of f in the interval. The optional parameters max_iter and xtol are the maximum number of iterations and the tolerance for convergence, respectively. let brent ?(max_iter = 1000) ?(xtol = 1e-6) f a b = let fa = f a in let fb = f b in let error () = let s = Printf.sprintf &quot;f(a) *. f(b) = %g *. %g should be negative.&quot; fa fb in Owl_exception.INVALID_ARGUMENT s in Owl_exception.verify (fa *. fb &lt; 0.) error; if fa = 0. then a else if fb = 0. then b else ( let xa = ref a in let xb = ref b in let xc = ref b in let fc = ref fb in let fa = ref fa in let fb = ref fb in let d = ref infinity in let e = ref infinity in let p = ref infinity in let q = ref infinity in let r = ref infinity in let eps = 3e-16 in try for _i = 1 to max_iter do if (!fb &gt; 0. &amp;&amp; !fc &gt; 0.) || (!fb &lt; 0. &amp;&amp; !fc &lt; 0.) then ( xc := !xa; fc := !fa; d := !xb -. !xa; e := !d); if abs_float !fc &lt; abs_float !fb then ( xa := !xb; xb := !xc; xc := !xa; fa := !fb; fb := !fc; fc := !fa); let tol = (2. *. eps *. abs_float !xb) +. (0.5 *. xtol) in let xm = 0.5 *. (!xc -. !xb) in assert (abs_float xm &gt;= tol &amp;&amp; !fb != 0.); (* 1st strategy: inverse quadratic interpolation *) if abs_float !e &gt;= tol &amp;&amp; abs_float !fa &gt; abs_float !fb then ( let s = !fb /. !fa in if !xa = !xc then ( p := 2. *. xm *. s; q := 1. -. s) else ( q := !fa /. !fc; r := !fb /. !fc; p := s *. ((2. *. xm *. !q *. (!q -. !r)) -. ((!xb -. !xa) *. (!r -. 1.))); q := (!q -. 1.) *. (!r -. 1.) *. (s -. 1.)); if !p &gt; 0. then q := -. !q; p := abs_float !p; let min1 = (3. *. xm *. !q) -. abs_float (tol *. !q) in let min2 = abs_float (!e *. !q) in if 2. *. !p &lt; min min1 min2 then ( e := !d; d := !p /. !q) else ( d := xm; e := !d) (* 2nd strategy: bisection method *)) else ( d := xm; e := !d); (* adjust the position *) xa := !xb; fa := !fb; if abs_float !d &gt; tol then xb := !xb +. !d else xb := !xb +. if tol &gt; 0. then xm else -.xm; fb := f !xb done; !xb with | _ -&gt; !xb) Here is an example of using the function to find the root of the function f(x) = x^3 - 2x - 5 in the interval [2, 3]. let f x = x ** 3. -. 2. *. x -. 5. let root = brent f 2. 3. let () = Printf.printf &quot;The root of f(x) = x^3 - 2x - 5 in [2, 3] is %g.\\n&quot; root The output should be: The root of f(x) = x^3 - 2x - 5 in [2, 3] is 2.09455. Step-by-step Explanation Brent’s algorithm is an iterative algorithm that combines the bisection method, the secant method, and inverse quadratic interpolation. The algorithm starts with two endpoints a and b of an interval [a, b] that contains a root of a continuous function f(x). The algorithm then iteratively refines the estimate of the root until it converges to a desired level of accuracy. Initialize variables","headline":"Brent’ss Algorithm","mainEntityOfPage":{"@type":"WebPage","@id":"/algorithm/2023/11/22/brent-algorithm.html"},"url":"/algorithm/2023/11/22/brent-algorithm.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="Algorithm Blog" /><script async src="https://www.googletagmanager.com/gtag/js?id=UA-123353217-1"></script>
+<script>
+  window['ga-disable-UA-123353217-1'] = window.doNotTrack === "1" || navigator.doNotTrack === "1" || navigator.doNotTrack === "yes" || navigator.msDoNotTrack === "1";
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){window.dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-123353217-1');
+</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1868946892712371" crossorigin="anonymous"></script></head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Algorithm Blog</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Brent&#39;ss Algorithm</h1>
+    <p class="post-meta"><time class="dt-published" datetime="2023-11-22T01:00:00+02:00" itemprop="datePublished">
+        Nov 22, 2023
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <h2 id="introduction">Introduction</h2>
+<p>Brent’s algorithm, also known as Brent’s method or the Brent–dekker method, is a root-finding algorithm that combines the bisection method, the secant method, and inverse quadratic interpolation. It is an iterative algorithm that can find the root of a continuous function in a given interval. The algorithm is widely used in numerical analysis, optimization, and computer science.</p>
+
+<h2 id="implementation">Implementation</h2>
+<p>The following is an implementation of Brent’s algorithm in OCaml. The function takes a function <code class="language-plaintext highlighter-rouge">f</code> and two endpoints <code class="language-plaintext highlighter-rouge">a</code> and <code class="language-plaintext highlighter-rouge">b</code> of an interval <code class="language-plaintext highlighter-rouge">[a, b]</code> as input, and returns an approximate root of <code class="language-plaintext highlighter-rouge">f</code> in the interval. The optional parameters <code class="language-plaintext highlighter-rouge">max_iter</code> and <code class="language-plaintext highlighter-rouge">xtol</code> are the maximum number of iterations and the tolerance for convergence, respectively.</p>
+
+<div class="language-ocaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="n">brent</span> <span class="o">?</span><span class="p">(</span><span class="n">max_iter</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">)</span> <span class="o">?</span><span class="p">(</span><span class="n">xtol</span> <span class="o">=</span> <span class="mf">1e-6</span><span class="p">)</span> <span class="n">f</span> <span class="n">a</span> <span class="n">b</span> <span class="o">=</span>
+  <span class="k">let</span> <span class="n">fa</span> <span class="o">=</span> <span class="n">f</span> <span class="n">a</span> <span class="k">in</span>
+  <span class="k">let</span> <span class="n">fb</span> <span class="o">=</span> <span class="n">f</span> <span class="n">b</span> <span class="k">in</span>
+  <span class="k">let</span> <span class="n">error</span> <span class="bp">()</span> <span class="o">=</span>
+    <span class="k">let</span> <span class="n">s</span> <span class="o">=</span> <span class="nn">Printf</span><span class="p">.</span><span class="n">sprintf</span> <span class="s2">"f(a) *. f(b) = %g *. %g should be negative."</span> <span class="n">fa</span> <span class="n">fb</span> <span class="k">in</span>
+    <span class="nn">Owl_exception</span><span class="p">.</span><span class="nc">INVALID_ARGUMENT</span> <span class="n">s</span>
+  <span class="k">in</span>
+  <span class="nn">Owl_exception</span><span class="p">.</span><span class="n">verify</span> <span class="p">(</span><span class="n">fa</span> <span class="o">*.</span> <span class="n">fb</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="o">.</span><span class="p">)</span> <span class="n">error</span><span class="p">;</span>
+  <span class="k">if</span> <span class="n">fa</span> <span class="o">=</span> <span class="mi">0</span><span class="o">.</span>
+  <span class="k">then</span> <span class="n">a</span>
+  <span class="k">else</span> <span class="k">if</span> <span class="n">fb</span> <span class="o">=</span> <span class="mi">0</span><span class="o">.</span>
+  <span class="k">then</span> <span class="n">b</span>
+  <span class="k">else</span> <span class="p">(</span>
+    <span class="k">let</span> <span class="n">xa</span> <span class="o">=</span> <span class="n">ref</span> <span class="n">a</span> <span class="k">in</span>
+    <span class="k">let</span> <span class="n">xb</span> <span class="o">=</span> <span class="n">ref</span> <span class="n">b</span> <span class="k">in</span>
+    <span class="k">let</span> <span class="n">xc</span> <span class="o">=</span> <span class="n">ref</span> <span class="n">b</span> <span class="k">in</span>
+    <span class="k">let</span> <span class="n">fc</span> <span class="o">=</span> <span class="n">ref</span> <span class="n">fb</span> <span class="k">in</span>
+    <span class="k">let</span> <span class="n">fa</span> <span class="o">=</span> <span class="n">ref</span> <span class="n">fa</span> <span class="k">in</span>
+    <span class="k">let</span> <span class="n">fb</span> <span class="o">=</span> <span class="n">ref</span> <span class="n">fb</span> <span class="k">in</span>
+    <span class="k">let</span> <span class="n">d</span> <span class="o">=</span> <span class="n">ref</span> <span class="n">infinity</span> <span class="k">in</span>
+    <span class="k">let</span> <span class="n">e</span> <span class="o">=</span> <span class="n">ref</span> <span class="n">infinity</span> <span class="k">in</span>
+    <span class="k">let</span> <span class="n">p</span> <span class="o">=</span> <span class="n">ref</span> <span class="n">infinity</span> <span class="k">in</span>
+    <span class="k">let</span> <span class="n">q</span> <span class="o">=</span> <span class="n">ref</span> <span class="n">infinity</span> <span class="k">in</span>
+    <span class="k">let</span> <span class="n">r</span> <span class="o">=</span> <span class="n">ref</span> <span class="n">infinity</span> <span class="k">in</span>
+    <span class="k">let</span> <span class="n">eps</span> <span class="o">=</span> <span class="mf">3e-16</span> <span class="k">in</span>
+    <span class="k">try</span>
+      <span class="k">for</span> <span class="n">_i</span> <span class="o">=</span> <span class="mi">1</span> <span class="k">to</span> <span class="n">max_iter</span> <span class="k">do</span>
+        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">fb</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">.</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">fc</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">.</span><span class="p">)</span> <span class="o">||</span> <span class="p">(</span><span class="o">!</span><span class="n">fb</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="o">.</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">fc</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="o">.</span><span class="p">)</span>
+        <span class="k">then</span> <span class="p">(</span>
+          <span class="n">xc</span> <span class="o">:=</span> <span class="o">!</span><span class="n">xa</span><span class="p">;</span>
+          <span class="n">fc</span> <span class="o">:=</span> <span class="o">!</span><span class="n">fa</span><span class="p">;</span>
+          <span class="n">d</span> <span class="o">:=</span> <span class="o">!</span><span class="n">xb</span> <span class="o">-.</span> <span class="o">!</span><span class="n">xa</span><span class="p">;</span>
+          <span class="n">e</span> <span class="o">:=</span> <span class="o">!</span><span class="n">d</span><span class="p">);</span>
+        <span class="k">if</span> <span class="n">abs_float</span> <span class="o">!</span><span class="n">fc</span> <span class="o">&lt;</span> <span class="n">abs_float</span> <span class="o">!</span><span class="n">fb</span>
+        <span class="k">then</span> <span class="p">(</span>
+          <span class="n">xa</span> <span class="o">:=</span> <span class="o">!</span><span class="n">xb</span><span class="p">;</span>
+          <span class="n">xb</span> <span class="o">:=</span> <span class="o">!</span><span class="n">xc</span><span class="p">;</span>
+          <span class="n">xc</span> <span class="o">:=</span> <span class="o">!</span><span class="n">xa</span><span class="p">;</span>
+          <span class="n">fa</span> <span class="o">:=</span> <span class="o">!</span><span class="n">fb</span><span class="p">;</span>
+          <span class="n">fb</span> <span class="o">:=</span> <span class="o">!</span><span class="n">fc</span><span class="p">;</span>
+          <span class="n">fc</span> <span class="o">:=</span> <span class="o">!</span><span class="n">fa</span><span class="p">);</span>
+        <span class="k">let</span> <span class="n">tol</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="o">.</span> <span class="o">*.</span> <span class="n">eps</span> <span class="o">*.</span> <span class="n">abs_float</span> <span class="o">!</span><span class="n">xb</span><span class="p">)</span> <span class="o">+.</span> <span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">5</span> <span class="o">*.</span> <span class="n">xtol</span><span class="p">)</span> <span class="k">in</span>
+        <span class="k">let</span> <span class="n">xm</span> <span class="o">=</span> <span class="mi">0</span><span class="o">.</span><span class="mi">5</span> <span class="o">*.</span> <span class="p">(</span><span class="o">!</span><span class="n">xc</span> <span class="o">-.</span> <span class="o">!</span><span class="n">xb</span><span class="p">)</span> <span class="k">in</span>
+        <span class="k">assert</span> <span class="p">(</span><span class="n">abs_float</span> <span class="n">xm</span> <span class="o">&gt;=</span> <span class="n">tol</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">fb</span> <span class="o">!=</span> <span class="mi">0</span><span class="o">.</span><span class="p">);</span>
+        <span class="c">(* 1st strategy: inverse quadratic interpolation *)</span>
+        <span class="k">if</span> <span class="n">abs_float</span> <span class="o">!</span><span class="n">e</span> <span class="o">&gt;=</span> <span class="n">tol</span> <span class="o">&amp;&amp;</span> <span class="n">abs_float</span> <span class="o">!</span><span class="n">fa</span> <span class="o">&gt;</span> <span class="n">abs_float</span> <span class="o">!</span><span class="n">fb</span>
+        <span class="k">then</span> <span class="p">(</span>
+          <span class="k">let</span> <span class="n">s</span> <span class="o">=</span> <span class="o">!</span><span class="n">fb</span> <span class="o">/.</span> <span class="o">!</span><span class="n">fa</span> <span class="k">in</span>
+          <span class="k">if</span> <span class="o">!</span><span class="n">xa</span> <span class="o">=</span> <span class="o">!</span><span class="n">xc</span>
+          <span class="k">then</span> <span class="p">(</span>
+            <span class="n">p</span> <span class="o">:=</span> <span class="mi">2</span><span class="o">.</span> <span class="o">*.</span> <span class="n">xm</span> <span class="o">*.</span> <span class="n">s</span><span class="p">;</span>
+            <span class="n">q</span> <span class="o">:=</span> <span class="mi">1</span><span class="o">.</span> <span class="o">-.</span> <span class="n">s</span><span class="p">)</span>
+          <span class="k">else</span> <span class="p">(</span>
+            <span class="n">q</span> <span class="o">:=</span> <span class="o">!</span><span class="n">fa</span> <span class="o">/.</span> <span class="o">!</span><span class="n">fc</span><span class="p">;</span>
+            <span class="n">r</span> <span class="o">:=</span> <span class="o">!</span><span class="n">fb</span> <span class="o">/.</span> <span class="o">!</span><span class="n">fc</span><span class="p">;</span>
+            <span class="n">p</span> <span class="o">:=</span> <span class="n">s</span> <span class="o">*.</span> <span class="p">((</span><span class="mi">2</span><span class="o">.</span> <span class="o">*.</span> <span class="n">xm</span> <span class="o">*.</span> <span class="o">!</span><span class="n">q</span> <span class="o">*.</span> <span class="p">(</span><span class="o">!</span><span class="n">q</span> <span class="o">-.</span> <span class="o">!</span><span class="n">r</span><span class="p">))</span> <span class="o">-.</span> <span class="p">((</span><span class="o">!</span><span class="n">xb</span> <span class="o">-.</span> <span class="o">!</span><span class="n">xa</span><span class="p">)</span> <span class="o">*.</span> <span class="p">(</span><span class="o">!</span><span class="n">r</span> <span class="o">-.</span> <span class="mi">1</span><span class="o">.</span><span class="p">)));</span>
+            <span class="n">q</span> <span class="o">:=</span> <span class="p">(</span><span class="o">!</span><span class="n">q</span> <span class="o">-.</span> <span class="mi">1</span><span class="o">.</span><span class="p">)</span> <span class="o">*.</span> <span class="p">(</span><span class="o">!</span><span class="n">r</span> <span class="o">-.</span> <span class="mi">1</span><span class="o">.</span><span class="p">)</span> <span class="o">*.</span> <span class="p">(</span><span class="n">s</span> <span class="o">-.</span> <span class="mi">1</span><span class="o">.</span><span class="p">));</span>
+          <span class="k">if</span> <span class="o">!</span><span class="n">p</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">.</span> <span class="k">then</span> <span class="n">q</span> <span class="o">:=</span> <span class="o">-.</span> <span class="o">!</span><span class="n">q</span><span class="p">;</span>
+          <span class="n">p</span> <span class="o">:=</span> <span class="n">abs_float</span> <span class="o">!</span><span class="n">p</span><span class="p">;</span>
+          <span class="k">let</span> <span class="n">min1</span> <span class="o">=</span> <span class="p">(</span><span class="mi">3</span><span class="o">.</span> <span class="o">*.</span> <span class="n">xm</span> <span class="o">*.</span> <span class="o">!</span><span class="n">q</span><span class="p">)</span> <span class="o">-.</span> <span class="n">abs_float</span> <span class="p">(</span><span class="n">tol</span> <span class="o">*.</span> <span class="o">!</span><span class="n">q</span><span class="p">)</span> <span class="k">in</span>
+          <span class="k">let</span> <span class="n">min2</span> <span class="o">=</span> <span class="n">abs_float</span> <span class="p">(</span><span class="o">!</span><span class="n">e</span> <span class="o">*.</span> <span class="o">!</span><span class="n">q</span><span class="p">)</span> <span class="k">in</span>
+          <span class="k">if</span> <span class="mi">2</span><span class="o">.</span> <span class="o">*.</span> <span class="o">!</span><span class="n">p</span> <span class="o">&lt;</span> <span class="n">min</span> <span class="n">min1</span> <span class="n">min2</span>
+          <span class="k">then</span> <span class="p">(</span>
+            <span class="n">e</span> <span class="o">:=</span> <span class="o">!</span><span class="n">d</span><span class="p">;</span>
+            <span class="n">d</span> <span class="o">:=</span> <span class="o">!</span><span class="n">p</span> <span class="o">/.</span> <span class="o">!</span><span class="n">q</span><span class="p">)</span>
+          <span class="k">else</span> <span class="p">(</span>
+            <span class="n">d</span> <span class="o">:=</span> <span class="n">xm</span><span class="p">;</span>
+            <span class="n">e</span> <span class="o">:=</span> <span class="o">!</span><span class="n">d</span><span class="p">)</span>
+          <span class="c">(* 2nd strategy: bisection method *)</span><span class="p">)</span>
+        <span class="k">else</span> <span class="p">(</span>
+          <span class="n">d</span> <span class="o">:=</span> <span class="n">xm</span><span class="p">;</span>
+          <span class="n">e</span> <span class="o">:=</span> <span class="o">!</span><span class="n">d</span><span class="p">);</span>
+        <span class="c">(* adjust the position *)</span>
+        <span class="n">xa</span> <span class="o">:=</span> <span class="o">!</span><span class="n">xb</span><span class="p">;</span>
+        <span class="n">fa</span> <span class="o">:=</span> <span class="o">!</span><span class="n">fb</span><span class="p">;</span>
+        <span class="k">if</span> <span class="n">abs_float</span> <span class="o">!</span><span class="n">d</span> <span class="o">&gt;</span> <span class="n">tol</span>
+        <span class="k">then</span> <span class="n">xb</span> <span class="o">:=</span> <span class="o">!</span><span class="n">xb</span> <span class="o">+.</span> <span class="o">!</span><span class="n">d</span>
+        <span class="k">else</span> <span class="n">xb</span> <span class="o">:=</span> <span class="o">!</span><span class="n">xb</span> <span class="o">+.</span> <span class="k">if</span> <span class="n">tol</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">.</span> <span class="k">then</span> <span class="n">xm</span> <span class="k">else</span> <span class="o">-.</span><span class="n">xm</span><span class="p">;</span>
+        <span class="n">fb</span> <span class="o">:=</span> <span class="n">f</span> <span class="o">!</span><span class="n">xb</span>
+      <span class="k">done</span><span class="p">;</span>
+      <span class="o">!</span><span class="n">xb</span>
+    <span class="k">with</span>
+    <span class="o">|</span> <span class="n">_</span> <span class="o">-&gt;</span> <span class="o">!</span><span class="n">xb</span><span class="p">)</span> 
+</code></pre></div></div>
+
+<p>Here is an example of using the function to find the root of the function <code class="language-plaintext highlighter-rouge">f(x) = x^3 - 2x - 5</code> in the interval <code class="language-plaintext highlighter-rouge">[2, 3]</code>.</p>
+
+<div class="language-ocaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="n">f</span> <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">**</span> <span class="mi">3</span><span class="o">.</span> <span class="o">-.</span> <span class="mi">2</span><span class="o">.</span> <span class="o">*.</span> <span class="n">x</span> <span class="o">-.</span> <span class="mi">5</span><span class="o">.</span>  
+ 
+<span class="k">let</span> <span class="n">root</span> <span class="o">=</span> <span class="n">brent</span> <span class="n">f</span> <span class="mi">2</span><span class="o">.</span> <span class="mi">3</span><span class="o">.</span>  
+ 
+<span class="k">let</span> <span class="bp">()</span> <span class="o">=</span> <span class="nn">Printf</span><span class="p">.</span><span class="n">printf</span> <span class="s2">"The root of f(x) = x^3 - 2x - 5 in [2, 3] is %g.</span><span class="se">\n</span><span class="s2">"</span> <span class="n">root</span>  
+</code></pre></div></div>
+
+<p>The output should be:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>The root of f(x) = x^3 - 2x - 5 in [2, 3] is 2.09455.  
+</code></pre></div></div>
+
+<h2 id="step-by-step-explanation">Step-by-step Explanation</h2>
+<p>Brent’s algorithm is an iterative algorithm that combines the bisection method, the secant method, and inverse quadratic interpolation. The algorithm starts with two endpoints <code class="language-plaintext highlighter-rouge">a</code> and <code class="language-plaintext highlighter-rouge">b</code> of an interval <code class="language-plaintext highlighter-rouge">[a, b]</code> that contains a root of a continuous function <code class="language-plaintext highlighter-rouge">f(x)</code>. The algorithm then iteratively refines the estimate of the root until it converges to a desired level of accuracy.</p>
+
+<ol>
+  <li>Initialize variables</li>
+</ol>
+
+<p>Let <code class="language-plaintext highlighter-rouge">fa</code> and <code class="language-plaintext highlighter-rouge">fb</code> be the values of <code class="language-plaintext highlighter-rouge">f</code> at <code class="language-plaintext highlighter-rouge">a</code> and <code class="language-plaintext highlighter-rouge">b</code>, respectively. If <code class="language-plaintext highlighter-rouge">fa</code> or <code class="language-plaintext highlighter-rouge">fb</code> is zero, return the corresponding endpoint as the root. Otherwise, initialize the following variables:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">xa</code>: the previous value of <code class="language-plaintext highlighter-rouge">xb</code></li>
+  <li><code class="language-plaintext highlighter-rouge">xb</code>: the current estimate of the root</li>
+  <li><code class="language-plaintext highlighter-rouge">xc</code>: the previous value of <code class="language-plaintext highlighter-rouge">xa</code></li>
+  <li><code class="language-plaintext highlighter-rouge">fa</code>: the value of <code class="language-plaintext highlighter-rouge">f</code> at <code class="language-plaintext highlighter-rouge">a</code></li>
+  <li><code class="language-plaintext highlighter-rouge">fb</code>: the value of <code class="language-plaintext highlighter-rouge">f</code> at <code class="language-plaintext highlighter-rouge">b</code></li>
+  <li><code class="language-plaintext highlighter-rouge">fc</code>: the value of <code class="language-plaintext highlighter-rouge">f</code> at <code class="language-plaintext highlighter-rouge">c</code></li>
+  <li><code class="language-plaintext highlighter-rouge">d</code>: the step size</li>
+  <li><code class="language-plaintext highlighter-rouge">e</code>: the previous value of <code class="language-plaintext highlighter-rouge">d</code></li>
+  <li><code class="language-plaintext highlighter-rouge">p</code>, <code class="language-plaintext highlighter-rouge">q</code>, <code class="language-plaintext highlighter-rouge">r</code>: variables used in inverse quadratic interpolation</li>
+  <li><code class="language-plaintext highlighter-rouge">eps</code>: a small number used for floating-point comparison</li>
+</ul>
+
+<ol>
+  <li>Check for sign change</li>
+</ol>
+
+<p>Verify that <code class="language-plaintext highlighter-rouge">fa</code> and <code class="language-plaintext highlighter-rouge">fb</code> have opposite signs. If not, raise an error.</p>
+
+<ol>
+  <li>Iterate until convergence</li>
+</ol>
+
+<p>Repeat the following steps until convergence or the maximum number of iterations is reached:</p>
+
+<ol>
+  <li>
+    <p>Check for convergence</p>
+
+    <p>Compute the tolerance <code class="language-plaintext highlighter-rouge">tol</code> for convergence. If <code class="language-plaintext highlighter-rouge">|f(b)|</code> is small enough or the step size <code class="language-plaintext highlighter-rouge">d</code> is smaller than <code class="language-plaintext highlighter-rouge">tol</code>, return <code class="language-plaintext highlighter-rouge">b</code> as the root.</p>
+  </li>
+  <li>
+    <p>Compute the step size</p>
+
+    <p>Compute the midpoint <code class="language-plaintext highlighter-rouge">xm</code> of the interval <code class="language-plaintext highlighter-rouge">[b, c]</code>, where <code class="language-plaintext highlighter-rouge">c</code> is the previous value of <code class="language-plaintext highlighter-rouge">a</code> or <code class="language-plaintext highlighter-rouge">b</code>. If <code class="language-plaintext highlighter-rouge">|e| &gt;= tol</code> and <code class="language-plaintext highlighter-rouge">|f(a)| &gt; |f(b)|</code>, use inverse quadratic interpolation to compute a new step size <code class="language-plaintext highlighter-rouge">d</code>. Otherwise, use bisection method to compute <code class="language-plaintext highlighter-rouge">d</code>.</p>
+  </li>
+  <li>
+    <p>Update the estimate of the root</p>
+
+    <p>Compute the new estimate of the root by adding <code class="language-plaintext highlighter-rouge">d</code> to <code class="language-plaintext highlighter-rouge">xb</code>. If <code class="language-plaintext highlighter-rouge">d</code> is too small, add or subtract <code class="language-plaintext highlighter-rouge">tol</code> instead.</p>
+  </li>
+  <li>
+    <p>Evaluate the function</p>
+
+    <p>Compute the value of <code class="language-plaintext highlighter-rouge">f</code> at the new estimate <code class="language-plaintext highlighter-rouge">xb</code>.</p>
+  </li>
+  <li>
+    <p>Update variables</p>
+
+    <p>Update the variables <code class="language-plaintext highlighter-rouge">xa</code>, <code class="language-plaintext highlighter-rouge">xb</code>, <code class="language-plaintext highlighter-rouge">xc</code>, <code class="language-plaintext highlighter-rouge">fa</code>, <code class="language-plaintext highlighter-rouge">fb</code>, <code class="language-plaintext highlighter-rouge">fc</code>, <code class="language-plaintext highlighter-rouge">d</code>, and <code class="language-plaintext highlighter-rouge">e</code> with their new values.</p>
+  </li>
+  <li>
+    <p>Check for convergence</p>
+
+    <p>If <code class="language-plaintext highlighter-rouge">|f(b)|</code> is small enough or the step size <code class="language-plaintext highlighter-rouge">d</code> is smaller than <code class="language-plaintext highlighter-rouge">tol</code>, return <code class="language-plaintext highlighter-rouge">b</code> as the root.</p>
+  </li>
+  <li>
+    <p>Check for oscillation</p>
+
+    <p>If the function value at the new estimate <code class="language-plaintext highlighter-rouge">xb</code> has the same sign as the function value at the previous estimate <code class="language-plaintext highlighter-rouge">xc</code>, replace <code class="language-plaintext highlighter-rouge">xc</code> and <code class="language-plaintext highlighter-rouge">fc</code> with <code class="language-plaintext highlighter-rouge">xa</code> and <code class="language-plaintext highlighter-rouge">fa</code>, and set <code class="language-plaintext highlighter-rouge">d</code> and <code class="language-plaintext highlighter-rouge">e</code> to their initial values.</p>
+  </li>
+  <li>
+    <p>Check for convergence</p>
+
+    <p>If <code class="language-plaintext highlighter-rouge">|f(b)|</code> is small enough or the step size <code class="language-plaintext highlighter-rouge">d</code> is smaller than <code class="language-plaintext highlighter-rouge">tol</code>, return <code class="language-plaintext highlighter-rouge">b</code> as the root.</p>
+  </li>
+  <li>
+    <p>Choose the interpolation method</p>
+
+    <p>If <code class="language-plaintext highlighter-rouge">|f(b)| &lt; |f(a)|</code>, use secant method to compute a new step size <code class="language-plaintext highlighter-rouge">d</code>. Otherwise, use inverse quadratic interpolation.</p>
+  </li>
+  <li>
+    <p>Update the estimate of the root</p>
+
+    <p>Compute the new estimate of the root by adding <code class="language-plaintext highlighter-rouge">d</code> to <code class="language-plaintext highlighter-rouge">xb</code>. If <code class="language-plaintext highlighter-rouge">d</code> is too small, add or subtract <code class="language-plaintext highlighter-rouge">tol</code> instead.</p>
+  </li>
+  <li>
+    <p>Evaluate the function</p>
+
+    <p>Compute the value of <code class="language-plaintext highlighter-rouge">f</code> at the new estimate <code class="language-plaintext highlighter-rouge">xb</code>.</p>
+  </li>
+  <li>
+    <p>Update variables</p>
+
+    <p>Update the variables <code class="language-plaintext highlighter-rouge">xa</code>, <code class="language-plaintext highlighter-rouge">xb</code>, <code class="language-plaintext highlighter-rouge">xc</code>, <code class="language-plaintext highlighter-rouge">fa</code>, <code class="language-plaintext highlighter-rouge">fb</code>, <code class="language-plaintext highlighter-rouge">fc</code>, <code class="language-plaintext highlighter-rouge">d</code>, and <code class="language-plaintext highlighter-rouge">e</code> with their new values.</p>
+  </li>
+  <li>
+    <p>Return the root</p>
+
+    <p>If the algorithm does not converge within the maximum number of iterations, return the last estimate of the root.</p>
+  </li>
+</ol>
+
+<h2 id="complexity-analysis">Complexity Analysis</h2>
+<p>The time complexity of Brent’s algorithm is O(log(tol/eps) * f_evals), where tol is the tolerance for convergence, eps is a small number used for floating-point comparison, and f_evals is the number of evaluations of the function <code class="language-plaintext highlighter-rouge">f</code> required by the algorithm. The algorithm is guaranteed to converge if the function <code class="language-plaintext highlighter-rouge">f</code> is continuous and has a root in the initial interval <code class="language-plaintext highlighter-rouge">[a, b]</code>. The algorithm is also robust to some types of singularities, such as poles and branch cuts. However, the algorithm may fail to converge if the function has multiple roots or if the initial interval is too large. In practice, Brent’s algorithm is often more efficient than other root-finding algorithms, such as the bisection method and the secant method, especially for functions that are smooth but not necessarily analytic.</p>
+
+  </div><a class="u-url" href="/algorithm/2023/11/22/brent-algorithm.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+        <ul class="contact-list">
+          <li class="p-name">Liang Wang</li>
+          <li><a class="u-email" href="mailto:liang@ocaml.xyz">liang@ocaml.xyz</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p>Explore the elegance of classic and numerical algorithms through practical OCaml implementations, unraveling their inner workings and unveiling the art and science of algorithmic programming.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
