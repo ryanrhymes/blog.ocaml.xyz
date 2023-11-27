@@ -1,4 +1,87 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2023-11-27T22:41:05+02:00</updated><id>/feed.xml</id><title type="html">Algorithm Blog</title><subtitle>Explore the elegance of classic and numerical algorithms through practical OCaml implementations, unraveling their inner workings and unveiling the art and science of algorithmic programming.</subtitle><author><name>Liang Wang</name><email>liang@ocaml.xyz</email></author><entry><title type="html">Tridiagonal Matrix Algorithm</title><link href="/algorithm/2023/11/22/tridiagonal-algorithm.html" rel="alternate" type="text/html" title="Tridiagonal Matrix Algorithm" /><published>2023-11-22T05:00:00+02:00</published><updated>2023-11-22T05:00:00+02:00</updated><id>/algorithm/2023/11/22/tridiagonal-algorithm</id><content type="html" xml:base="/algorithm/2023/11/22/tridiagonal-algorithm.html"><![CDATA[<h2 id="introduction">Introduction</h2>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2023-11-27T22:46:54+02:00</updated><id>/feed.xml</id><title type="html">Algorithm Blog</title><subtitle>Explore the elegance of classic and numerical algorithms through practical OCaml implementations, unraveling their inner workings and unveiling the art and science of algorithmic programming.</subtitle><author><name>Liang Wang</name><email>liang@ocaml.xyz</email></author><entry><title type="html">Matrix Inverse</title><link href="/algorithm/2023/11/22/matrix-inverse.html" rel="alternate" type="text/html" title="Matrix Inverse" /><published>2023-11-22T06:00:00+02:00</published><updated>2023-11-22T06:00:00+02:00</updated><id>/algorithm/2023/11/22/matrix-inverse</id><content type="html" xml:base="/algorithm/2023/11/22/matrix-inverse.html"><![CDATA[<h2 id="introduction">Introduction</h2>
+<p>The inverse of a matrix is a matrix that, when multiplied by the original matrix, results in the identity matrix. The inverse of a matrix is useful in solving systems of linear equations, computing determinants, and in other areas of mathematics. The algorithm we will be discussing is used to find the inverse of a square matrix.</p>
+
+<h2 id="implementation">Implementation</h2>
+
+<div class="language-ocaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="n">inv</span> <span class="n">varr</span> <span class="o">=</span>
+  <span class="k">let</span> <span class="n">_k</span> <span class="o">=</span> <span class="nn">M</span><span class="p">.</span><span class="n">kind</span> <span class="n">varr</span> <span class="k">in</span>
+  <span class="k">let</span> <span class="n">_add</span> <span class="o">=</span> <span class="nn">Owl_base_dense_common</span><span class="p">.</span><span class="n">_add_elt</span> <span class="n">_k</span> <span class="k">in</span>
+  <span class="k">let</span> <span class="n">_mul</span> <span class="o">=</span> <span class="nn">Owl_base_dense_common</span><span class="p">.</span><span class="n">_mul_elt</span> <span class="n">_k</span> <span class="k">in</span>
+  <span class="k">let</span> <span class="n">_div</span> <span class="o">=</span> <span class="nn">Owl_base_dense_common</span><span class="p">.</span><span class="n">_div_elt</span> <span class="n">_k</span> <span class="k">in</span>
+  <span class="k">let</span> <span class="n">_neg</span> <span class="o">=</span> <span class="nn">Owl_base_dense_common</span><span class="p">.</span><span class="n">_neg_elt</span> <span class="n">_k</span> <span class="k">in</span>
+  <span class="k">let</span> <span class="n">_zero</span> <span class="o">=</span> <span class="nn">Owl_const</span><span class="p">.</span><span class="n">zero</span> <span class="n">_k</span> <span class="k">in</span>
+  <span class="k">let</span> <span class="n">_one</span> <span class="o">=</span> <span class="nn">Owl_const</span><span class="p">.</span><span class="n">one</span> <span class="n">_k</span> <span class="k">in</span>
+  <span class="k">let</span> <span class="n">dims</span> <span class="o">=</span> <span class="nn">M</span><span class="p">.</span><span class="n">shape</span> <span class="n">varr</span> <span class="k">in</span>
+  <span class="k">let</span> <span class="n">_</span> <span class="o">=</span> <span class="n">_check_is_matrix</span> <span class="n">dims</span> <span class="k">in</span>
+  <span class="k">let</span> <span class="n">n</span> <span class="o">=</span> <span class="nn">Array</span><span class="p">.</span><span class="n">unsafe_get</span> <span class="n">dims</span> <span class="mi">0</span> <span class="k">in</span>
+  <span class="k">if</span> <span class="nn">Array</span><span class="p">.</span><span class="n">unsafe_get</span> <span class="n">dims</span> <span class="mi">1</span> <span class="o">!=</span> <span class="n">n</span>
+  <span class="k">then</span> <span class="n">failwith</span> <span class="s2">"no inverse - the matrix is not square"</span>
+  <span class="k">else</span> <span class="p">(</span>
+    <span class="k">let</span> <span class="n">pivot_row</span> <span class="o">=</span> <span class="nn">Array</span><span class="p">.</span><span class="n">make</span> <span class="n">n</span> <span class="n">_zero</span> <span class="k">in</span>
+    <span class="k">let</span> <span class="n">result_varr</span> <span class="o">=</span> <span class="nn">M</span><span class="p">.</span><span class="n">copy</span> <span class="n">varr</span> <span class="k">in</span>
+    <span class="k">for</span> <span class="n">p</span> <span class="o">=</span> <span class="mi">0</span> <span class="k">to</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span> <span class="k">do</span>
+      <span class="k">let</span> <span class="n">pivot_elem</span> <span class="o">=</span> <span class="nn">M</span><span class="p">.</span><span class="n">get</span> <span class="n">result_varr</span> <span class="p">[</span><span class="o">|</span> <span class="n">p</span><span class="p">;</span> <span class="n">p</span> <span class="o">|</span><span class="p">]</span> <span class="k">in</span>
+      <span class="k">if</span> <span class="nn">M</span><span class="p">.</span><span class="n">get</span> <span class="n">result_varr</span> <span class="p">[</span><span class="o">|</span> <span class="n">p</span><span class="p">;</span> <span class="n">p</span> <span class="o">|</span><span class="p">]</span> <span class="o">=</span> <span class="n">_zero</span>
+      <span class="k">then</span> <span class="n">failwith</span> <span class="s2">"the matrix does not have an inverse"</span><span class="p">;</span>
+      <span class="c">(* update elements of the pivot row, save old vals *)</span>
+      <span class="k">for</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span> <span class="k">to</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span> <span class="k">do</span>
+        <span class="n">pivot_row</span><span class="o">.</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">&lt;-</span> <span class="nn">M</span><span class="p">.</span><span class="n">get</span> <span class="n">result_varr</span> <span class="p">[</span><span class="o">|</span> <span class="n">p</span><span class="p">;</span> <span class="n">j</span> <span class="o">|</span><span class="p">];</span>
+        <span class="k">if</span> <span class="n">j</span> <span class="o">!=</span> <span class="n">p</span> <span class="k">then</span> <span class="nn">M</span><span class="p">.</span><span class="n">set</span> <span class="n">result_varr</span> <span class="p">[</span><span class="o">|</span> <span class="n">p</span><span class="p">;</span> <span class="n">j</span> <span class="o">|</span><span class="p">]</span> <span class="p">(</span><span class="n">_div</span> <span class="n">pivot_row</span><span class="o">.</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="n">pivot_elem</span><span class="p">)</span>
+      <span class="k">done</span><span class="p">;</span>
+      <span class="c">(* update elements of the pivot col *)</span>
+      <span class="k">for</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="k">to</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span> <span class="k">do</span>
+        <span class="k">if</span> <span class="n">i</span> <span class="o">!=</span> <span class="n">p</span>
+        <span class="k">then</span>
+          <span class="nn">M</span><span class="p">.</span><span class="n">set</span>
+            <span class="n">result_varr</span>
+            <span class="p">[</span><span class="o">|</span> <span class="n">i</span><span class="p">;</span> <span class="n">p</span> <span class="o">|</span><span class="p">]</span>
+            <span class="p">(</span><span class="n">_div</span> <span class="p">(</span><span class="nn">M</span><span class="p">.</span><span class="n">get</span> <span class="n">result_varr</span> <span class="p">[</span><span class="o">|</span> <span class="n">i</span><span class="p">;</span> <span class="n">p</span> <span class="o">|</span><span class="p">])</span> <span class="p">(</span><span class="n">_neg</span> <span class="n">pivot_elem</span><span class="p">))</span>
+      <span class="k">done</span><span class="p">;</span>
+      <span class="c">(* update the rest of the matrix *)</span>
+      <span class="k">for</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="k">to</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span> <span class="k">do</span>
+        <span class="k">let</span> <span class="n">pivot_col_elem</span> <span class="o">=</span> <span class="nn">M</span><span class="p">.</span><span class="n">get</span> <span class="n">result_varr</span> <span class="p">[</span><span class="o">|</span> <span class="n">i</span><span class="p">;</span> <span class="n">p</span> <span class="o">|</span><span class="p">]</span> <span class="k">in</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span> <span class="k">to</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span> <span class="k">do</span>
+          <span class="k">if</span> <span class="n">i</span> <span class="o">!=</span> <span class="n">p</span> <span class="o">&amp;&amp;</span> <span class="n">j</span> <span class="o">!=</span> <span class="n">p</span>
+          <span class="k">then</span> <span class="p">(</span>
+            <span class="k">let</span> <span class="n">pivot_row_elem</span> <span class="o">=</span> <span class="n">pivot_row</span><span class="o">.</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="k">in</span>
+            <span class="c">(* use old value *)</span>
+            <span class="k">let</span> <span class="n">old_val</span> <span class="o">=</span> <span class="nn">M</span><span class="p">.</span><span class="n">get</span> <span class="n">result_varr</span> <span class="p">[</span><span class="o">|</span> <span class="n">i</span><span class="p">;</span> <span class="n">j</span> <span class="o">|</span><span class="p">]</span> <span class="k">in</span>
+            <span class="k">let</span> <span class="n">new_val</span> <span class="o">=</span> <span class="n">_add</span> <span class="n">old_val</span> <span class="p">(</span><span class="n">_mul</span> <span class="n">pivot_row_elem</span> <span class="n">pivot_col_elem</span><span class="p">)</span> <span class="k">in</span>
+            <span class="nn">M</span><span class="p">.</span><span class="n">set</span> <span class="n">result_varr</span> <span class="p">[</span><span class="o">|</span> <span class="n">i</span><span class="p">;</span> <span class="n">j</span> <span class="o">|</span><span class="p">]</span> <span class="n">new_val</span><span class="p">)</span>
+        <span class="k">done</span>
+      <span class="k">done</span><span class="p">;</span>
+      <span class="c">(* update the pivot element *)</span>
+      <span class="nn">M</span><span class="p">.</span><span class="n">set</span> <span class="n">result_varr</span> <span class="p">[</span><span class="o">|</span> <span class="n">p</span><span class="p">;</span> <span class="n">p</span> <span class="o">|</span><span class="p">]</span> <span class="p">(</span><span class="n">_div</span> <span class="n">_one</span> <span class="n">pivot_elem</span><span class="p">)</span>
+    <span class="k">done</span><span class="p">;</span>
+    <span class="n">result_varr</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>The algorithm is implemented in the OCaml programming language. It takes as input a matrix represented as an Owl ndarray and returns the inverse of the matrix as an ndarray. Here is an example of how to use the <code class="language-plaintext highlighter-rouge">inv</code> function:</p>
+
+<div class="language-ocaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="n">m</span> <span class="o">=</span> <span class="nn">Owl</span><span class="p">.</span><span class="nn">Mat</span><span class="p">.</span><span class="n">of_array</span> <span class="p">[</span><span class="o">|</span> <span class="p">[</span><span class="o">|</span> <span class="mi">1</span><span class="o">.;</span> <span class="mi">2</span><span class="o">.;</span> <span class="mi">3</span><span class="o">.</span> <span class="o">|</span><span class="p">];</span> <span class="p">[</span><span class="o">|</span> <span class="mi">4</span><span class="o">.;</span> <span class="mi">5</span><span class="o">.;</span> <span class="mi">6</span><span class="o">.</span> <span class="o">|</span><span class="p">];</span> <span class="p">[</span><span class="o">|</span> <span class="mi">7</span><span class="o">.;</span> <span class="mi">8</span><span class="o">.;</span> <span class="mi">10</span><span class="o">.</span> <span class="o">|</span><span class="p">]</span> <span class="o">|</span><span class="p">]</span> <span class="k">in</span>  
+<span class="k">let</span> <span class="n">m_inv</span> <span class="o">=</span> <span class="n">inv</span> <span class="n">m</span> <span class="k">in</span>  
+<span class="nn">Owl</span><span class="p">.</span><span class="nn">Mat</span><span class="p">.</span><span class="n">print</span> <span class="n">m_inv</span>  
+</code></pre></div></div>
+<p>This will print the inverse of the matrix <code class="language-plaintext highlighter-rouge">m</code>.</p>
+
+<h2 id="step-by-step-explanation">Step-by-step Explanation</h2>
+<p>The algorithm works by performing a series of operations on the input matrix until it is transformed into the identity matrix. These operations are performed on both the input matrix and an identity matrix, which is used to keep track of the transformations. Here are the steps of the algorithm:</p>
+
+<ol>
+  <li>Check that the input matrix is square. If it is not, the function will return an error.</li>
+  <li>Create a pivot row array that will be used to store the values of the row that is being transformed.</li>
+  <li>Create a copy of the input matrix that will be transformed into the identity matrix.</li>
+  <li>Iterate over the diagonal elements of the matrix (i.e., the pivot elements).</li>
+  <li>If the pivot element is zero, the matrix does not have an inverse, so the function will return an error.</li>
+  <li>Update the pivot row by dividing each element by the pivot element. Save the old values of the row in the pivot row array.</li>
+  <li>Update the pivot column by dividing each element (except for the pivot element) by the negative of the pivot element.</li>
+  <li>Update the rest of the matrix by subtracting the product of the pivot row and pivot column from each element (except for the pivot element).</li>
+  <li>Update the pivot element by taking the reciprocal of the original pivot element.</li>
+  <li>Return the transformed matrix, which is the inverse of the input matrix.</li>
+</ol>
+
+<h2 id="complexity-analysis">Complexity Analysis</h2>
+<p>The time complexity of the algorithm is O(n^3), where n is the size of the input matrix. This is because the algorithm performs O(n) operations for each of the n diagonal elements, resulting in a total of O(n^3) operations. The space complexity of the algorithm is also O(n^3), since it creates a copy of the input matrix and a pivot row array of size n. Therefore, the algorithm is not suitable for very large matrices, as it may take a long time and use a lot of memory to compute the inverse.</p>]]></content><author><name>Liang Wang</name><email>liang@ocaml.xyz</email></author><category term="algorithm" /><summary type="html"><![CDATA[Introduction The inverse of a matrix is a matrix that, when multiplied by the original matrix, results in the identity matrix. The inverse of a matrix is useful in solving systems of linear equations, computing determinants, and in other areas of mathematics. The algorithm we will be discussing is used to find the inverse of a square matrix. Implementation]]></summary></entry><entry><title type="html">Tridiagonal Matrix Algorithm</title><link href="/algorithm/2023/11/22/tridiagonal-algorithm.html" rel="alternate" type="text/html" title="Tridiagonal Matrix Algorithm" /><published>2023-11-22T05:00:00+02:00</published><updated>2023-11-22T05:00:00+02:00</updated><id>/algorithm/2023/11/22/tridiagonal-algorithm</id><content type="html" xml:base="/algorithm/2023/11/22/tridiagonal-algorithm.html"><![CDATA[<h2 id="introduction">Introduction</h2>
 <p>The tridiagonal matrix algorithm is a numerical method used to solve a system of linear equations where the matrix is tridiagonal. A tridiagonal matrix is a matrix where all the elements are zero except for those on the main diagonal, the diagonal above it, and the diagonal below it. The algorithm is used in various fields such as physics, engineering, and finance.</p>
 
 <h2 id="implementation">Implementation</h2>
@@ -1059,140 +1142,4 @@ e = xb - xa
 
 <p>The polynomial interpolation algorithm has a time complexity of O(n^2), where n is the number of points. This is because the algorithm involves a nested loop over all the points in the input arrays. In the outer loop, the algorithm iterates n-1 times, and in the inner loop, it iterates over the remaining n-m-1 points. Therefore, the total number of iterations is given by the sum of the first n-1 positive integers, which is n(n-1)/2. Thus, the time complexity of the algorithm is O(n^2).</p>
 
-<p>In terms of space complexity, the algorithm uses two arrays of size n to store the y-coordinates and two additional variables to store the interpolated value and the error estimate. Therefore, the space complexity of the algorithm is O(n).</p>]]></content><author><name>Liang Wang</name><email>liang@ocaml.xyz</email></author><category term="algorithm" /><summary type="html"><![CDATA[Introduction Polynomial interpolation is a mathematical technique used to construct a polynomial function that passes through a given set of points. Given a set of n points (x_0, y_0), (x_1, y_1), …, (x_n-1, y_n-1), polynomial interpolation finds a unique polynomial of degree n-1 or less that passes through these points. This technique is widely used in various fields such as computer graphics, numerical analysis, and signal processing. Implementation The following code is an implementation of the polynomial interpolation algorithm in OCaml from Owl library. The function polint takes three arguments - xs, ys, and x. The arrays xs and ys represent the x-coordinates and y-coordinates of the n points, respectively. The variable x represents the point at which we want to evaluate the polynomial. The function returns a tuple of two values - the interpolated value of the polynomial at x and the error estimate.]]></summary></entry><entry><title type="html">Rational Interpolation</title><link href="/algorithm/2023/11/21/rational-interpolation.html" rel="alternate" type="text/html" title="Rational Interpolation" /><published>2023-11-21T05:00:00+02:00</published><updated>2023-11-21T05:00:00+02:00</updated><id>/algorithm/2023/11/21/rational-interpolation</id><content type="html" xml:base="/algorithm/2023/11/21/rational-interpolation.html"><![CDATA[<h2 id="introduction">Introduction</h2>
-<p>Rational interpolation is a numerical method used to approximate a function using a rational function. The algorithm is used in various fields including engineering, physics, and finance.</p>
-
-<h2 id="implementation">Implementation</h2>
-<p>The <code class="language-plaintext highlighter-rouge">ratint</code> algorithm is implemented in OCaml as shown below. The function takes three arguments: <code class="language-plaintext highlighter-rouge">xs</code>, <code class="language-plaintext highlighter-rouge">ys</code>, and <code class="language-plaintext highlighter-rouge">x</code>. <code class="language-plaintext highlighter-rouge">xs</code> is an array of length <code class="language-plaintext highlighter-rouge">n</code> representing the x-coordinates of the function, <code class="language-plaintext highlighter-rouge">ys</code> is an array of length <code class="language-plaintext highlighter-rouge">n</code> representing the y-coordinates of the function, and <code class="language-plaintext highlighter-rouge">x</code> is the point at which the function is to be approximated. The function returns a tuple containing the approximation of the function at <code class="language-plaintext highlighter-rouge">x</code> and the derivative of the approximation at <code class="language-plaintext highlighter-rouge">x</code>.</p>
-
-<div class="language-ocaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="n">ratint</span> <span class="n">xs</span> <span class="n">ys</span> <span class="n">x</span> <span class="o">=</span>
-  <span class="k">let</span> <span class="n">n</span> <span class="o">=</span> <span class="nn">Array</span><span class="p">.</span><span class="n">length</span> <span class="n">xs</span> <span class="k">in</span>
-  <span class="k">let</span> <span class="n">m</span> <span class="o">=</span> <span class="nn">Array</span><span class="p">.</span><span class="n">length</span> <span class="n">ys</span> <span class="k">in</span>
-  <span class="k">let</span> <span class="n">error</span> <span class="bp">()</span> <span class="o">=</span>
-    <span class="k">let</span> <span class="n">s</span> <span class="o">=</span>
-      <span class="nn">Printf</span><span class="p">.</span><span class="n">sprintf</span>
-        <span class="s2">"ratint requires that xs and ys have the same length, but xs length is %i \
-         whereas ys length is %i"</span>
-        <span class="n">n</span>
-        <span class="n">m</span>
-    <span class="k">in</span>
-    <span class="nn">Owl_exception</span><span class="p">.</span><span class="nc">INVALID_ARGUMENT</span> <span class="n">s</span>
-  <span class="k">in</span>
-  <span class="nn">Owl_exception</span><span class="p">.</span><span class="n">verify</span> <span class="p">(</span><span class="n">m</span> <span class="o">=</span> <span class="n">n</span><span class="p">)</span> <span class="n">error</span><span class="p">;</span>
-  <span class="k">let</span> <span class="n">c</span> <span class="o">=</span> <span class="nn">Array</span><span class="p">.</span><span class="n">copy</span> <span class="n">ys</span> <span class="k">in</span>
-  <span class="k">let</span> <span class="n">d</span> <span class="o">=</span> <span class="nn">Array</span><span class="p">.</span><span class="n">copy</span> <span class="n">ys</span> <span class="k">in</span>
-  <span class="k">let</span> <span class="n">hh</span> <span class="o">=</span> <span class="n">ref</span> <span class="p">(</span><span class="n">abs_float</span> <span class="p">(</span><span class="n">x</span> <span class="o">-.</span> <span class="n">xs</span><span class="o">.</span><span class="p">(</span><span class="mi">0</span><span class="p">)))</span> <span class="k">in</span>
-  <span class="k">let</span> <span class="n">y</span> <span class="o">=</span> <span class="n">ref</span> <span class="mi">0</span><span class="o">.</span> <span class="k">in</span>
-  <span class="k">let</span> <span class="n">dy</span> <span class="o">=</span> <span class="n">ref</span> <span class="mi">0</span><span class="o">.</span> <span class="k">in</span>
-  <span class="k">let</span> <span class="n">ns</span> <span class="o">=</span> <span class="n">ref</span> <span class="mi">0</span> <span class="k">in</span>
-  <span class="k">let</span> <span class="n">eps</span> <span class="o">=</span> <span class="mf">1e-25</span> <span class="k">in</span>
-  <span class="k">try</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="k">to</span> <span class="n">n</span> <span class="k">do</span>
-      <span class="k">let</span> <span class="n">h</span> <span class="o">=</span> <span class="n">abs_float</span> <span class="p">(</span><span class="n">x</span> <span class="o">-.</span> <span class="n">xs</span><span class="o">.</span><span class="p">(</span><span class="n">i</span><span class="p">))</span> <span class="k">in</span>
-      <span class="k">if</span> <span class="n">h</span> <span class="o">=</span> <span class="mi">0</span><span class="o">.</span>
-      <span class="k">then</span> <span class="p">(</span>
-        <span class="n">y</span> <span class="o">:=</span> <span class="n">ys</span><span class="o">.</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
-        <span class="n">dy</span> <span class="o">:=</span> <span class="mi">0</span><span class="o">.;</span>
-        <span class="k">raise</span> <span class="nn">Owl_exception</span><span class="p">.</span><span class="nc">FOUND</span><span class="p">)</span>
-      <span class="k">else</span> <span class="k">if</span> <span class="n">h</span> <span class="o">&lt;</span> <span class="o">!</span><span class="n">hh</span>
-      <span class="k">then</span> <span class="p">(</span>
-        <span class="n">ns</span> <span class="o">:=</span> <span class="n">i</span><span class="p">;</span>
-        <span class="n">hh</span> <span class="o">:=</span> <span class="n">h</span><span class="p">;</span>
-        <span class="n">c</span><span class="o">.</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">&lt;-</span> <span class="n">ys</span><span class="o">.</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
-        <span class="n">d</span><span class="o">.</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">&lt;-</span> <span class="n">ys</span><span class="o">.</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">+.</span> <span class="n">eps</span><span class="p">)</span>
-    <span class="k">done</span><span class="p">;</span>
-    <span class="n">y</span> <span class="o">:=</span> <span class="n">ys</span><span class="o">.</span><span class="p">(</span><span class="o">!</span><span class="n">ns</span><span class="p">);</span>
-    <span class="n">ns</span> <span class="o">:=</span> <span class="o">!</span><span class="n">ns</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span>
-    <span class="k">for</span> <span class="n">m</span> <span class="o">=</span> <span class="mi">1</span> <span class="k">to</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span> <span class="k">do</span>
-      <span class="k">for</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="k">to</span> <span class="n">n</span> <span class="o">-</span> <span class="n">m</span> <span class="k">do</span>
-        <span class="k">let</span> <span class="n">w</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">-.</span> <span class="n">d</span><span class="o">.</span><span class="p">(</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="k">in</span>
-        <span class="k">let</span> <span class="n">h</span> <span class="o">=</span> <span class="n">xs</span><span class="o">.</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="n">m</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-.</span> <span class="n">x</span> <span class="k">in</span>
-        <span class="k">let</span> <span class="n">t</span> <span class="o">=</span> <span class="p">(</span><span class="n">xs</span><span class="o">.</span><span class="p">(</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-.</span> <span class="n">x</span><span class="p">)</span> <span class="o">*.</span> <span class="n">d</span><span class="o">.</span><span class="p">(</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/.</span> <span class="n">h</span> <span class="k">in</span>
-        <span class="k">let</span> <span class="n">dd</span> <span class="o">=</span> <span class="n">t</span> <span class="o">-.</span> <span class="n">c</span><span class="o">.</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">in</span>
-        <span class="k">if</span> <span class="n">dd</span> <span class="o">=</span> <span class="mi">0</span><span class="o">.</span> <span class="k">then</span> <span class="n">failwith</span> <span class="s2">"Has a pole"</span><span class="p">;</span>
-        <span class="k">let</span> <span class="n">dd</span> <span class="o">=</span> <span class="n">w</span> <span class="o">/.</span> <span class="n">dd</span> <span class="k">in</span>
-        <span class="n">d</span><span class="o">.</span><span class="p">(</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&lt;-</span> <span class="n">c</span><span class="o">.</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">*.</span> <span class="n">dd</span><span class="p">;</span>
-        <span class="n">c</span><span class="o">.</span><span class="p">(</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&lt;-</span> <span class="n">t</span> <span class="o">*.</span> <span class="n">dd</span>
-      <span class="k">done</span>
-    <span class="k">done</span><span class="p">;</span>
-    <span class="o">!</span><span class="n">y</span><span class="o">,</span> <span class="o">!</span><span class="n">dy</span>
-  <span class="k">with</span>
-  <span class="o">|</span> <span class="nn">Owl_exception</span><span class="p">.</span><span class="nc">FOUND</span> <span class="o">-&gt;</span> <span class="o">!</span><span class="n">y</span><span class="o">,</span> <span class="o">!</span><span class="n">dy</span>
-  <span class="o">|</span> <span class="n">e</span>                   <span class="o">-&gt;</span> <span class="k">raise</span> <span class="n">e</span>
-</code></pre></div></div>
-
-<ol>
-  <li>
-    <p>The <code class="language-plaintext highlighter-rouge">ratint</code> function takes three arguments: <code class="language-plaintext highlighter-rouge">xs</code>, <code class="language-plaintext highlighter-rouge">ys</code>, and <code class="language-plaintext highlighter-rouge">x</code>.</p>
-  </li>
-  <li>
-    <p>The length of the input arrays <code class="language-plaintext highlighter-rouge">xs</code> and <code class="language-plaintext highlighter-rouge">ys</code> are obtained and verified to be equal. If they are not equal, an error is thrown.</p>
-  </li>
-  <li>
-    <p>Two arrays <code class="language-plaintext highlighter-rouge">c</code> and <code class="language-plaintext highlighter-rouge">d</code> are created as copies of the <code class="language-plaintext highlighter-rouge">ys</code> array.</p>
-  </li>
-  <li>
-    <p>A variable <code class="language-plaintext highlighter-rouge">hh</code> is initialized to the absolute difference between <code class="language-plaintext highlighter-rouge">x</code> and the first element of <code class="language-plaintext highlighter-rouge">xs</code>. This will be used to keep track of the smallest distance between <code class="language-plaintext highlighter-rouge">x</code> and an element of <code class="language-plaintext highlighter-rouge">xs</code>.</p>
-  </li>
-  <li>
-    <p>Three variables <code class="language-plaintext highlighter-rouge">y</code>, <code class="language-plaintext highlighter-rouge">dy</code>, and <code class="language-plaintext highlighter-rouge">ns</code> are initialized to 0. <code class="language-plaintext highlighter-rouge">y</code> will be used to store the approximation of the function at <code class="language-plaintext highlighter-rouge">x</code>, <code class="language-plaintext highlighter-rouge">dy</code> will be used to store the derivative of the approximation at <code class="language-plaintext highlighter-rouge">x</code>, and <code class="language-plaintext highlighter-rouge">ns</code> will be used to keep track of the index of the closest element of <code class="language-plaintext highlighter-rouge">xs</code> to <code class="language-plaintext highlighter-rouge">x</code>.</p>
-  </li>
-  <li>
-    <p>A variable <code class="language-plaintext highlighter-rouge">eps</code> is initialized to a small number. This will be used to prevent division by zero.</p>
-  </li>
-  <li>
-    <p>A for loop is used to iterate over the <code class="language-plaintext highlighter-rouge">xs</code> array.</p>
-  </li>
-  <li>
-    <p>For each <code class="language-plaintext highlighter-rouge">xs[i]</code>, the absolute difference between <code class="language-plaintext highlighter-rouge">x</code> and <code class="language-plaintext highlighter-rouge">xs[i]</code> is computed and stored in a variable <code class="language-plaintext highlighter-rouge">h</code>.</p>
-  </li>
-  <li>
-    <p>If <code class="language-plaintext highlighter-rouge">h</code> is equal to 0, then <code class="language-plaintext highlighter-rouge">ys[i]</code> is the exact value of the function at <code class="language-plaintext highlighter-rouge">x</code>, so <code class="language-plaintext highlighter-rouge">y</code> is set to <code class="language-plaintext highlighter-rouge">ys[i]</code>, <code class="language-plaintext highlighter-rouge">dy</code> is set to 0, and an exception is raised to exit the loop.</p>
-  </li>
-  <li>
-    <p>If <code class="language-plaintext highlighter-rouge">h</code> is less than <code class="language-plaintext highlighter-rouge">hh</code>, then <code class="language-plaintext highlighter-rouge">ns</code> is set to <code class="language-plaintext highlighter-rouge">i</code>, <code class="language-plaintext highlighter-rouge">hh</code> is set to <code class="language-plaintext highlighter-rouge">h</code>, and the <code class="language-plaintext highlighter-rouge">c[i]</code> and <code class="language-plaintext highlighter-rouge">d[i]</code> arrays are updated to <code class="language-plaintext highlighter-rouge">ys[i]</code>. This keeps track of the closest element of <code class="language-plaintext highlighter-rouge">xs</code> to <code class="language-plaintext highlighter-rouge">x</code>.</p>
-  </li>
-  <li>
-    <p>After the loop, <code class="language-plaintext highlighter-rouge">y</code> is set to <code class="language-plaintext highlighter-rouge">ys[ns]</code>, and <code class="language-plaintext highlighter-rouge">ns</code> is decremented by 1.</p>
-  </li>
-  <li>
-    <p>Two nested for loops are used to iterate over the <code class="language-plaintext highlighter-rouge">c</code> and <code class="language-plaintext highlighter-rouge">d</code> arrays.</p>
-  </li>
-  <li>
-    <p>For each iteration, <code class="language-plaintext highlighter-rouge">m</code> represents the current iteration of the outer loop, and <code class="language-plaintext highlighter-rouge">i</code> represents the current iteration of the inner loop.</p>
-  </li>
-  <li>
-    <p>A variable <code class="language-plaintext highlighter-rouge">w</code> is computed as the difference between <code class="language-plaintext highlighter-rouge">c[i]</code> and <code class="language-plaintext highlighter-rouge">d[i-1]</code>.</p>
-  </li>
-  <li>
-    <p>A variable <code class="language-plaintext highlighter-rouge">h</code> is computed as the difference between <code class="language-plaintext highlighter-rouge">xs[i+m-1]</code> and <code class="language-plaintext highlighter-rouge">x</code>.</p>
-  </li>
-  <li>
-    <p>A variable <code class="language-plaintext highlighter-rouge">t</code> is computed as <code class="language-plaintext highlighter-rouge">(xs[i-1] - x) * d[i-1] / h</code>.</p>
-  </li>
-  <li>
-    <p>A variable <code class="language-plaintext highlighter-rouge">dd</code> is computed as <code class="language-plaintext highlighter-rouge">t - c[i]</code>.</p>
-  </li>
-  <li>
-    <p>If <code class="language-plaintext highlighter-rouge">dd</code> is equal to 0, then the function has a pole, and an exception is thrown.</p>
-  </li>
-  <li>
-    <p>A variable <code class="language-plaintext highlighter-rouge">dd</code> is computed as <code class="language-plaintext highlighter-rouge">w / dd</code>.</p>
-  </li>
-  <li>
-    <p>The <code class="language-plaintext highlighter-rouge">d[i-1]</code> array is updated to <code class="language-plaintext highlighter-rouge">c[i] * dd</code>, and the <code class="language-plaintext highlighter-rouge">c[i-1]</code> array is updated to <code class="language-plaintext highlighter-rouge">t * dd</code>.</p>
-  </li>
-  <li>
-    <p>After the loops, <code class="language-plaintext highlighter-rouge">y</code> and <code class="language-plaintext highlighter-rouge">dy</code> are returned as the approximation and derivative of the function at <code class="language-plaintext highlighter-rouge">x</code>.</p>
-  </li>
-  <li>
-    <p>If any exceptions are raised during the computation, they are rethrown.</p>
-  </li>
-</ol>
-
-<h2 id="complexity-analysis">Complexity Analysis</h2>
-<p>The <code class="language-plaintext highlighter-rouge">ratint</code> algorithm has a time complexity of O(n^2), where n is the length of the input arrays <code class="language-plaintext highlighter-rouge">xs</code> and <code class="language-plaintext highlighter-rouge">ys</code>.</p>
-
-<p>This is because the algorithm has two nested loops, each iterating over the <code class="language-plaintext highlighter-rouge">c</code> and <code class="language-plaintext highlighter-rouge">d</code> arrays. The outer loop iterates <code class="language-plaintext highlighter-rouge">n-1</code> times, and the inner loop iterates <code class="language-plaintext highlighter-rouge">n-m</code> times, where <code class="language-plaintext highlighter-rouge">m</code> is the current iteration of the outer loop. This gives a total of <code class="language-plaintext highlighter-rouge">(n-1) + (n-2) + ... + 1</code> iterations for the outer loop, which is equal to <code class="language-plaintext highlighter-rouge">n(n-1)/2</code>. The inner loop has a similar number of iterations, giving a total of <code class="language-plaintext highlighter-rouge">n(n-1)^2/2</code> iterations for both loops combined.</p>
-
-<p>Therefore, the time complexity of the algorithm is O(n^2). This means that as the length of the input arrays <code class="language-plaintext highlighter-rouge">xs</code> and <code class="language-plaintext highlighter-rouge">ys</code> increases, the time taken by the algorithm to compute the approximation of the function at <code class="language-plaintext highlighter-rouge">x</code> and its derivative also increases quadratically.</p>]]></content><author><name>Liang Wang</name><email>liang@ocaml.xyz</email></author><category term="algorithm" /><summary type="html"><![CDATA[Introduction Rational interpolation is a numerical method used to approximate a function using a rational function. The algorithm is used in various fields including engineering, physics, and finance.]]></summary></entry></feed>
+<p>In terms of space complexity, the algorithm uses two arrays of size n to store the y-coordinates and two additional variables to store the interpolated value and the error estimate. Therefore, the space complexity of the algorithm is O(n).</p>]]></content><author><name>Liang Wang</name><email>liang@ocaml.xyz</email></author><category term="algorithm" /><summary type="html"><![CDATA[Introduction Polynomial interpolation is a mathematical technique used to construct a polynomial function that passes through a given set of points. Given a set of n points (x_0, y_0), (x_1, y_1), …, (x_n-1, y_n-1), polynomial interpolation finds a unique polynomial of degree n-1 or less that passes through these points. This technique is widely used in various fields such as computer graphics, numerical analysis, and signal processing. Implementation The following code is an implementation of the polynomial interpolation algorithm in OCaml from Owl library. The function polint takes three arguments - xs, ys, and x. The arrays xs and ys represent the x-coordinates and y-coordinates of the n points, respectively. The variable x represents the point at which we want to evaluate the polynomial. The function returns a tuple of two values - the interpolated value of the polynomial at x and the error estimate.]]></summary></entry></feed>
