@@ -1,4 +1,118 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2023-11-27T21:21:27+02:00</updated><id>/feed.xml</id><title type="html">Algorithm Blog</title><subtitle>Explore the elegance of classic and numerical algorithms through practical OCaml implementations, unraveling their inner workings and unveiling the art and science of algorithmic programming.</subtitle><author><name>Liang Wang</name><email>liang@ocaml.xyz</email></author><entry><title type="html">Topological Sort</title><link href="/algorithm/2023/11/21/topological-sort.html" rel="alternate" type="text/html" title="Topological Sort" /><published>2023-11-21T04:00:00+02:00</published><updated>2023-11-21T04:00:00+02:00</updated><id>/algorithm/2023/11/21/topological-sort</id><content type="html" xml:base="/algorithm/2023/11/21/topological-sort.html"><![CDATA[<h2 id="introduction">Introduction</h2>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2023-11-27T21:26:21+02:00</updated><id>/feed.xml</id><title type="html">Algorithm Blog</title><subtitle>Explore the elegance of classic and numerical algorithms through practical OCaml implementations, unraveling their inner workings and unveiling the art and science of algorithmic programming.</subtitle><author><name>Liang Wang</name><email>liang@ocaml.xyz</email></author><entry><title type="html">Polynomial Interpolation</title><link href="/algorithm/2023/11/21/polynomial-interpolation.markdown.html" rel="alternate" type="text/html" title="Polynomial Interpolation" /><published>2023-11-21T05:00:00+02:00</published><updated>2023-11-21T05:00:00+02:00</updated><id>/algorithm/2023/11/21/polynomial-interpolation.markdown</id><content type="html" xml:base="/algorithm/2023/11/21/polynomial-interpolation.markdown.html"><![CDATA[<h2 id="introduction">Introduction</h2>
+
+<p>Polynomial interpolation is a mathematical technique used to construct a polynomial function that passes through a given set of points. Given a set of n points (x_0, y_0), (x_1, y_1), …, (x_n-1, y_n-1), polynomial interpolation finds a unique polynomial of degree n-1 or less that passes through these points. This technique is widely used in various fields such as computer graphics, numerical analysis, and signal processing.</p>
+
+<h2 id="implementation">Implementation</h2>
+
+<p>The following code is an implementation of the polynomial interpolation algorithm in OCaml from Owl library. The function <code class="language-plaintext highlighter-rouge">polint</code> takes three arguments - <code class="language-plaintext highlighter-rouge">xs</code>, <code class="language-plaintext highlighter-rouge">ys</code>, and <code class="language-plaintext highlighter-rouge">x</code>. The arrays <code class="language-plaintext highlighter-rouge">xs</code> and <code class="language-plaintext highlighter-rouge">ys</code> represent the x-coordinates and y-coordinates of the n points, respectively. The variable <code class="language-plaintext highlighter-rouge">x</code> represents the point at which we want to evaluate the polynomial. The function returns a tuple of two values - the interpolated value of the polynomial at <code class="language-plaintext highlighter-rouge">x</code> and the error estimate.</p>
+
+<div class="language-ocaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="n">polint</span> <span class="n">xs</span> <span class="n">ys</span> <span class="n">x</span> <span class="o">=</span>
+  <span class="k">let</span> <span class="n">n</span> <span class="o">=</span> <span class="nn">Array</span><span class="p">.</span><span class="n">length</span> <span class="n">xs</span> <span class="k">in</span>
+  <span class="k">let</span> <span class="n">m</span> <span class="o">=</span> <span class="nn">Array</span><span class="p">.</span><span class="n">length</span> <span class="n">ys</span> <span class="k">in</span>
+  <span class="k">let</span> <span class="n">error</span> <span class="bp">()</span> <span class="o">=</span>
+    <span class="k">let</span> <span class="n">s</span> <span class="o">=</span>
+      <span class="nn">Printf</span><span class="p">.</span><span class="n">sprintf</span>
+        <span class="s2">"polint requires that xs and ys have the same length, but xs length is %i \
+         whereas ys length is %i"</span>
+        <span class="n">n</span>
+        <span class="n">m</span>
+    <span class="k">in</span>
+    <span class="nn">Owl_exception</span><span class="p">.</span><span class="nc">INVALID_ARGUMENT</span> <span class="n">s</span>
+  <span class="k">in</span>
+  <span class="nn">Owl_exception</span><span class="p">.</span><span class="n">verify</span> <span class="p">(</span><span class="n">m</span> <span class="o">=</span> <span class="n">n</span><span class="p">)</span> <span class="n">error</span><span class="p">;</span>
+  <span class="k">let</span> <span class="n">c</span> <span class="o">=</span> <span class="nn">Array</span><span class="p">.</span><span class="n">copy</span> <span class="n">ys</span> <span class="k">in</span>
+  <span class="k">let</span> <span class="n">d</span> <span class="o">=</span> <span class="nn">Array</span><span class="p">.</span><span class="n">copy</span> <span class="n">ys</span> <span class="k">in</span>
+  <span class="k">let</span> <span class="n">ns</span> <span class="o">=</span> <span class="n">ref</span> <span class="mi">0</span> <span class="k">in</span>
+  <span class="k">let</span> <span class="n">dy</span> <span class="o">=</span> <span class="n">ref</span> <span class="mi">0</span><span class="o">.</span> <span class="k">in</span>
+  <span class="k">let</span> <span class="n">dif</span> <span class="o">=</span> <span class="n">ref</span> <span class="p">(</span><span class="n">abs_float</span> <span class="p">(</span><span class="n">x</span> <span class="o">-.</span> <span class="n">xs</span><span class="o">.</span><span class="p">(</span><span class="mi">0</span><span class="p">)))</span> <span class="k">in</span>
+  <span class="k">for</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="k">to</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span> <span class="k">do</span>
+    <span class="k">let</span> <span class="n">dift</span> <span class="o">=</span> <span class="n">abs_float</span> <span class="p">(</span><span class="n">x</span> <span class="o">-.</span> <span class="n">xs</span><span class="o">.</span><span class="p">(</span><span class="n">i</span><span class="p">))</span> <span class="k">in</span>
+    <span class="k">if</span> <span class="n">dift</span> <span class="o">&lt;</span> <span class="o">!</span><span class="n">dif</span>
+    <span class="k">then</span> <span class="p">(</span>
+      <span class="n">ns</span> <span class="o">:=</span> <span class="n">i</span><span class="p">;</span>
+      <span class="n">dif</span> <span class="o">:=</span> <span class="n">dift</span><span class="p">)</span>
+  <span class="k">done</span><span class="p">;</span>
+  <span class="k">let</span> <span class="n">y</span> <span class="o">=</span> <span class="n">ref</span> <span class="n">ys</span><span class="o">.</span><span class="p">(</span><span class="o">!</span><span class="n">ns</span><span class="p">)</span> <span class="k">in</span>
+  <span class="n">ns</span> <span class="o">:=</span> <span class="o">!</span><span class="n">ns</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span>
+  <span class="k">for</span> <span class="n">m</span> <span class="o">=</span> <span class="mi">0</span> <span class="k">to</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">2</span> <span class="k">do</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="k">to</span> <span class="n">n</span> <span class="o">-</span> <span class="n">m</span> <span class="o">-</span> <span class="mi">2</span> <span class="k">do</span>
+      <span class="k">let</span> <span class="n">ho</span> <span class="o">=</span> <span class="n">xs</span><span class="o">.</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">-.</span> <span class="n">x</span> <span class="k">in</span>
+      <span class="k">let</span> <span class="n">hp</span> <span class="o">=</span> <span class="n">xs</span><span class="o">.</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="n">m</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-.</span> <span class="n">x</span> <span class="k">in</span>
+      <span class="k">let</span> <span class="n">w</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-.</span> <span class="n">d</span><span class="o">.</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">in</span>
+      <span class="k">let</span> <span class="n">den</span> <span class="o">=</span> <span class="n">ho</span> <span class="o">-.</span> <span class="n">hp</span> <span class="k">in</span>
+      <span class="k">assert</span> <span class="p">(</span><span class="n">den</span> <span class="o">&lt;&gt;</span> <span class="mi">0</span><span class="o">.</span><span class="p">);</span>
+      <span class="k">let</span> <span class="n">den</span> <span class="o">=</span> <span class="n">w</span> <span class="o">/.</span> <span class="n">den</span> <span class="k">in</span>
+      <span class="n">c</span><span class="o">.</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">&lt;-</span> <span class="n">ho</span> <span class="o">*.</span> <span class="n">den</span><span class="p">;</span>
+      <span class="n">d</span><span class="o">.</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">&lt;-</span> <span class="n">hp</span> <span class="o">*.</span> <span class="n">den</span>
+    <span class="k">done</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="o">!</span><span class="n">ns</span><span class="p">)</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">&lt;</span> <span class="n">n</span> <span class="o">-</span> <span class="n">m</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="k">then</span> <span class="n">dy</span> <span class="o">:=</span> <span class="n">c</span><span class="o">.</span><span class="p">(</span><span class="o">!</span><span class="n">ns</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">else</span> <span class="p">(</span>
+      <span class="n">dy</span> <span class="o">:=</span> <span class="n">d</span><span class="o">.</span><span class="p">(</span><span class="o">!</span><span class="n">ns</span><span class="p">);</span>
+      <span class="n">ns</span> <span class="o">:=</span> <span class="o">!</span><span class="n">ns</span> <span class="o">-</span> <span class="mi">1</span><span class="p">);</span>
+    <span class="n">y</span> <span class="o">:=</span> <span class="o">!</span><span class="n">y</span> <span class="o">+.</span> <span class="o">!</span><span class="n">dy</span>
+  <span class="k">done</span><span class="p">;</span>
+  <span class="o">!</span><span class="n">y</span><span class="o">,</span> <span class="o">!</span><span class="n">dy</span>
+</code></pre></div></div>
+
+<h2 id="step-by-step-explanation">Step-by-step Explanation</h2>
+
+<ol>
+  <li>
+    <p>The function first checks if the lengths of the arrays <code class="language-plaintext highlighter-rouge">xs</code> and <code class="language-plaintext highlighter-rouge">ys</code> are the same. If they are not, an exception is raised.</p>
+  </li>
+  <li>
+    <p>Two arrays <code class="language-plaintext highlighter-rouge">c</code> and <code class="language-plaintext highlighter-rouge">d</code> are created, which are initialized to the values in the array <code class="language-plaintext highlighter-rouge">ys</code>.</p>
+  </li>
+  <li>
+    <p>The variable <code class="language-plaintext highlighter-rouge">ns</code> is initialized to 0, which will be used to keep track of the index of the closest point to <code class="language-plaintext highlighter-rouge">x</code>.</p>
+  </li>
+  <li>
+    <p>The variable <code class="language-plaintext highlighter-rouge">dif</code> is initialized to the absolute difference between <code class="language-plaintext highlighter-rouge">x</code> and the first point in the array <code class="language-plaintext highlighter-rouge">xs</code>.</p>
+  </li>
+  <li>
+    <p>A loop is executed over all the points in the array <code class="language-plaintext highlighter-rouge">xs</code>. For each point, the absolute difference between <code class="language-plaintext highlighter-rouge">x</code> and the point is computed. If this difference is less than the current value of <code class="language-plaintext highlighter-rouge">dif</code>, then the index of the point is stored in the variable <code class="language-plaintext highlighter-rouge">ns</code>, and the value of <code class="language-plaintext highlighter-rouge">dif</code> is updated to the new difference.</p>
+  </li>
+  <li>
+    <p>The value of <code class="language-plaintext highlighter-rouge">y</code> is initialized to the y-coordinate of the point in the array <code class="language-plaintext highlighter-rouge">ys</code> that is closest to <code class="language-plaintext highlighter-rouge">x</code>.</p>
+  </li>
+  <li>
+    <p>The variable <code class="language-plaintext highlighter-rouge">ns</code> is decremented by 1.</p>
+  </li>
+  <li>
+    <p>A loop is executed n-1 times. In each iteration, two nested loops are executed over the remaining points in the array <code class="language-plaintext highlighter-rouge">xs</code>. The variable <code class="language-plaintext highlighter-rouge">m</code> is used to keep track of the number of iterations.</p>
+  </li>
+  <li>
+    <p>In the inner loop, the variable <code class="language-plaintext highlighter-rouge">ho</code> is initialized to the difference between the current point and <code class="language-plaintext highlighter-rouge">x</code>, and the variable <code class="language-plaintext highlighter-rouge">hp</code> is initialized to the difference between the point m positions ahead and <code class="language-plaintext highlighter-rouge">x</code>.</p>
+  </li>
+  <li>
+    <p>The variable <code class="language-plaintext highlighter-rouge">w</code> is initialized to the difference between the y-coordinates of the point m positions ahead and the current point.</p>
+  </li>
+  <li>
+    <p>The variable <code class="language-plaintext highlighter-rouge">den</code> is initialized to the difference between <code class="language-plaintext highlighter-rouge">ho</code> and <code class="language-plaintext highlighter-rouge">hp</code>. If <code class="language-plaintext highlighter-rouge">den</code> is 0, an exception is raised.</p>
+  </li>
+  <li>
+    <p>The variable <code class="language-plaintext highlighter-rouge">den</code> is updated to <code class="language-plaintext highlighter-rouge">w/den</code>.</p>
+  </li>
+  <li>
+    <p>The value of <code class="language-plaintext highlighter-rouge">c</code> at the current index is updated to <code class="language-plaintext highlighter-rouge">ho*den</code>, and the value of <code class="language-plaintext highlighter-rouge">d</code> at the current index is updated to <code class="language-plaintext highlighter-rouge">hp*den</code>.</p>
+  </li>
+  <li>
+    <p>If the index of the closest point to <code class="language-plaintext highlighter-rouge">x</code> is less than <code class="language-plaintext highlighter-rouge">n-m-1</code> multiplied by 2, then the value of <code class="language-plaintext highlighter-rouge">dy</code> is updated to <code class="language-plaintext highlighter-rouge">c[ns+1]</code>. Otherwise, the value of <code class="language-plaintext highlighter-rouge">dy</code> is updated to <code class="language-plaintext highlighter-rouge">d[ns]</code>, and the index of the closest point to <code class="language-plaintext highlighter-rouge">x</code> is decremented by 1.</p>
+  </li>
+  <li>
+    <p>The value of <code class="language-plaintext highlighter-rouge">y</code> is updated to <code class="language-plaintext highlighter-rouge">y+dy</code>.</p>
+  </li>
+  <li>
+    <p>The function returns the tuple <code class="language-plaintext highlighter-rouge">(y, dy)</code>.</p>
+  </li>
+</ol>
+
+<h2 id="complexity-analysis">Complexity Analysis</h2>
+
+<p>The polynomial interpolation algorithm has a time complexity of O(n^2), where n is the number of points. This is because the algorithm involves a nested loop over all the points in the input arrays. In the outer loop, the algorithm iterates n-1 times, and in the inner loop, it iterates over the remaining n-m-1 points. Therefore, the total number of iterations is given by the sum of the first n-1 positive integers, which is n(n-1)/2. Thus, the time complexity of the algorithm is O(n^2).</p>
+
+<p>In terms of space complexity, the algorithm uses two arrays of size n to store the y-coordinates and two additional variables to store the interpolated value and the error estimate. Therefore, the space complexity of the algorithm is O(n).</p>]]></content><author><name>Liang Wang</name><email>liang@ocaml.xyz</email></author><category term="algorithm" /><summary type="html"><![CDATA[Introduction Polynomial interpolation is a mathematical technique used to construct a polynomial function that passes through a given set of points. Given a set of n points (x_0, y_0), (x_1, y_1), …, (x_n-1, y_n-1), polynomial interpolation finds a unique polynomial of degree n-1 or less that passes through these points. This technique is widely used in various fields such as computer graphics, numerical analysis, and signal processing. Implementation The following code is an implementation of the polynomial interpolation algorithm in OCaml from Owl library. The function polint takes three arguments - xs, ys, and x. The arrays xs and ys represent the x-coordinates and y-coordinates of the n points, respectively. The variable x represents the point at which we want to evaluate the polynomial. The function returns a tuple of two values - the interpolated value of the polynomial at x and the error estimate.]]></summary></entry><entry><title type="html">Topological Sort</title><link href="/algorithm/2023/11/21/topological-sort.html" rel="alternate" type="text/html" title="Topological Sort" /><published>2023-11-21T04:00:00+02:00</published><updated>2023-11-21T04:00:00+02:00</updated><id>/algorithm/2023/11/21/topological-sort</id><content type="html" xml:base="/algorithm/2023/11/21/topological-sort.html"><![CDATA[<h2 id="introduction">Introduction</h2>
 <p>Topological sort is a sorting algorithm used to sort a directed acyclic graph (DAG) in a specific order. It is commonly used in many applications such as task scheduling, dependency resolution, and data processing.</p>
 
 <h2 id="implementation">Implementation</h2>
@@ -450,82 +564,4 @@ D
 <h2 id="complexity-analysis">Complexity Analysis</h2>
 <p>The time complexity of heapsort is O(n log n) in the worst case. Building the heap takes O(n) time, and each call to heapify takes O(log n) time. We call heapify n-1 times in the second loop, so the total time complexity is O(n log n).</p>
 
-<p>Heapsort is an in-place sorting algorithm, so it requires no additional memory beyond the array to be sorted. However, it is not a stable sorting algorithm, meaning that it does not preserve the relative order of equal elements in the input array.</p>]]></content><author><name>Liang Wang</name><email>liang@ocaml.xyz</email></author><category term="algorithm" /><summary type="html"><![CDATA[Introduction Heapsort is a comparison-based sorting algorithm that uses a binary heap data structure. It was first proposed by J. W. J. Williams in 1964. Heapsort is an in-place algorithm, meaning that it sorts the array in place, without needing any additional memory. It has a time complexity of O(n log n), which makes it efficient for large data sets. Implementation Here is an implementation of heapsort in OCaml: ```ocaml let swap arr i j = let temp = arr.(i) in arr.(i) &lt;- arr.(j); arr.(j) &lt;- temp]]></summary></entry><entry><title type="html">Quicksort</title><link href="/algorithm/2023/11/20/quicksort.html" rel="alternate" type="text/html" title="Quicksort" /><published>2023-11-20T20:46:37+02:00</published><updated>2023-11-20T20:46:37+02:00</updated><id>/algorithm/2023/11/20/quicksort</id><content type="html" xml:base="/algorithm/2023/11/20/quicksort.html"><![CDATA[<h2 id="introduction">Introduction</h2>
-
-<p>Quicksort was developed by British computer scientist Tony Hoare in 1959. It is one of the most widely used sorting algorithms and is commonly used in computer science and engineering applications.</p>
-
-<p>Quicksort is particularly useful when sorting large datasets because it has an average time complexity of O(n log n), which is faster than many other sorting algorithms. It is also an in-place sorting algorithm, meaning that it does not require any additional memory beyond the input array.</p>
-
-<p>Quicksort is used in a variety of applications, including sorting large databases, sorting elements in computer graphics and image processing, and in network routing algorithms. It is also used in many programming languages as a built-in sorting function, such as Python’s <code class="language-plaintext highlighter-rouge">sorted()</code> function and C++’s <code class="language-plaintext highlighter-rouge">std::sort()</code> function.</p>
-
-<h2 id="implementation">Implementation</h2>
-
-<div class="language-ocaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="k">rec</span> <span class="n">quicksort</span> <span class="o">=</span> <span class="k">function</span>  
-  <span class="o">|</span> <span class="bp">[]</span> <span class="o">-&gt;</span> <span class="bp">[]</span>  
-  <span class="o">|</span> <span class="n">pivot</span><span class="o">::</span><span class="n">tail</span> <span class="o">-&gt;</span>  
-    <span class="k">let</span> <span class="n">lesser</span><span class="o">,</span> <span class="n">greater</span> <span class="o">=</span> <span class="nn">List</span><span class="p">.</span><span class="n">partition</span> <span class="p">(</span><span class="k">fun</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">pivot</span><span class="p">)</span> <span class="n">tail</span> <span class="k">in</span>  
-    <span class="n">quicksort</span> <span class="n">lesser</span> <span class="o">@</span> <span class="p">[</span><span class="n">pivot</span><span class="p">]</span> <span class="o">@</span> <span class="n">quicksort</span> <span class="n">greater</span>  
-</code></pre></div></div>
-
-<p>This implementation uses a functional programming style and takes advantage of pattern matching to handle the two cases of the input list: the empty list, which is already sorted, and a non-empty list, which is partitioned into two sub-lists based on a pivot element (in this case, the first element of the list).</p>
-
-<p>The <code class="language-plaintext highlighter-rouge">List.partition</code> function is used to split the tail of the input list into two sub-lists: <code class="language-plaintext highlighter-rouge">lesser</code>, which contains all elements that are strictly less than the pivot, and <code class="language-plaintext highlighter-rouge">greater</code>, which contains all elements that are greater than or equal to the pivot. The <code class="language-plaintext highlighter-rouge">@</code> operator is used to concatenate the sorted <code class="language-plaintext highlighter-rouge">lesser</code> sub-list, the pivot element, and the sorted <code class="language-plaintext highlighter-rouge">greater</code> sub-list into a single sorted list.</p>
-
-<p>Here’s an example usage of the <code class="language-plaintext highlighter-rouge">quicksort</code> function:</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>let unsorted = [5; 1; 3; 9; 2]  
-let sorted = quicksort unsorted 
-let () = List.iter print_int sorted 
-</code></pre></div></div>
-
-<p>After running this code, the <code class="language-plaintext highlighter-rouge">sorted</code> variable should contain the list <code class="language-plaintext highlighter-rouge">[1; 2; 3; 5; 9]</code>, which is the sorted version of the <code class="language-plaintext highlighter-rouge">unsorted</code> list.</p>
-
-<h2 id="step-by-step-explanation">Step-by-step Explanation</h2>
-
-<p>Here’s a step-by-step explanation of how the quicksort algorithm works:</p>
-
-<ol>
-  <li>
-    <p>Choose a pivot element from the list. This can be any element, but a common choice is the first or last element in the list.</p>
-  </li>
-  <li>
-    <p>Partition the list into two sub-lists, with one sub-list containing elements less than the pivot and the other sub-list containing elements greater than or equal to the pivot. This can be done by iterating through the list and swapping elements as necessary to ensure that all elements less than the pivot are on one side of the pivot and all elements greater than or equal to the pivot are on the other side.</p>
-  </li>
-  <li>
-    <p>Recursively apply steps 1 and 2 to the sub-lists until the entire list is sorted. This can be done by calling the quicksort function on each sub-list.</p>
-  </li>
-</ol>
-
-<p>Here’s an example of how this algorithm would sort the list <code class="language-plaintext highlighter-rouge">[5; 1; 3; 9; 2]</code>:</p>
-
-<ol>
-  <li>
-    <p>Choose the first element, <code class="language-plaintext highlighter-rouge">5</code>, as the pivot.</p>
-  </li>
-  <li>
-    <p>Partition the list into two sub-lists: <code class="language-plaintext highlighter-rouge">[1; 3; 2]</code> and <code class="language-plaintext highlighter-rouge">[9]</code>. All elements less than <code class="language-plaintext highlighter-rouge">5</code> are on the left and all elements greater than or equal to <code class="language-plaintext highlighter-rouge">5</code> are on the right.</p>
-  </li>
-  <li>
-    <p>Recursively apply steps 1 and 2 to each sub-list. For the left sub-list, choose <code class="language-plaintext highlighter-rouge">1</code> as the pivot and partition it into <code class="language-plaintext highlighter-rouge">[ ]</code>, <code class="language-plaintext highlighter-rouge">[1]</code>, and <code class="language-plaintext highlighter-rouge">[3; 2]</code>. For the right sub-list, it is already sorted.</p>
-  </li>
-  <li>
-    <p>Recursively apply steps 1 and 2 to the sub-lists <code class="language-plaintext highlighter-rouge">[1]</code> and <code class="language-plaintext highlighter-rouge">[3; 2]</code>. Both sub-lists are already sorted, so no further partitioning is necessary.</p>
-  </li>
-  <li>
-    <p>Concatenate the sorted sub-lists in the order <code class="language-plaintext highlighter-rouge">[1]</code>, <code class="language-plaintext highlighter-rouge">[2; 3]</code>, <code class="language-plaintext highlighter-rouge">[5]</code>, and <code class="language-plaintext highlighter-rouge">[9]</code> to obtain the sorted list <code class="language-plaintext highlighter-rouge">[1; 2; 3; 5; 9]</code>.</p>
-  </li>
-</ol>
-
-<p>This example shows how the quicksort algorithm works by recursively dividing the input list into smaller sub-lists, sorting them, and then combining them to obtain the final sorted list.</p>
-
-<h2 id="complexity">Complexity</h2>
-
-<p>The time complexity of quicksort is O(n log n) on average, where n is the number of elements in the input list.</p>
-
-<p>The average case occurs when the pivot element is chosen randomly and is close to the median value of the list. In this case, the list is divided roughly in half with each partition, and the algorithm will make log n recursive calls to sort the entire list. The partitioning step takes linear time, so the total time complexity is O(n log n).</p>
-
-<p>However, in the worst case, quicksort can have a time complexity of O(n^2) if the pivot element is consistently chosen poorly. For example, if the pivot is always chosen as the smallest or largest element in the list, then each partition will only remove one element from the list, and the algorithm will make n recursive calls to sort the entire list. This worst-case scenario is rare in practice, but it can occur in certain edge cases.</p>
-
-<p>In terms of space complexity, quicksort is an in-place sorting algorithm, meaning that it does not require any additional memory beyond the input list. However, the recursive nature of the algorithm means that it has a space complexity of O(log n) due to the call stack used for the recursive calls.</p>
-
-<p>Overall, quicksort is a highly efficient sorting algorithm with a time complexity of O(n log n) on average, making it a popular choice for sorting large datasets.</p>]]></content><author><name>Liang Wang</name><email>liang@ocaml.xyz</email></author><category term="algorithm" /><summary type="html"><![CDATA[Introduction]]></summary></entry></feed>
+<p>Heapsort is an in-place sorting algorithm, so it requires no additional memory beyond the array to be sorted. However, it is not a stable sorting algorithm, meaning that it does not preserve the relative order of equal elements in the input array.</p>]]></content><author><name>Liang Wang</name><email>liang@ocaml.xyz</email></author><category term="algorithm" /><summary type="html"><![CDATA[Introduction Heapsort is a comparison-based sorting algorithm that uses a binary heap data structure. It was first proposed by J. W. J. Williams in 1964. Heapsort is an in-place algorithm, meaning that it sorts the array in place, without needing any additional memory. It has a time complexity of O(n log n), which makes it efficient for large data sets. Implementation Here is an implementation of heapsort in OCaml: ```ocaml let swap arr i j = let temp = arr.(i) in arr.(i) &lt;- arr.(j); arr.(j) &lt;- temp]]></summary></entry></feed>
