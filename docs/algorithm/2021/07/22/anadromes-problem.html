@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Anadromes Problem | Algorithm Blog</title>
+<meta name="generator" content="Jekyll v4.3.2" />
+<meta property="og:title" content="Anadromes Problem" />
+<meta name="author" content="Liang Wang" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Introduction An anadrome is a string that forms another word when read in reverse. For example, “top” and “pot” are anadromes of each other. This algorithm takes a set of strings and returns a set of all the pairs of anadromes in the input set." />
+<meta property="og:description" content="Introduction An anadrome is a string that forms another word when read in reverse. For example, “top” and “pot” are anadromes of each other. This algorithm takes a set of strings and returns a set of all the pairs of anadromes in the input set." />
+<link rel="canonical" href="/algorithm/2021/07/22/anadromes-problem.html" />
+<meta property="og:url" content="/algorithm/2021/07/22/anadromes-problem.html" />
+<meta property="og:site_name" content="Algorithm Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-07-22T07:18:42+03:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Anadromes Problem" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Liang Wang"},"dateModified":"2021-07-22T07:18:42+03:00","datePublished":"2021-07-22T07:18:42+03:00","description":"Introduction An anadrome is a string that forms another word when read in reverse. For example, “top” and “pot” are anadromes of each other. This algorithm takes a set of strings and returns a set of all the pairs of anadromes in the input set.","headline":"Anadromes Problem","mainEntityOfPage":{"@type":"WebPage","@id":"/algorithm/2021/07/22/anadromes-problem.html"},"url":"/algorithm/2021/07/22/anadromes-problem.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="Algorithm Blog" /><script async src="https://www.googletagmanager.com/gtag/js?id=UA-123353217-1"></script>
+<script>
+  window['ga-disable-UA-123353217-1'] = window.doNotTrack === "1" || navigator.doNotTrack === "1" || navigator.doNotTrack === "yes" || navigator.msDoNotTrack === "1";
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){window.dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-123353217-1');
+</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1868946892712371" crossorigin="anonymous"></script></head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Algorithm Blog</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Anadromes Problem</h1>
+    <p class="post-meta"><time class="dt-published" datetime="2021-07-22T07:18:42+03:00" itemprop="datePublished">
+        Jul 22, 2021
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <h2 id="introduction">Introduction</h2>
+<p>An anadrome is a string that forms another word when read in reverse. For example, “top” and “pot” are anadromes of each other. This algorithm takes a set of strings and returns a set of all the pairs of anadromes in the input set.</p>
+
+<h2 id="implementation">Implementation</h2>
+
+<div class="language-ocaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="c">(** Anadromes Problem *)</span>
+
+<span class="k">module</span> <span class="nc">StrSet</span> <span class="o">=</span> <span class="nn">Set</span><span class="p">.</span><span class="nc">Make</span><span class="p">(</span><span class="nc">String</span><span class="p">)</span>
+
+<span class="k">let</span> <span class="n">read_line_seq</span> <span class="n">ch</span> <span class="o">=</span>
+  <span class="k">let</span> <span class="k">rec</span> <span class="n">repeat</span> <span class="bp">()</span> <span class="o">=</span>
+    <span class="k">match</span> <span class="n">input_line</span> <span class="n">ch</span> <span class="k">with</span>
+    <span class="o">|</span> <span class="n">s</span> <span class="o">-&gt;</span> <span class="nn">Seq</span><span class="p">.</span><span class="nc">Cons</span> <span class="p">(</span><span class="n">s</span><span class="o">,</span> <span class="n">repeat</span><span class="p">)</span>
+    <span class="o">|</span> <span class="k">exception</span> <span class="nc">End_of_file</span> <span class="o">-&gt;</span> <span class="nc">Nil</span>
+  <span class="k">in</span> <span class="n">repeat</span>
+
+<span class="k">let</span> <span class="n">string_rev</span> <span class="n">s</span> <span class="o">=</span>
+  <span class="k">let</span> <span class="n">last</span> <span class="o">=</span> <span class="n">pred</span> <span class="p">(</span><span class="nn">String</span><span class="p">.</span><span class="n">length</span> <span class="n">s</span><span class="p">)</span> <span class="k">in</span>
+  <span class="nn">String</span><span class="p">.</span><span class="n">init</span> <span class="p">(</span><span class="n">succ</span> <span class="n">last</span><span class="p">)</span> <span class="p">(</span><span class="k">fun</span> <span class="n">i</span> <span class="o">-&gt;</span> <span class="n">s</span><span class="o">.</span><span class="p">[</span><span class="n">last</span> <span class="o">-</span> <span class="n">i</span><span class="p">])</span>
+
+<span class="k">let</span> <span class="n">get_anadromes</span> <span class="n">set</span> <span class="o">=</span>
+  <span class="k">let</span> <span class="n">aux</span> <span class="n">s</span> <span class="o">=</span>
+    <span class="k">let</span> <span class="n">r</span> <span class="o">=</span> <span class="n">string_rev</span> <span class="n">s</span> <span class="k">in</span>
+    <span class="k">if</span> <span class="n">s</span> <span class="o">&lt;</span> <span class="n">r</span> <span class="o">&amp;&amp;</span> <span class="nn">StrSet</span><span class="p">.</span><span class="n">mem</span> <span class="n">r</span> <span class="n">set</span>
+    <span class="k">then</span> <span class="nc">Some</span> <span class="p">(</span><span class="n">s</span><span class="o">,</span> <span class="n">r</span><span class="p">)</span>
+    <span class="k">else</span> <span class="nc">None</span>
+  <span class="k">in</span>
+  <span class="nn">Seq</span><span class="p">.</span><span class="n">filter_map</span> <span class="n">aux</span> <span class="p">(</span><span class="nn">StrSet</span><span class="p">.</span><span class="n">to_seq</span> <span class="n">set</span><span class="p">)</span>
+
+<span class="k">let</span> <span class="bp">()</span> <span class="o">=</span> <span class="n">read_line_seq</span> <span class="n">stdin</span> <span class="o">|&gt;</span> <span class="nn">Seq</span><span class="p">.</span><span class="n">filter</span> <span class="p">(</span><span class="k">fun</span> <span class="n">s</span> <span class="o">-&gt;</span> <span class="nn">String</span><span class="p">.</span><span class="n">length</span> <span class="n">s</span> <span class="o">&gt;</span> <span class="mi">6</span><span class="p">)</span>
+  <span class="o">|&gt;</span> <span class="nn">Seq</span><span class="p">.</span><span class="n">map</span> <span class="nn">String</span><span class="p">.</span><span class="n">lowercase_ascii</span> <span class="o">|&gt;</span> <span class="nn">StrSet</span><span class="p">.</span><span class="n">of_seq</span> <span class="o">|&gt;</span> <span class="n">get_anadromes</span>
+  <span class="o">|&gt;</span> <span class="nn">Seq</span><span class="p">.</span><span class="n">iter</span> <span class="p">(</span><span class="k">fun</span> <span class="p">(</span><span class="n">s</span><span class="o">,</span> <span class="n">r</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nn">Printf</span><span class="p">.</span><span class="n">printf</span> <span class="s2">"%9s | %s
+"</span> <span class="n">s</span> <span class="n">r</span><span class="p">)</span>
+
+</code></pre></div></div>
+
+<p>The algorithm reads lines from standard input until end-of-file is reached. It filters out lines that are too short to have anadromes (less than 7 characters), transforms all the letters to lowercase using <code class="language-plaintext highlighter-rouge">String.lowercase_ascii</code>, and stores the resulting strings in a <code class="language-plaintext highlighter-rouge">StrSet</code>. Then it calls <code class="language-plaintext highlighter-rouge">get_anadromes</code> on the set, which returns a sequence of pairs of anadromes. Finally, it prints each pair as a line with its two elements separated by a vertical bar.</p>
+
+<h2 id="step-by-step-explanation">Step-by-step Explanation</h2>
+<ol>
+  <li>Define a module <code class="language-plaintext highlighter-rouge">StrSet</code> that provides a set implementation for strings.</li>
+  <li>Define a function <code class="language-plaintext highlighter-rouge">read_line_seq</code> that returns a sequence of lines read from a channel until end-of-file is reached. Use <code class="language-plaintext highlighter-rouge">Seq.Cons</code> to build the sequence recursively, and a <code class="language-plaintext highlighter-rouge">match</code> expression to handle end-of-file as an exception.</li>
+  <li>Define a function <code class="language-plaintext highlighter-rouge">string_rev</code> that takes a string <code class="language-plaintext highlighter-rouge">s</code> and returns its reverse. Use <code class="language-plaintext highlighter-rouge">String.length</code> to find the index of the last character, <code class="language-plaintext highlighter-rouge">String.init</code> to initialize a new string with the same length as <code class="language-plaintext highlighter-rouge">s</code>, and a lambda function to fill each position with the corresponding character from <code class="language-plaintext highlighter-rouge">s</code>.</li>
+  <li>Define a function <code class="language-plaintext highlighter-rouge">get_anadromes</code> that takes a set <code class="language-plaintext highlighter-rouge">set</code> of strings and returns a sequence of all the pairs of anadromes in <code class="language-plaintext highlighter-rouge">set</code>. Use <code class="language-plaintext highlighter-rouge">Seq.filter_map</code> to apply the auxiliary function <code class="language-plaintext highlighter-rouge">aux</code> to each element of <code class="language-plaintext highlighter-rouge">set</code> and keep only the ones that return <code class="language-plaintext highlighter-rouge">Some</code> (i.e., anadromes).</li>
+  <li>Define an auxiliary function <code class="language-plaintext highlighter-rouge">aux</code> that takes a string <code class="language-plaintext highlighter-rouge">s</code> and checks whether its reverse is in <code class="language-plaintext highlighter-rouge">set</code>. If it is, return <code class="language-plaintext highlighter-rouge">Some (s, r)</code> where <code class="language-plaintext highlighter-rouge">r</code> is the reverse of <code class="language-plaintext highlighter-rouge">s</code>. If it isn’t, return <code class="language-plaintext highlighter-rouge">None</code>.</li>
+  <li>In the main program, read lines from standard input using <code class="language-plaintext highlighter-rouge">read_line_seq</code>, filter out the ones that are too short using <code class="language-plaintext highlighter-rouge">Seq.filter</code>, transform them to lowercase using <code class="language-plaintext highlighter-rouge">Seq.map</code> and <code class="language-plaintext highlighter-rouge">String.lowercase_ascii</code>, build a <code class="language-plaintext highlighter-rouge">StrSet</code> with <code class="language-plaintext highlighter-rouge">StrSet.of_seq</code>, call <code class="language-plaintext highlighter-rouge">get_anadromes</code> on it, and iterate over the resulting sequence with <code class="language-plaintext highlighter-rouge">Seq.iter</code>, printing each pair as a line with <code class="language-plaintext highlighter-rouge">Printf.printf</code>.</li>
+</ol>
+
+<h2 id="complexity-analysis">Complexity Analysis</h2>
+<p>Let <code class="language-plaintext highlighter-rouge">n</code> be the number of strings in the input set, and <code class="language-plaintext highlighter-rouge">m</code> be the maximum length of a string.</p>
+
+<p>The time complexity of <code class="language-plaintext highlighter-rouge">String.length</code> is O(1), the time complexity of <code class="language-plaintext highlighter-rouge">String.init</code> is O(m), and the time complexity of the lambda function is O(1), so the time complexity of <code class="language-plaintext highlighter-rouge">string_rev</code> is O(m).</p>
+
+<p>The time complexity of <code class="language-plaintext highlighter-rouge">StrSet.mem</code> is logarithmic in the size of the set, so the time complexity of <code class="language-plaintext highlighter-rouge">aux</code> is O(m log n).</p>
+
+<p>The time complexity of <code class="language-plaintext highlighter-rouge">Seq.filter_map</code> is proportional to the size of the sequence, which is at most <code class="language-plaintext highlighter-rouge">n</code>, and the time complexity of <code class="language-plaintext highlighter-rouge">get_anadromes</code> is proportional to the number of anadrome pairs in the set, which is at most <code class="language-plaintext highlighter-rouge">n/2</code>, so the time complexity of the main algorithm is O(nm log n).</p>
+
+<p>The space complexity of the algorithm is dominated by the <code class="language-plaintext highlighter-rouge">StrSet</code> data structure, which stores up to <code class="language-plaintext highlighter-rouge">n</code> strings of up to length <code class="language-plaintext highlighter-rouge">m</code>, so the space complexity is O(nm). The other data structures used (sequences, pairs, variables) have constant size.</p>
+
+  </div><a class="u-url" href="/algorithm/2021/07/22/anadromes-problem.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+        <ul class="contact-list">
+          <li class="p-name">Liang Wang</li>
+          <li><a class="u-email" href="mailto:liang@ocaml.xyz">liang@ocaml.xyz</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p>Explore the elegance of classic and numerical algorithms through practical OCaml implementations, unraveling their inner workings and unveiling the art and science of algorithmic programming.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
