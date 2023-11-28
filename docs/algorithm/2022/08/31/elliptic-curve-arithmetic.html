@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Elliptic curve arithmetic | Algorithm Blog</title>
+<meta name="generator" content="Jekyll v4.3.2" />
+<meta property="og:title" content="Elliptic curve arithmetic" />
+<meta name="author" content="Liang Wang" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Introduction Elliptic curve cryptography is a form of public-key cryptography that is often used in secure web applications. The algorithm based on elliptic curves has been shown to be more secure than conventional cryptosystems like RSA. The elliptic curve addition operation can be defined as “Bring a line through two points, the third intersection with the curve is equal to the inverse of the sum and counts as the result.” This algorithm is important in adding two points on the elliptic curve, doubling a point on the elliptic curve, and multiplying a point on the elliptic curve by a scalar." />
+<meta property="og:description" content="Introduction Elliptic curve cryptography is a form of public-key cryptography that is often used in secure web applications. The algorithm based on elliptic curves has been shown to be more secure than conventional cryptosystems like RSA. The elliptic curve addition operation can be defined as “Bring a line through two points, the third intersection with the curve is equal to the inverse of the sum and counts as the result.” This algorithm is important in adding two points on the elliptic curve, doubling a point on the elliptic curve, and multiplying a point on the elliptic curve by a scalar." />
+<link rel="canonical" href="/algorithm/2022/08/31/elliptic-curve-arithmetic.html" />
+<meta property="og:url" content="/algorithm/2022/08/31/elliptic-curve-arithmetic.html" />
+<meta property="og:site_name" content="Algorithm Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-08-31T11:41:29+03:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Elliptic curve arithmetic" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Liang Wang"},"dateModified":"2022-08-31T11:41:29+03:00","datePublished":"2022-08-31T11:41:29+03:00","description":"Introduction Elliptic curve cryptography is a form of public-key cryptography that is often used in secure web applications. The algorithm based on elliptic curves has been shown to be more secure than conventional cryptosystems like RSA. The elliptic curve addition operation can be defined as “Bring a line through two points, the third intersection with the curve is equal to the inverse of the sum and counts as the result.” This algorithm is important in adding two points on the elliptic curve, doubling a point on the elliptic curve, and multiplying a point on the elliptic curve by a scalar.","headline":"Elliptic curve arithmetic","mainEntityOfPage":{"@type":"WebPage","@id":"/algorithm/2022/08/31/elliptic-curve-arithmetic.html"},"url":"/algorithm/2022/08/31/elliptic-curve-arithmetic.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="Algorithm Blog" /><script async src="https://www.googletagmanager.com/gtag/js?id=UA-123353217-1"></script>
+<script>
+  window['ga-disable-UA-123353217-1'] = window.doNotTrack === "1" || navigator.doNotTrack === "1" || navigator.doNotTrack === "yes" || navigator.msDoNotTrack === "1";
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){window.dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-123353217-1');
+</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1868946892712371" crossorigin="anonymous"></script></head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Algorithm Blog</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Elliptic curve arithmetic</h1>
+    <p class="post-meta"><time class="dt-published" datetime="2022-08-31T11:41:29+03:00" itemprop="datePublished">
+        Aug 31, 2022
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <h2 id="introduction">Introduction</h2>
+<p>Elliptic curve cryptography is a form of public-key cryptography that is often used in secure web applications. The algorithm based on elliptic curves has been shown to be more secure than conventional cryptosystems like RSA. The elliptic curve addition operation can be defined as “Bring a line through two points, the third intersection with the curve is equal to the inverse of the sum and counts as the result.” This algorithm is important in adding two points on the elliptic curve, doubling a point on the elliptic curve, and multiplying a point on the elliptic curve by a scalar.</p>
+
+<h2 id="implementation">Implementation</h2>
+
+<div class="language-ocaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="c">(* Elliptic curve arithmetic *)</span>
+
+<span class="c">(*  
+    Using the secp256k1 elliptic curve (a=0, b=7),
+    define the addition operation on points on the curve.
+    Extra credit:   define the full elliptic curve arithmetic 
+    (still not modular, though) by defining a "multiply" function.
+*)</span>
+
+<span class="c">(*** Helpers ***)</span>
+
+<span class="k">type</span> <span class="n">ec_point</span> <span class="o">=</span> <span class="nc">Point</span> <span class="k">of</span> <span class="kt">float</span> <span class="o">*</span> <span class="kt">float</span> <span class="o">|</span> <span class="nc">Inf</span>
+
+<span class="k">type</span> <span class="n">ec_curve</span> <span class="o">=</span> <span class="p">{</span> <span class="n">a</span> <span class="o">:</span> <span class="kt">float</span><span class="p">;</span> <span class="n">b</span> <span class="o">:</span> <span class="kt">float</span> <span class="p">}</span>
+
+<span class="c">(* By default, cube root doesn't work for negative bases *)</span>
+<span class="k">let</span> <span class="n">cube_root</span> <span class="o">:</span> <span class="kt">float</span> <span class="o">-&gt;</span> <span class="kt">float</span> <span class="o">=</span> 
+    <span class="k">let</span> <span class="n">third</span> <span class="o">=</span> <span class="mi">1</span><span class="o">.</span> <span class="o">/.</span> <span class="mi">3</span><span class="o">.</span> <span class="k">in</span>
+    <span class="k">let</span> <span class="n">f</span> <span class="n">x</span> <span class="o">=</span> 
+        <span class="k">if</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">.</span>
+        <span class="k">then</span> <span class="n">x</span> <span class="o">**</span> <span class="n">third</span>
+        <span class="k">else</span> <span class="o">~-.</span> <span class="p">(</span><span class="o">~-.</span> <span class="n">x</span> <span class="o">**</span> <span class="n">third</span><span class="p">)</span>
+    <span class="k">in</span>
+    <span class="n">f</span>
+
+<span class="c">(* Finds the left-most x on this curve *)</span>
+<span class="k">let</span> <span class="n">ec_minx</span> <span class="p">({</span><span class="n">a</span><span class="p">;</span> <span class="n">b</span><span class="p">}</span> <span class="o">:</span> <span class="n">ec_curve</span><span class="p">)</span> <span class="o">:</span> <span class="kt">float</span> <span class="o">=</span>
+    <span class="k">let</span> <span class="n">factor</span> <span class="o">=</span> <span class="o">~-.</span> <span class="n">b</span> <span class="o">*.</span> <span class="mi">0</span><span class="o">.</span><span class="mi">5</span> <span class="k">in</span>
+    <span class="k">let</span> <span class="n">discr</span> <span class="o">=</span> <span class="p">(</span><span class="n">factor</span> <span class="o">**</span> <span class="mi">2</span><span class="o">.</span><span class="p">)</span> <span class="o">+.</span> <span class="p">(</span><span class="n">a</span> <span class="o">**</span> <span class="mi">3</span><span class="o">.</span> <span class="o">/.</span> <span class="mi">27</span><span class="o">.</span><span class="p">)</span> <span class="k">in</span>
+    <span class="k">if</span> <span class="n">discr</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="o">.</span>
+    <span class="k">then</span> <span class="n">failwith</span> <span class="s2">"Not a simple curve"</span>
+    <span class="k">else</span>
+    <span class="k">let</span> <span class="n">root</span> <span class="o">=</span> <span class="n">sqrt</span> <span class="n">discr</span> <span class="k">in</span>
+    <span class="n">cube_root</span> <span class="p">(</span><span class="n">factor</span> <span class="o">+.</span> <span class="n">root</span><span class="p">)</span> <span class="o">+.</span> <span class="n">cube_root</span> <span class="p">(</span><span class="n">factor</span> <span class="o">-.</span> <span class="n">root</span><span class="p">)</span>
+
+<span class="c">(* Negates the point by negating y coord *)</span>
+<span class="k">let</span> <span class="n">ec_neg</span> <span class="o">:</span> <span class="n">ec_point</span> <span class="o">-&gt;</span> <span class="n">ec_point</span> <span class="o">=</span> <span class="k">function</span>
+    <span class="o">|</span> <span class="nc">Inf</span> <span class="o">-&gt;</span> <span class="nc">Inf</span>
+    <span class="o">|</span> <span class="nc">Point</span> <span class="p">(</span><span class="n">x</span><span class="o">,</span> <span class="n">y</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nc">Point</span> <span class="p">(</span><span class="n">x</span><span class="o">,</span> <span class="o">~-.</span> <span class="n">y</span><span class="p">)</span>
+
+<span class="c">(*** Actual task at hand ***)</span>
+
+<span class="c">(* Generates a random point in the vicinity of x=0 *)</span>
+<span class="k">let</span> <span class="n">ec_random</span> <span class="p">({</span><span class="n">a</span><span class="p">;</span> <span class="n">b</span><span class="p">}</span> <span class="k">as</span> <span class="n">c</span> <span class="o">:</span> <span class="n">ec_curve</span><span class="p">)</span> <span class="o">:</span> <span class="n">ec_point</span> <span class="o">=</span>
+    <span class="k">let</span> <span class="n">minx</span> <span class="o">=</span> <span class="n">ec_minx</span> <span class="n">c</span> <span class="k">in</span>
+    <span class="k">let</span> <span class="n">x</span> <span class="o">=</span> <span class="nn">Random</span><span class="p">.</span><span class="n">float</span> <span class="p">(</span><span class="o">~-.</span> <span class="n">minx</span> <span class="o">*.</span> <span class="mi">2</span><span class="o">.</span><span class="p">)</span> <span class="o">+.</span> <span class="n">minx</span> <span class="k">in</span>
+    <span class="k">let</span> <span class="n">rhs</span> <span class="o">=</span> <span class="n">x</span> <span class="o">**</span> <span class="mi">3</span><span class="o">.</span> <span class="o">+.</span> <span class="n">a</span> <span class="o">*.</span> <span class="n">x</span> <span class="o">+.</span> <span class="n">b</span> <span class="k">in</span>
+    <span class="nc">Point</span> <span class="p">(</span><span class="n">x</span><span class="o">,</span> <span class="n">sqrt</span> <span class="n">rhs</span><span class="p">)</span>
+
+<span class="c">(*  Verifies that the point is on curve. 
+    Due to rounding errors, sometimes these calculations aren't perfect.
+*)</span>
+<span class="k">let</span> <span class="n">on_curve</span> <span class="o">?</span><span class="p">(</span><span class="n">debug</span> <span class="o">:</span> <span class="kt">bool</span> <span class="o">=</span> <span class="bp">false</span><span class="p">)</span> <span class="p">({</span><span class="n">a</span><span class="p">;</span> <span class="n">b</span><span class="p">}</span> <span class="o">:</span> <span class="n">ec_curve</span><span class="p">)</span> <span class="o">:</span> <span class="n">ec_point</span> <span class="o">-&gt;</span> <span class="kt">bool</span> <span class="o">=</span> <span class="k">function</span>
+    <span class="o">|</span> <span class="nc">Inf</span> <span class="o">-&gt;</span> <span class="bp">true</span>
+    <span class="o">|</span> <span class="nc">Point</span> <span class="p">(</span><span class="n">x</span><span class="o">,</span> <span class="n">y</span><span class="p">)</span> <span class="o">-&gt;</span> 
+        <span class="k">let</span> <span class="n">lhs</span> <span class="o">=</span> <span class="n">y</span> <span class="o">*.</span> <span class="n">y</span> <span class="k">in</span>
+        <span class="k">let</span> <span class="n">rhs</span> <span class="o">=</span> <span class="n">x</span> <span class="o">**</span> <span class="mi">3</span><span class="o">.</span> <span class="o">+.</span> <span class="n">a</span> <span class="o">*.</span> <span class="n">x</span> <span class="o">+.</span> <span class="n">b</span> <span class="k">in</span>
+        <span class="k">let</span> <span class="n">delta</span> <span class="o">=</span> <span class="n">abs_float</span> <span class="p">(</span><span class="n">lhs</span> <span class="o">-.</span> <span class="n">rhs</span><span class="p">)</span> <span class="k">in</span>
+        <span class="p">(</span>
+            <span class="k">if</span> <span class="n">debug</span> <span class="k">then</span> <span class="nn">Printf</span><span class="p">.</span><span class="n">printf</span> <span class="s2">"Delta = %.8f"</span> <span class="n">delta</span><span class="p">;</span>
+            <span class="n">delta</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="o">.</span><span class="mi">000001</span>
+        <span class="p">)</span>
+
+<span class="c">(* Doubles a point on the curve (adds a point to itself) *)</span>
+<span class="k">let</span> <span class="n">ec_double</span> <span class="p">({</span><span class="n">a</span><span class="p">;</span> <span class="n">b</span><span class="p">}</span> <span class="k">as</span> <span class="n">c</span> <span class="o">:</span> <span class="n">ec_curve</span><span class="p">)</span> <span class="o">:</span> <span class="n">ec_point</span> <span class="o">-&gt;</span> <span class="n">ec_point</span> <span class="o">=</span> <span class="k">function</span>
+    <span class="o">|</span> <span class="nc">Inf</span> <span class="o">-&gt;</span> <span class="nc">Inf</span>
+    <span class="o">|</span> <span class="nc">Point</span> <span class="p">(</span><span class="n">x</span><span class="o">,</span> <span class="n">y</span><span class="p">)</span> <span class="k">as</span> <span class="n">p</span> <span class="o">-&gt;</span> 
+        <span class="k">if</span> <span class="n">not</span> <span class="p">(</span><span class="n">on_curve</span> <span class="n">c</span> <span class="n">p</span><span class="p">)</span>
+        <span class="k">then</span> <span class="n">failwith</span> <span class="s2">"Point not on this curve."</span>
+        <span class="k">else</span> <span class="k">if</span> <span class="n">y</span> <span class="o">=</span> <span class="mi">0</span><span class="o">.</span> 
+        <span class="k">then</span> <span class="nc">Inf</span>
+        <span class="k">else</span>
+        <span class="k">let</span> <span class="n">s</span> <span class="o">=</span> <span class="p">(</span><span class="mi">3</span><span class="o">.</span> <span class="o">*.</span> <span class="n">x</span> <span class="o">*.</span> <span class="n">x</span> <span class="o">+.</span> <span class="n">a</span><span class="p">)</span> <span class="o">/.</span> <span class="p">(</span><span class="mi">2</span><span class="o">.</span> <span class="o">*.</span> <span class="n">y</span><span class="p">)</span> <span class="k">in</span>
+        <span class="k">let</span> <span class="n">x'</span> <span class="o">=</span> <span class="n">s</span> <span class="o">*.</span> <span class="n">s</span> <span class="o">-.</span> <span class="mi">2</span><span class="o">.</span> <span class="o">*.</span> <span class="n">x</span> <span class="k">in</span>
+        <span class="k">let</span> <span class="n">y'</span> <span class="o">=</span> <span class="n">y</span> <span class="o">+.</span> <span class="n">s</span> <span class="o">*.</span> <span class="p">(</span><span class="n">x'</span> <span class="o">-.</span> <span class="n">x</span><span class="p">)</span> <span class="k">in</span>
+        <span class="nc">Point</span> <span class="p">(</span><span class="n">x'</span><span class="o">,</span> <span class="o">-.</span> <span class="n">y'</span><span class="p">)</span>
+
+<span class="c">(* Adds any two points on the curve *)</span>
+<span class="k">let</span> <span class="n">ec_add</span> <span class="p">({</span><span class="n">a</span><span class="p">;</span> <span class="n">b</span><span class="p">}</span> <span class="k">as</span> <span class="n">c</span> <span class="o">:</span> <span class="n">ec_curve</span><span class="p">)</span> <span class="p">(</span><span class="n">p</span> <span class="o">:</span> <span class="n">ec_point</span><span class="p">)</span> <span class="p">(</span><span class="n">q</span> <span class="o">:</span> <span class="n">ec_point</span><span class="p">)</span> <span class="o">:</span> <span class="n">ec_point</span> <span class="o">=</span>
+    <span class="k">match</span> <span class="n">p</span><span class="o">,</span> <span class="n">q</span> <span class="k">with</span>
+    <span class="o">|</span> <span class="nc">Inf</span><span class="o">,</span> <span class="n">x</span> <span class="o">|</span> <span class="n">x</span><span class="o">,</span> <span class="nc">Inf</span> <span class="o">-&gt;</span> <span class="n">x</span>
+    <span class="o">|</span> <span class="nc">Point</span> <span class="p">(</span><span class="n">px</span><span class="o">,</span> <span class="n">py</span><span class="p">)</span><span class="o">,</span> <span class="nc">Point</span> <span class="p">(</span><span class="n">qx</span><span class="o">,</span> <span class="n">qy</span><span class="p">)</span> <span class="o">-&gt;</span>
+        <span class="k">if</span> <span class="n">not</span> <span class="p">(</span><span class="n">on_curve</span> <span class="n">c</span> <span class="n">p</span><span class="p">)</span> <span class="o">||</span> <span class="n">not</span> <span class="p">(</span><span class="n">on_curve</span> <span class="n">c</span> <span class="n">q</span><span class="p">)</span>
+        <span class="k">then</span> <span class="n">failwith</span> <span class="s2">"Point not on this curve."</span>
+        <span class="k">else</span> <span class="k">if</span> <span class="n">abs_float</span> <span class="p">(</span><span class="n">px</span> <span class="o">-.</span> <span class="n">qx</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="o">.</span><span class="mi">000001</span> <span class="k">then</span>
+        <span class="k">begin</span>
+            <span class="k">if</span> <span class="n">abs_float</span> <span class="p">(</span><span class="n">py</span> <span class="o">+.</span> <span class="n">qy</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="o">.</span><span class="mi">000001</span>
+            <span class="k">then</span> <span class="nc">Inf</span>
+            <span class="k">else</span> 
+            <span class="c">(* py must equal qy here, otherwise something goes real bad *)</span>
+            <span class="n">ec_double</span> <span class="n">c</span> <span class="n">p</span> <span class="o">|&gt;</span> <span class="n">ec_neg</span>
+        <span class="k">end</span>
+        <span class="k">else</span>
+        <span class="k">let</span> <span class="n">s</span> <span class="o">=</span> <span class="p">(</span><span class="n">py</span> <span class="o">-.</span> <span class="n">qy</span><span class="p">)</span> <span class="o">/.</span> <span class="p">(</span><span class="n">px</span> <span class="o">-.</span> <span class="n">qx</span><span class="p">)</span> <span class="k">in</span>
+        <span class="k">let</span> <span class="n">rx</span> <span class="o">=</span> <span class="n">s</span> <span class="o">*.</span> <span class="n">s</span> <span class="o">-.</span> <span class="n">px</span> <span class="o">-.</span> <span class="n">qx</span> <span class="k">in</span>
+        <span class="k">let</span> <span class="n">ry</span> <span class="o">=</span> <span class="n">py</span> <span class="o">+.</span> <span class="n">s</span> <span class="o">*.</span> <span class="p">(</span><span class="n">rx</span> <span class="o">-.</span> <span class="n">px</span><span class="p">)</span> <span class="k">in</span>
+        <span class="nc">Point</span> <span class="p">(</span><span class="n">rx</span><span class="o">,</span> <span class="o">-.</span> <span class="n">ry</span><span class="p">)</span>
+
+<span class="c">(* Extra credit : multiplies a point by a scalar *)</span>
+<span class="k">let</span> <span class="n">ec_mul</span> <span class="p">({</span><span class="n">a</span><span class="p">;</span> <span class="n">b</span><span class="p">}</span> <span class="k">as</span> <span class="n">c</span> <span class="o">:</span> <span class="n">ec_curve</span><span class="p">)</span> <span class="p">(</span><span class="n">p</span> <span class="o">:</span> <span class="n">ec_point</span><span class="p">)</span> <span class="p">(</span><span class="n">n</span> <span class="o">:</span> <span class="kt">int</span><span class="p">)</span> <span class="o">:</span> <span class="n">ec_point</span> <span class="o">=</span> 
+    <span class="k">let</span> <span class="k">rec</span> <span class="n">helper</span> <span class="n">n</span> <span class="n">curPow</span> <span class="n">acc</span> <span class="o">=</span>
+        <span class="k">if</span> <span class="n">n</span> <span class="o">=</span> <span class="mi">0</span> <span class="k">then</span> <span class="n">acc</span>
+        <span class="k">else</span> 
+        <span class="k">let</span> <span class="n">doubled</span> <span class="o">=</span> <span class="n">ec_double</span> <span class="n">c</span> <span class="n">curPow</span> <span class="k">in</span>
+        <span class="k">if</span> <span class="n">n</span> <span class="ow">mod</span> <span class="mi">2</span> <span class="o">=</span> <span class="mi">0</span> 
+        <span class="k">then</span> <span class="n">helper</span> <span class="p">(</span><span class="n">n</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="n">doubled</span> <span class="n">acc</span>
+        <span class="k">else</span> <span class="n">helper</span> <span class="p">(</span><span class="n">n</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="n">doubled</span> <span class="p">(</span><span class="n">ec_add</span> <span class="n">c</span> <span class="n">acc</span> <span class="n">curPow</span><span class="p">)</span>
+    <span class="k">in</span>
+    <span class="n">helper</span> <span class="n">n</span> <span class="n">p</span> <span class="nc">Inf</span>
+
+<span class="c">(*** Output ***)</span>
+
+<span class="k">let</span> <span class="n">string_of_point</span> <span class="o">:</span> <span class="n">ec_point</span> <span class="o">-&gt;</span> <span class="kt">string</span> <span class="o">=</span> <span class="k">function</span>
+    <span class="o">|</span> <span class="nc">Inf</span> <span class="o">-&gt;</span> <span class="s2">"Zero"</span>
+    <span class="o">|</span> <span class="nc">Point</span> <span class="p">(</span><span class="n">x</span><span class="o">,</span> <span class="n">y</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nn">Printf</span><span class="p">.</span><span class="n">sprintf</span> <span class="s2">"(%.4f, %.4f)"</span> <span class="n">x</span> <span class="n">y</span>
+
+<span class="k">let</span> <span class="n">print_output</span> <span class="bp">()</span> <span class="o">=</span> 
+    <span class="k">let</span> <span class="n">c</span> <span class="o">=</span> <span class="p">{</span> <span class="n">a</span> <span class="o">=</span> <span class="mi">0</span><span class="o">.;</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">7</span><span class="o">.</span> <span class="p">}</span> <span class="k">in</span>
+    <span class="k">let</span> <span class="n">p</span> <span class="o">=</span> <span class="n">ec_random</span> <span class="n">c</span> <span class="k">in</span>
+    <span class="k">let</span> <span class="n">q</span> <span class="o">=</span> <span class="n">ec_random</span> <span class="n">c</span> <span class="k">in</span>
+    <span class="k">let</span> <span class="n">r</span> <span class="o">=</span> <span class="n">ec_add</span> <span class="n">c</span> <span class="n">p</span> <span class="n">q</span> <span class="k">in</span>
+    <span class="k">let</span> <span class="n">t</span> <span class="o">=</span> <span class="n">ec_neg</span> <span class="n">r</span> <span class="k">in</span>
+    <span class="nn">Printf</span><span class="p">.</span><span class="n">printf</span> <span class="s2">"p = %s
+"</span> <span class="p">(</span><span class="n">string_of_point</span> <span class="n">p</span><span class="p">);</span>
+    <span class="nn">Printf</span><span class="p">.</span><span class="n">printf</span> <span class="s2">"q = %s
+"</span> <span class="p">(</span><span class="n">string_of_point</span> <span class="n">q</span><span class="p">);</span>
+    <span class="nn">Printf</span><span class="p">.</span><span class="n">printf</span> <span class="s2">"r = p + q = %s
+"</span> <span class="p">(</span><span class="n">string_of_point</span> <span class="n">r</span><span class="p">);</span>
+    <span class="nn">Printf</span><span class="p">.</span><span class="n">printf</span> <span class="s2">"t = -r = %s
+"</span> <span class="p">(</span><span class="n">string_of_point</span> <span class="n">t</span><span class="p">);</span>
+    <span class="nn">Printf</span><span class="p">.</span><span class="n">printf</span> <span class="s2">"r + t = %s
+"</span> <span class="p">(</span><span class="n">ec_add</span> <span class="n">c</span> <span class="n">r</span> <span class="n">t</span> <span class="o">|&gt;</span> <span class="n">string_of_point</span><span class="p">);</span>
+    <span class="nn">Printf</span><span class="p">.</span><span class="n">printf</span> <span class="s2">"p + (q + t) = %s
+"</span> <span class="p">(</span><span class="n">ec_add</span> <span class="n">c</span> <span class="n">q</span> <span class="n">t</span> <span class="o">|&gt;</span> <span class="n">ec_add</span> <span class="n">c</span> <span class="n">p</span> <span class="o">|&gt;</span> <span class="n">string_of_point</span><span class="p">);</span>
+    <span class="nn">Printf</span><span class="p">.</span><span class="n">printf</span> <span class="s2">"p * 12345 = %s
+"</span> <span class="p">(</span><span class="n">ec_mul</span> <span class="n">c</span> <span class="n">p</span> <span class="mi">12345</span> <span class="o">|&gt;</span> <span class="n">string_of_point</span><span class="p">)</span>
+
+<span class="k">let</span> <span class="n">_</span> <span class="o">=</span>
+    <span class="n">print_output</span> <span class="bp">()</span><span class="p">;</span>
+    <span class="n">print_output</span> <span class="bp">()</span>
+
+</code></pre></div></div>
+
+<p>This algorithm defines addition, doubling, and multiplication of points on the secp256k1 elliptic curve (a=0, b=7), which is the curve used in Bitcoin and other cryptocurrencies.</p>
+
+<h2 id="step-by-step-explanation">Step-by-step Explanation</h2>
+<ol>
+  <li>Firstly, two points are given. These points can be generated using the <code class="language-plaintext highlighter-rouge">ec_random(c)</code> function. This function will return a random point on the elliptic curve, where c represents the curve <code class="language-plaintext highlighter-rouge">c = {a; b}</code>, and <code class="language-plaintext highlighter-rouge">a</code> and <code class="language-plaintext highlighter-rouge">b</code> are defined.</li>
+  <li>Next, if any of the given points is the infinity point <code class="language-plaintext highlighter-rouge">Inf</code>, it returns the other point as the result.</li>
+  <li>After checking both points are on the curve, doubling operation will be performed on the given point <code class="language-plaintext highlighter-rouge">p</code> or <code class="language-plaintext highlighter-rouge">q</code>, if <code class="language-plaintext highlighter-rouge">y = 0</code>. Doubling involves a relatively simple formula, which can be expressed as <code class="language-plaintext highlighter-rouge">3x^2 + A / 2y</code>.</li>
+  <li>Otherwise, points will be added using the formula <code class="language-plaintext highlighter-rouge">(py - qy) / (px - qx)</code>.</li>
+  <li>Finally, similarly, a multiplication function will be performed on a point and a scalar value <code class="language-plaintext highlighter-rouge">n</code>. It will double the point <code class="language-plaintext highlighter-rouge">n</code> times by utilizing <code class="language-plaintext highlighter-rouge">helper</code> recursive function which will return the accumulated value.</li>
+</ol>
+
+<h2 id="complexity-analysis">Complexity Analysis</h2>
+<ul>
+  <li>The <code class="language-plaintext highlighter-rouge">ec_minx</code> function runs in <code class="language-plaintext highlighter-rouge">O(1)</code> time complexity as there are no loops or recursive calls in it.</li>
+  <li>The <code class="language-plaintext highlighter-rouge">cube_root</code> function runs in <code class="language-plaintext highlighter-rouge">O(1)</code> time complexity as it involves only mathematical computations.</li>
+  <li>The <code class="language-plaintext highlighter-rouge">on_curve</code> function runs in <code class="language-plaintext highlighter-rouge">O(1)</code> time complexity as it needs to check only a few mathematical expressions.</li>
+  <li>The <code class="language-plaintext highlighter-rouge">ec_random</code> function runs in <code class="language-plaintext highlighter-rouge">O(1)</code> time complexity as it involves only the generation of random floating-point numbers and simple mathematical expressions.</li>
+  <li>The <code class="language-plaintext highlighter-rouge">ec_mul</code> function has a time complexity of <code class="language-plaintext highlighter-rouge">O(log n)</code>. As it is based on the recursive helper function, recursion requires <code class="language-plaintext highlighter-rouge">O(log2n)</code> iterations.</li>
+  <li>The <code class="language-plaintext highlighter-rouge">helper</code> function itself runs in <code class="language-plaintext highlighter-rouge">O(log n)</code> time since each iteration of the recursion requires a square root calculation.</li>
+  <li>The <code class="language-plaintext highlighter-rouge">ec_add</code> and <code class="language-plaintext highlighter-rouge">ec_double</code> functions also run in <code class="language-plaintext highlighter-rouge">O(1)</code> time complexity as they involve only a few mathematical expressions and a small number of checks.</li>
+  <li>Therefore, the overall time complexity of the provided algorithm is <code class="language-plaintext highlighter-rouge">O(log n)</code> and considered very efficient.</li>
+</ul>
+
+  </div><a class="u-url" href="/algorithm/2022/08/31/elliptic-curve-arithmetic.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+        <ul class="contact-list">
+          <li class="p-name">Liang Wang</li>
+          <li><a class="u-email" href="mailto:liang@ocaml.xyz">liang@ocaml.xyz</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p>Explore the elegance of classic and numerical algorithms through practical OCaml implementations, unraveling their inner workings and unveiling the art and science of algorithmic programming.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
