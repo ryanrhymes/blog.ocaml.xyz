@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Hermitian Matrix | Algorithm Blog</title>
+<meta name="generator" content="Jekyll v4.3.2" />
+<meta property="og:title" content="Hermitian Matrix" />
+<meta name="author" content="Liang Wang" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Introduction" />
+<meta property="og:description" content="Introduction" />
+<link rel="canonical" href="/algorithm/2021/04/21/hermitian-matrix.html" />
+<meta property="og:url" content="/algorithm/2021/04/21/hermitian-matrix.html" />
+<meta property="og:site_name" content="Algorithm Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-04-21T04:29:09+03:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Hermitian Matrix" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Liang Wang"},"dateModified":"2021-04-21T04:29:09+03:00","datePublished":"2021-04-21T04:29:09+03:00","description":"Introduction","headline":"Hermitian Matrix","mainEntityOfPage":{"@type":"WebPage","@id":"/algorithm/2021/04/21/hermitian-matrix.html"},"url":"/algorithm/2021/04/21/hermitian-matrix.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="Algorithm Blog" /><script async src="https://www.googletagmanager.com/gtag/js?id=UA-123353217-1"></script>
+<script>
+  window['ga-disable-UA-123353217-1'] = window.doNotTrack === "1" || navigator.doNotTrack === "1" || navigator.doNotTrack === "yes" || navigator.msDoNotTrack === "1";
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){window.dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-123353217-1');
+</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1868946892712371" crossorigin="anonymous"></script></head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Algorithm Blog</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Hermitian Matrix</h1>
+    <p class="post-meta"><time class="dt-published" datetime="2021-04-21T04:29:09+03:00" itemprop="datePublished">
+        Apr 21, 2021
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <h2 id="introduction">Introduction</h2>
+
+<p>The Hermitian matrix is a square matrix with complex entries, which is equal to its own conjugate transpose. This matrix has many applications in physics, engineering, and signal processing, particularly in quantum mechanics. This algorithm implements the Hermitian of a given square matrix.</p>
+
+<h2 id="implementation">Implementation</h2>
+
+<div class="language-ocaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="c">(* Hermitian Matrix *)</span>
+
+<span class="k">let</span> <span class="n">hermitian</span> <span class="o">?</span><span class="p">(</span><span class="n">upper</span> <span class="o">=</span> <span class="bp">true</span><span class="p">)</span> <span class="n">x</span> <span class="o">=</span>
+  <span class="k">let</span> <span class="n">m</span><span class="o">,</span> <span class="n">n</span> <span class="o">=</span> <span class="n">shape</span> <span class="n">x</span> <span class="k">in</span>
+  <span class="nn">Owl_exception</span><span class="p">.(</span><span class="n">check</span> <span class="p">(</span><span class="n">m</span> <span class="o">=</span> <span class="n">n</span><span class="p">)</span> <span class="p">(</span><span class="nc">NOT_SQUARE</span> <span class="p">[</span><span class="o">|</span> <span class="n">m</span><span class="p">;</span> <span class="n">n</span> <span class="o">|</span><span class="p">]));</span>
+  <span class="k">let</span> <span class="n">y</span> <span class="o">=</span> <span class="n">copy</span> <span class="n">x</span> <span class="k">in</span>
+  <span class="k">let</span> <span class="n">_y</span> <span class="o">=</span> <span class="n">flatten</span> <span class="n">y</span> <span class="o">|&gt;</span> <span class="nn">Bigarray</span><span class="p">.</span><span class="n">array1_of_genarray</span> <span class="k">in</span>
+  <span class="k">let</span> <span class="n">_conj_op</span> <span class="o">=</span> <span class="n">_owl_conj</span> <span class="p">(</span><span class="n">kind</span> <span class="n">x</span><span class="p">)</span> <span class="k">in</span>
+  <span class="k">let</span> <span class="n">ofs</span> <span class="o">=</span> <span class="n">ref</span> <span class="mi">0</span> <span class="k">in</span>
+  <span class="k">let</span> <span class="n">incx</span><span class="o">,</span> <span class="n">incy</span> <span class="o">=</span>
+    <span class="k">match</span> <span class="n">upper</span> <span class="k">with</span>
+    <span class="o">|</span> <span class="bp">true</span>  <span class="o">-&gt;</span> <span class="mi">1</span><span class="o">,</span> <span class="n">m</span>
+    <span class="o">|</span> <span class="bp">false</span> <span class="o">-&gt;</span> <span class="n">m</span><span class="o">,</span> <span class="mi">1</span>
+  <span class="k">in</span>
+  <span class="k">for</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="k">to</span> <span class="n">m</span> <span class="o">-</span> <span class="mi">1</span> <span class="k">do</span>
+    <span class="c">(* copy and conjugate *)</span>
+    <span class="n">_conj_op</span> <span class="p">(</span><span class="n">m</span> <span class="o">-</span> <span class="n">i</span><span class="p">)</span> <span class="o">~</span><span class="n">ofsx</span><span class="o">:!</span><span class="n">ofs</span> <span class="o">~</span><span class="n">incx</span> <span class="o">~</span><span class="n">ofsy</span><span class="o">:!</span><span class="n">ofs</span> <span class="o">~</span><span class="n">incy</span> <span class="n">y</span> <span class="n">y</span><span class="p">;</span>
+    <span class="c">(* set the imaginary part to zero by default. *)</span>
+    <span class="k">let</span> <span class="n">a</span> <span class="o">=</span> <span class="n">_y</span><span class="o">.</span><span class="p">{</span><span class="o">!</span><span class="n">ofs</span><span class="p">}</span> <span class="k">in</span>
+    <span class="n">_y</span><span class="o">.</span><span class="p">{</span><span class="o">!</span><span class="n">ofs</span><span class="p">}</span> <span class="o">&lt;-</span> <span class="nn">Complex</span><span class="p">.{</span> <span class="n">re</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">re</span><span class="p">;</span> <span class="n">im</span> <span class="o">=</span> <span class="mi">0</span><span class="o">.</span> <span class="p">};</span>
+    <span class="n">ofs</span> <span class="o">:=</span> <span class="o">!</span><span class="n">ofs</span> <span class="o">+</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span>
+  <span class="k">done</span><span class="p">;</span>
+  <span class="c">(* return the symmetric matrix *)</span>
+  <span class="n">y</span>
+
+</code></pre></div></div>
+
+<p>The function <code class="language-plaintext highlighter-rouge">hermitian</code> implements the Hermitian of a given matrix. It takes an optional argument <code class="language-plaintext highlighter-rouge">upper</code> with a default value <code class="language-plaintext highlighter-rouge">true</code>, which specifies whether the Hermitian matrix should be an upper or lower triangular matrix. If <code class="language-plaintext highlighter-rouge">upper</code> is true, then the upper triangular part of the matrix is computed, and if it is false, then the lower triangular part is computed. The function returns the Hermitian matrix.</p>
+
+<h2 id="step-by-step-explanation">Step-by-step Explanation</h2>
+
+<p>The <code class="language-plaintext highlighter-rouge">hermitian</code> function works as follows:</p>
+
+<ol>
+  <li>
+    <p>It first gets the dimensions of the input matrix <code class="language-plaintext highlighter-rouge">x</code> using the <code class="language-plaintext highlighter-rouge">shape</code> function and checks if it is a square matrix. If it is not a square matrix, then it raises an exception.</p>
+  </li>
+  <li>
+    <p>It then makes a copy of the input matrix <code class="language-plaintext highlighter-rouge">x</code> and creates a flat vector <code class="language-plaintext highlighter-rouge">_y</code> from the copy using the <code class="language-plaintext highlighter-rouge">flatten</code> function and <code class="language-plaintext highlighter-rouge">Bigarray.array1_of_genarray</code> function.</p>
+  </li>
+  <li>
+    <p>It defines a new function <code class="language-plaintext highlighter-rouge">_conj_op</code> that takes an element in <code class="language-plaintext highlighter-rouge">_y</code> and returns its conjugate using the <code class="language-plaintext highlighter-rouge">conj</code> function. It uses this operator to conjugate the matrix elements.</p>
+  </li>
+  <li>
+    <p>It initializes the <code class="language-plaintext highlighter-rouge">ofs</code> variable to 0, which is initially the offset of the vector <code class="language-plaintext highlighter-rouge">_y</code>.</p>
+  </li>
+  <li>
+    <p>It defines the <code class="language-plaintext highlighter-rouge">incx</code> and <code class="language-plaintext highlighter-rouge">incy</code> variables based on the <code class="language-plaintext highlighter-rouge">upper</code> argument. If <code class="language-plaintext highlighter-rouge">upper</code> is true, then <code class="language-plaintext highlighter-rouge">incx</code> is 1, and <code class="language-plaintext highlighter-rouge">incy</code> is equal to the number of rows in the matrix. If <code class="language-plaintext highlighter-rouge">upper</code> is false, then <code class="language-plaintext highlighter-rouge">incx</code> is equal to the number of rows in the matrix, and <code class="language-plaintext highlighter-rouge">incy</code> is 1.</p>
+  </li>
+  <li>
+    <p>It then starts a loop from 0 to the number of rows in the matrix minus 1.</p>
+  </li>
+  <li>
+    <p>In each iteration, it first conjugates the remaining part of the matrix using the <code class="language-plaintext highlighter-rouge">_conj_op</code> function and sets the imaginary part of the conjugation to zero by default. This step produces the Hermitian of the matrix.</p>
+  </li>
+  <li>
+    <p>It then updates the offset <code class="language-plaintext highlighter-rouge">ofs</code> based on the value of <code class="language-plaintext highlighter-rouge">incx</code> and <code class="language-plaintext highlighter-rouge">incy</code>.</p>
+  </li>
+  <li>
+    <p>After the loop, it returns the Hermitian matrix.</p>
+  </li>
+</ol>
+
+<h2 id="complexity-analysis">Complexity Analysis</h2>
+
+<p>The time complexity of the <code class="language-plaintext highlighter-rouge">hermitian</code> function depends on the size of the input matrix. If the input matrix has dimensions <code class="language-plaintext highlighter-rouge">n</code> by <code class="language-plaintext highlighter-rouge">n</code>, the for-loop runs <code class="language-plaintext highlighter-rouge">n</code> times. The inner <code class="language-plaintext highlighter-rouge">for</code> loop does <code class="language-plaintext highlighter-rouge">n-i</code> conjugations and each conjugation operation is O(1). Therefore, the time complexity is O(n^3), which is the same as the complexity of matrix multiplication. The space complexity is O(n^2), which is due to the copy of the input matrix, and the flat vector <code class="language-plaintext highlighter-rouge">_y</code>.</p>
+
+  </div><a class="u-url" href="/algorithm/2021/04/21/hermitian-matrix.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+        <ul class="contact-list">
+          <li class="p-name">Liang Wang</li>
+          <li><a class="u-email" href="mailto:liang@ocaml.xyz">liang@ocaml.xyz</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p>Explore the elegance of classic and numerical algorithms through practical OCaml implementations, unraveling their inner workings and unveiling the art and science of algorithmic programming.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

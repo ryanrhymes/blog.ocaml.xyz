@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Church numerals | Algorithm Blog</title>
+<meta name="generator" content="Jekyll v4.3.2" />
+<meta property="og:title" content="Church numerals" />
+<meta name="author" content="Liang Wang" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Introduction The Church numeral is a technique used to represent natural numbers in arithmetic formulas using functional programming. Church numerals are named after the logician Alonzo Church, who extensively used them in his work. The Church numerals involve encoding natural numbers as functions that can be applied to other functions and values using functional programming. It is used in the field of type theory and computer science to illustrate that a computational language can be simple and expressive." />
+<meta property="og:description" content="Introduction The Church numeral is a technique used to represent natural numbers in arithmetic formulas using functional programming. Church numerals are named after the logician Alonzo Church, who extensively used them in his work. The Church numerals involve encoding natural numbers as functions that can be applied to other functions and values using functional programming. It is used in the field of type theory and computer science to illustrate that a computational language can be simple and expressive." />
+<link rel="canonical" href="/algorithm/2021/09/12/church-numerals.html" />
+<meta property="og:url" content="/algorithm/2021/09/12/church-numerals.html" />
+<meta property="og:site_name" content="Algorithm Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-09-12T05:24:42+03:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Church numerals" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Liang Wang"},"dateModified":"2021-09-12T05:24:42+03:00","datePublished":"2021-09-12T05:24:42+03:00","description":"Introduction The Church numeral is a technique used to represent natural numbers in arithmetic formulas using functional programming. Church numerals are named after the logician Alonzo Church, who extensively used them in his work. The Church numerals involve encoding natural numbers as functions that can be applied to other functions and values using functional programming. It is used in the field of type theory and computer science to illustrate that a computational language can be simple and expressive.","headline":"Church numerals","mainEntityOfPage":{"@type":"WebPage","@id":"/algorithm/2021/09/12/church-numerals.html"},"url":"/algorithm/2021/09/12/church-numerals.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="Algorithm Blog" /><script async src="https://www.googletagmanager.com/gtag/js?id=UA-123353217-1"></script>
+<script>
+  window['ga-disable-UA-123353217-1'] = window.doNotTrack === "1" || navigator.doNotTrack === "1" || navigator.doNotTrack === "yes" || navigator.msDoNotTrack === "1";
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){window.dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-123353217-1');
+</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1868946892712371" crossorigin="anonymous"></script></head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Algorithm Blog</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Church numerals</h1>
+    <p class="post-meta"><time class="dt-published" datetime="2021-09-12T05:24:42+03:00" itemprop="datePublished">
+        Sep 12, 2021
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <h2 id="introduction">Introduction</h2>
+<p>The Church numeral is a technique used to represent natural numbers in arithmetic formulas using functional programming. Church numerals are named after the logician Alonzo Church, who extensively used them in his work. The Church numerals involve encoding natural numbers as functions that can be applied to other functions and values using functional programming. It is used in the field of type theory and computer science to illustrate that a computational language can be simple and expressive.</p>
+
+<h2 id="implementation">Implementation</h2>
+
+<div class="language-ocaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="c">(* Church numerals *)</span>
+<span class="c">(*  Using type as suggested in https://stackoverflow.com/questions/43426709/does-ocamls-type-system-prevent-it-from-modeling-church-numerals 
+    This is an explicitly polymorphic type : it says that f must be of type ('a -&gt; 'a) -&gt; 'a -&gt; 'a for any possible a "at same time".
+*)</span>
+<span class="k">type</span> <span class="n">church_num</span> <span class="o">=</span> <span class="p">{</span> <span class="n">f</span> <span class="o">:</span> <span class="k">'</span><span class="n">a</span><span class="o">.</span> <span class="p">(</span><span class="k">'</span><span class="n">a</span> <span class="o">-&gt;</span> <span class="k">'</span><span class="n">a</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">'</span><span class="n">a</span> <span class="o">-&gt;</span> <span class="k">'</span><span class="n">a</span> <span class="p">}</span>
+
+<span class="c">(* Zero means apply f 0 times to x, aka return x *)</span>
+<span class="k">let</span> <span class="n">ch_zero</span> <span class="o">:</span> <span class="n">church_num</span> <span class="o">=</span> <span class="p">{</span> <span class="n">f</span> <span class="o">=</span> <span class="k">fun</span> <span class="n">_</span> <span class="o">-&gt;</span> <span class="k">fun</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="p">}</span>
+
+<span class="c">(* One simplifies to just returning the function *)</span>
+<span class="k">let</span> <span class="n">ch_one</span> <span class="o">:</span> <span class="n">church_num</span> <span class="o">=</span> <span class="p">{</span> <span class="n">f</span> <span class="o">=</span> <span class="k">fun</span> <span class="n">fn</span> <span class="o">-&gt;</span> <span class="n">fn</span> <span class="p">}</span>
+
+<span class="c">(* The next numeral of a church numeral would apply f one more time *)</span>
+<span class="k">let</span> <span class="n">ch_succ</span> <span class="p">(</span><span class="n">c</span> <span class="o">:</span> <span class="n">church_num</span><span class="p">)</span> <span class="o">:</span> <span class="n">church_num</span> <span class="o">=</span> <span class="p">{</span> <span class="n">f</span> <span class="o">=</span> <span class="k">fun</span> <span class="n">fn</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">fn</span> <span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">f</span> <span class="n">fn</span> <span class="n">x</span><span class="p">)</span> <span class="p">}</span>
+
+<span class="c">(* Adding m and n is applying f m times and then also n times *)</span>
+<span class="k">let</span> <span class="n">ch_add</span>  <span class="p">(</span><span class="n">m</span> <span class="o">:</span> <span class="n">church_num</span><span class="p">)</span> <span class="p">(</span><span class="n">n</span> <span class="o">:</span> <span class="n">church_num</span><span class="p">)</span> <span class="o">:</span> <span class="n">church_num</span> <span class="o">=</span>
+    <span class="p">{</span> <span class="n">f</span> <span class="o">=</span> <span class="k">fun</span> <span class="n">fn</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">n</span><span class="o">.</span><span class="n">f</span> <span class="n">fn</span> <span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">f</span> <span class="n">fn</span> <span class="n">x</span><span class="p">)</span> <span class="p">}</span>
+
+<span class="c">(* Multiplying is repeated addition : add n, m times *)</span>
+<span class="k">let</span> <span class="n">ch_mul</span>  <span class="p">(</span><span class="n">m</span> <span class="o">:</span> <span class="n">church_num</span><span class="p">)</span> <span class="p">(</span><span class="n">n</span> <span class="o">:</span> <span class="n">church_num</span><span class="p">)</span> <span class="o">:</span> <span class="n">church_num</span> <span class="o">=</span>
+    <span class="p">{</span> <span class="n">f</span> <span class="o">=</span> <span class="k">fun</span> <span class="n">fn</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">m</span><span class="o">.</span><span class="n">f</span> <span class="p">(</span><span class="n">n</span><span class="o">.</span><span class="n">f</span> <span class="n">fn</span><span class="p">)</span> <span class="n">x</span> <span class="p">}</span>
+
+<span class="c">(*  Exp is repeated multiplication : multiply by base, exp times.
+    However, Church numeral n is in some sense the n'th power of a function f applied to x
+    So exp base = apply function base to the exp'th power = base^exp.
+*)</span>
+<span class="k">let</span> <span class="n">ch_exp</span> <span class="p">(</span><span class="n">base</span> <span class="o">:</span> <span class="n">church_num</span><span class="p">)</span> <span class="p">(</span><span class="n">exp</span> <span class="o">:</span> <span class="n">church_num</span><span class="p">)</span> <span class="o">:</span> <span class="n">church_num</span> <span class="o">=</span>
+    <span class="p">{</span> <span class="n">f</span> <span class="o">=</span> <span class="k">fun</span> <span class="n">fn</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="n">exp</span><span class="o">.</span><span class="n">f</span> <span class="n">base</span><span class="o">.</span><span class="n">f</span><span class="p">)</span> <span class="n">fn</span> <span class="n">x</span> <span class="p">}</span>
+
+<span class="c">(* extended Church functions: *)</span>
+
+<span class="c">(* test function for church zero *)</span>
+<span class="k">let</span> <span class="n">ch_is_zero</span> <span class="p">(</span><span class="n">c</span> <span class="o">:</span> <span class="n">church_num</span><span class="p">)</span> <span class="o">:</span> <span class="n">church_num</span> <span class="o">=</span>
+    <span class="p">{</span> <span class="n">f</span> <span class="o">=</span> <span class="k">fun</span> <span class="n">fn</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">c</span><span class="o">.</span><span class="n">f</span> <span class="p">(</span><span class="k">fun</span> <span class="n">_</span> <span class="o">-&gt;</span> <span class="k">fun</span> <span class="n">_</span> <span class="o">-&gt;</span> <span class="k">fun</span> <span class="n">xi</span> <span class="o">-&gt;</span> <span class="n">xi</span><span class="p">)</span> <span class="c">(* when argument is not ch_zero *)</span>
+                          <span class="p">(</span><span class="k">fun</span> <span class="n">fi</span> <span class="o">-&gt;</span> <span class="n">fi</span><span class="p">)</span> <span class="c">(* when argument is ch_zero *)</span> <span class="n">fn</span> <span class="n">x</span> <span class="p">}</span>
+
+<span class="c">(* church predecessor function; reduces function calls by one unless already church zero *)</span>
+<span class="k">let</span> <span class="n">ch_pred</span> <span class="p">(</span><span class="n">c</span> <span class="o">:</span> <span class="n">church_num</span><span class="p">)</span> <span class="o">:</span> <span class="n">church_num</span> <span class="o">=</span>
+    <span class="p">{</span> <span class="n">f</span> <span class="o">=</span> <span class="k">fun</span> <span class="n">fn</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">c</span><span class="o">.</span><span class="n">f</span> <span class="p">(</span><span class="k">fun</span> <span class="n">g</span> <span class="n">h</span> <span class="o">-&gt;</span> <span class="n">h</span> <span class="p">(</span><span class="n">g</span> <span class="n">fn</span><span class="p">))</span> <span class="p">(</span><span class="k">fun</span> <span class="n">_</span> <span class="o">-&gt;</span> <span class="n">x</span><span class="p">)</span> <span class="p">(</span><span class="k">fun</span> <span class="n">xi</span> <span class="o">-&gt;</span> <span class="n">xi</span><span class="p">)</span> <span class="p">}</span>
+
+<span class="c">(* church subtraction function; calls predecessor function second argument times on first *)</span>
+<span class="k">let</span> <span class="n">ch_sub</span> <span class="p">(</span><span class="n">m</span> <span class="o">:</span> <span class="n">church_num</span><span class="p">)</span> <span class="p">(</span><span class="n">n</span> <span class="o">:</span> <span class="n">church_num</span><span class="p">)</span> <span class="o">:</span> <span class="n">church_num</span> <span class="o">=</span> <span class="n">n</span><span class="o">.</span><span class="n">f</span> <span class="n">ch_pred</span> <span class="n">m</span>
+
+<span class="c">(* church division function; counts number of times divisor can be recursively
+   subtracted from dividend *)</span>
+<span class="k">let</span> <span class="n">ch_div</span> <span class="p">(</span><span class="n">dvdnd</span> <span class="o">:</span> <span class="n">church_num</span><span class="p">)</span> <span class="p">(</span><span class="n">dvsr</span> <span class="o">:</span> <span class="n">church_num</span><span class="p">)</span> <span class="o">:</span> <span class="n">church_num</span> <span class="o">=</span>
+  <span class="k">let</span> <span class="k">rec</span> <span class="n">divr</span> <span class="n">n</span> <span class="o">=</span> <span class="p">(</span><span class="k">fun</span> <span class="n">v</span> <span class="o">-&gt;</span> <span class="n">v</span><span class="o">.</span><span class="n">f</span> <span class="p">(</span><span class="k">fun</span> <span class="n">_</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="n">ch_succ</span> <span class="p">(</span><span class="n">divr</span> <span class="n">v</span><span class="p">)))</span>
+                                  <span class="n">ch_zero</span><span class="p">)</span> <span class="p">(</span><span class="n">ch_sub</span> <span class="n">n</span> <span class="n">dvsr</span><span class="p">)</span>
+  <span class="k">in</span> <span class="n">divr</span> <span class="p">(</span><span class="n">ch_succ</span> <span class="n">dvdnd</span><span class="p">)</span>
+
+<span class="c">(* conversion functions: *)</span>
+
+<span class="c">(* Convert a number to a church_num via recursion *)</span>
+<span class="k">let</span> <span class="n">church_of_int</span> <span class="p">(</span><span class="n">n</span> <span class="o">:</span> <span class="kt">int</span><span class="p">)</span> <span class="o">:</span> <span class="n">church_num</span> <span class="o">=</span> 
+    <span class="k">if</span> <span class="n">n</span> <span class="o">&lt;</span> <span class="mi">0</span> 
+    <span class="k">then</span> <span class="k">raise</span> <span class="p">(</span><span class="nc">Invalid_argument</span> <span class="p">(</span><span class="n">string_of_int</span> <span class="n">n</span> <span class="o">^</span> <span class="s2">" is not a natural number"</span><span class="p">))</span>
+    <span class="k">else</span> 
+    <span class="c">(* Tail-recursed helper *)</span>
+    <span class="k">let</span> <span class="k">rec</span> <span class="n">helper</span> <span class="n">n</span> <span class="n">acc</span> <span class="o">=</span> 
+        <span class="k">if</span> <span class="n">n</span> <span class="o">=</span> <span class="mi">0</span> 
+        <span class="k">then</span> <span class="n">acc</span>
+        <span class="k">else</span> <span class="n">helper</span> <span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="n">ch_succ</span> <span class="n">acc</span><span class="p">)</span>
+    <span class="k">in</span> <span class="n">helper</span> <span class="n">n</span> <span class="n">ch_zero</span>
+
+<span class="c">(*  Convert a church_num to an int is rather easy! Just +1 n times. *)</span>
+<span class="k">let</span> <span class="n">int_of_church</span> <span class="p">(</span><span class="n">n</span> <span class="o">:</span> <span class="n">church_num</span><span class="p">)</span> <span class="o">:</span> <span class="kt">int</span> <span class="o">=</span> <span class="n">n</span><span class="o">.</span><span class="n">f</span> <span class="n">succ</span> <span class="mi">0</span>
+
+<span class="c">(* Now the tasks at hand: *)</span>
+
+<span class="c">(* Derive Church numerals three, four, eleven, and twelve,
+   in terms of Church zero and a Church successor function *)</span>
+
+<span class="k">let</span> <span class="n">ch_three</span> <span class="o">=</span> <span class="n">church_of_int</span> <span class="mi">3</span>
+<span class="k">let</span> <span class="n">ch_four</span> <span class="o">=</span> <span class="n">ch_three</span> <span class="o">|&gt;</span> <span class="n">ch_succ</span>
+<span class="k">let</span> <span class="n">ch_eleven</span> <span class="o">=</span> <span class="n">church_of_int</span> <span class="mi">11</span>
+<span class="k">let</span> <span class="n">ch_twelve</span> <span class="o">=</span> <span class="n">ch_eleven</span> <span class="o">|&gt;</span> <span class="n">ch_succ</span>
+
+<span class="c">(* Use Church numeral arithmetic to obtain the the sum and the product of Church 3 and Church 4 *)</span>
+<span class="k">let</span> <span class="n">ch_7</span> <span class="o">=</span> <span class="n">ch_add</span> <span class="n">ch_three</span> <span class="n">ch_four</span>
+<span class="k">let</span> <span class="n">ch_12</span> <span class="o">=</span> <span class="n">ch_mul</span> <span class="n">ch_three</span> <span class="n">ch_four</span>
+
+<span class="c">(* Similarly obtain 4^3 and 3^4 in terms of Church numerals, using a Church numeral exponentiation function *)</span>
+<span class="k">let</span> <span class="n">ch_64</span> <span class="o">=</span> <span class="n">ch_exp</span> <span class="n">ch_four</span> <span class="n">ch_three</span>
+<span class="k">let</span> <span class="n">ch_81</span> <span class="o">=</span> <span class="n">ch_exp</span> <span class="n">ch_three</span> <span class="n">ch_four</span>
+
+<span class="c">(* check that ch_is_zero works *)</span>
+<span class="k">let</span> <span class="n">ch_1</span> <span class="o">=</span> <span class="n">ch_is_zero</span> <span class="n">ch_zero</span>
+<span class="k">let</span> <span class="n">ch_0</span> <span class="o">=</span> <span class="n">ch_is_zero</span> <span class="n">ch_three</span>
+
+<span class="c">(* check church predecessor, subtraction, and division, functions work *)</span>
+<span class="k">let</span> <span class="n">ch_2</span> <span class="o">=</span> <span class="n">ch_pred</span> <span class="n">ch_three</span>
+<span class="k">let</span> <span class="n">ch_8</span> <span class="o">=</span> <span class="n">ch_sub</span> <span class="n">ch_eleven</span> <span class="n">ch_three</span>
+<span class="k">let</span> <span class="n">ch_3</span> <span class="o">=</span> <span class="n">ch_div</span> <span class="n">ch_eleven</span> <span class="n">ch_three</span>
+<span class="k">let</span> <span class="n">ch_4</span> <span class="o">=</span> <span class="n">ch_div</span> <span class="n">ch_twelve</span> <span class="n">ch_three</span>
+
+<span class="c">(* Convert each result back to an integer, and return it as a string *)</span>
+<span class="k">let</span> <span class="n">result</span> <span class="o">=</span> <span class="nn">List</span><span class="p">.</span><span class="n">map</span> <span class="p">(</span><span class="k">fun</span> <span class="n">c</span> <span class="o">-&gt;</span> <span class="n">string_of_int</span><span class="p">(</span><span class="n">int_of_church</span> <span class="n">c</span><span class="p">))</span> 
+                      <span class="p">[</span> <span class="n">ch_three</span><span class="p">;</span> <span class="n">ch_four</span><span class="p">;</span> <span class="n">ch_7</span><span class="p">;</span> <span class="n">ch_12</span><span class="p">;</span> <span class="n">ch_64</span><span class="p">;</span> <span class="n">ch_81</span><span class="p">;</span>
+                        <span class="n">ch_eleven</span><span class="p">;</span> <span class="n">ch_twelve</span><span class="p">;</span> <span class="n">ch_1</span><span class="p">;</span> <span class="n">ch_0</span><span class="p">;</span> <span class="n">ch_2</span><span class="p">;</span> <span class="n">ch_8</span><span class="p">;</span> <span class="n">ch_3</span><span class="p">;</span> <span class="n">ch_4</span> <span class="p">]</span>
+             <span class="o">|&gt;</span> <span class="nn">String</span><span class="p">.</span><span class="n">concat</span> <span class="s2">"; "</span> <span class="o">|&gt;</span> <span class="nn">Printf</span><span class="p">.</span><span class="n">sprintf</span> <span class="s2">"[ %s ]"</span>
+
+<span class="p">;;</span>
+
+<span class="n">print_endline</span> <span class="n">result</span>
+
+</code></pre></div></div>
+
+<p>This algorithm implements Church numerals using the functional programming language, OCaml. The algorithm defines the basic Church numerals (zero and one), addition, multiplication, exponential, and extended features such as testing for zeros, subtracting, dividing, and converting between the Church numerals and integers.</p>
+
+<h2 id="step-by-step-explanation">Step-by-step Explanation</h2>
+<ol>
+  <li>Define the Church numerals data structure as a type in OCaml</li>
+  <li>Define Church numerals zero and one</li>
+  <li>Define the sucession function, <code class="language-plaintext highlighter-rouge">ch_succ</code>, which takes a Church numeral and returns a numeral one greater.</li>
+  <li>Define addition and multiplication of Church numerals as two separate functions. For addition, add the numbers by applying one numeral to another. For multiplication, apply a Church numeral as many times as specified by another numeral.</li>
+  <li>Define exponentiation (ch_exp) as a multiplication of numbers where the base Church numeral applied to the power of another Church numeral.</li>
+  <li>Define additional Church numeral features such as testing for zeros (ch_is_zero), predecessor (ch_pred), subtraction (ch_sub), and division (ch_div).</li>
+  <li>Define conversion numbers to and from Church numerals, <code class="language-plaintext highlighter-rouge">church_of_int</code> and <code class="language-plaintext highlighter-rouge">int_of_church</code>, using recursion.</li>
+  <li>Apply the Church numeral and features to obtain numerical results and convert them back to integers as required.</li>
+</ol>
+
+<h2 id="complexity-analysis">Complexity Analysis</h2>
+<p>The complexity of this Church numeral implementation is high, as it requires the computation of function compositions to obtain exponentiation, multiplication, and addition. The worst-case time complexity of addition and multiplication is O(n), where n is the value of the greater numeral. For example, if multiplying 3 by 4, it will take four total applications of the succession function to build one Church numeral, then it will iterate three times to produce the resulting Church numeral. Thus the time complexity of the multiplication of 3 and 4 Church numerals is 4 * 3 operations on <code class="language-plaintext highlighter-rouge">ch_succ</code>. For exponentiation, the worst-case time complexity is O(m*n), where m and n represent the two Church numerals used as arguments. It takes m applications of the base function (which is passed over n times) to raise the base by the value of the exponent. The time complexity of testing for zeros, predecessor, subtraction, and division is all O(n), with n being the value of the Church numeral. The space complexity for each operations is O(1) since each operation solely relies on function calls.</p>
+
+  </div><a class="u-url" href="/algorithm/2021/09/12/church-numerals.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+        <ul class="contact-list">
+          <li class="p-name">Liang Wang</li>
+          <li><a class="u-email" href="mailto:liang@ocaml.xyz">liang@ocaml.xyz</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p>Explore the elegance of classic and numerical algorithms through practical OCaml implementations, unraveling their inner workings and unveiling the art and science of algorithmic programming.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
