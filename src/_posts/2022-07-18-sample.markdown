@@ -1,0 +1,39 @@
+---
+layout: post
+title:  "Sample Algorithm"
+date:   2022-07-18 01:19:16 +0200
+categories: algorithm
+---
+
+## Introduction
+The algorithm presented is called "Reservoir Sampling". This algorithm allows us to get a random sample of a fixed size k from an input array with unknown or very large size n, while ensuring that every element in the array has an equal chance of being included in the sample. Reservoir sampling has a wide range of applications in data analytics, machine learning, and scientific computing.
+
+## Implementation
+
+```ocaml
+
+(* Sample Algorithm *)
+
+let sample x k =
+  let y = Array.make k x.(0) in
+  let n = Array.length x in
+  for i = 0 to k - 1 do
+    let j = uniform_int_rvs n in
+    y.(i) <- x.(j)
+  done;
+  y
+
+
+```
+
+The algorithm uses an input array x which has size n and an integer k for the size of the desired random sample. It first creates an array y of size k filled with the first element of x, then iterates over the array x and for each element, it randomly selects an index j between 0 and n-1, and replaces the element at index j in y with the element from x.
+
+## Step-by-Step Explanation
+1. Initialize an array y of size k where each element is equal to the first element of the input array x.
+2. Loop k times:
+    * Select a random index j between 0 and n-1.
+    * Replace the element at index j in y with the element at index j in x.
+3. Return the resulting array y as the random sample.
+
+## Complexity Analysis
+The time complexity of the algorithm is O(n), where n is the size of the input array x. This is because we are iterating over the entire array once to randomly select and update elements in y. The space complexity is O(k), which is the size of the random sample array y. This is because we only need to store k elements from x in y at any given time. Overall, this algorithm provides an efficient method for obtaining a random sample from a large or unknown array without needing to store all the data in memory.

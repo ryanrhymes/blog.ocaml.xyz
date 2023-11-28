@@ -1,0 +1,43 @@
+---
+layout: post
+title:  "absdev"
+date:   2021-06-29 22:20:33 +0200
+categories: algorithm
+---
+
+## Introduction
+The absolute deviation algorithm is a statistical method used to measure the variability or dispersion of a set of data values from the mean. It is important in several fields such as finance, physics, and engineering. The algorithm is used to calculate the variance of a dataset by computing the absolute difference between each data point and the mean. 
+
+## Implementation
+
+```ocaml
+
+(* Calculate Absolute Deviation *)
+
+let absdev ?mean x =
+  let m = _get_mean mean x in
+  let t = ref 0. in
+  Array.iter
+    (fun a ->
+      let d = abs_float (a -. m) in
+      t := !t +. d)
+    x;
+  let n = float_of_int (Array.length x) in
+  !t /. n
+
+```
+
+The absolute deviation algorithm takes in an optional mean and an array of values as input. It returns the absolute deviation of the dataset. In the implementation, a reference variable t is initialized as 0.0, and the function _get_mean is called to retrieve the mean of the dataset. Then, the algorithm iterates over the array of values and calculates the absolute difference of each value from the mean using the abs_float function. The absolute values are summed up in the t variable. Lastly, the length of the array is used to calculate the mean absolute deviation, which is returned by dividing the sum by the length of the array.
+
+## Step-by-step Explanation
+1. Initialize a reference variable t as 0.0.
+2. Call the function _get_mean to retrieve the mean of the dataset.
+3. Iterate over each value in the array of values using Array.iter.
+4. Calculate the absolute difference of each value from the mean using the abs_float function.
+5. Add the absolute difference to the reference variable t.
+6. Calculate the length of the array of values using the Array.length function and convert it to a float.
+7. Divide the sum of absolute differences by the length of the array to get the mean absolute deviation.
+8. Return the mean absolute deviation.
+
+## Complexity Analysis
+The absolute deviation algorithm has a time complexity of O(n) because it must iterate over each value in the array of values to calculate the absolute difference and then add it to the reference variable, t. The space complexity is also O(n) because it requires an array of values of size n and a reference variable t that stores a floating-point number. The time and space complexity are linear, meaning they increase proportionally to the size of the input dataset. The algorithm can handle datasets of varying sizes and does not require additional memory or computation resources. Therefore, this algorithm is highly efficient and practical.

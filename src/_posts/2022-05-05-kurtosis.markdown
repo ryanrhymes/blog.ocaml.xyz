@@ -1,0 +1,55 @@
+---
+layout: post
+title:  "Calculate Kurtosis"
+date:   2022-05-05 07:17:57 +0200
+categories: algorithm
+---
+
+## Introduction
+The Kurtosis is a statistical measure that defines how extreme the tails of a distribution are, thus, providing essential information about the shape of the distribution. The Kurtosis is widely used in various domains including finance, physics, and biology. The algorithm presented in this document aims to estimate the Kurtosis of a dataset.
+
+## Implementation
+
+```ocaml
+
+(* Calculate Kurtosis *)
+
+let kurtosis ?mean ?sd x =
+  let m = _get_mean mean x in
+  let s =
+    match sd with
+    | Some a -> a
+    | None   -> std ~mean:m x
+  in
+  let t = ref 0. in
+  Array.iter
+    (fun a ->
+      let s = (a -. m) /. s in
+      let u = s *. s in
+      t := !t +. (u *. u))
+    x;
+  let n = float_of_int (Array.length x) in
+  !t /. n
+
+```
+
+The present algorithm determines the Kurtosis of a given array of numbers. The algorithm receives an array of numbers, calculates the sample mean and the sample standard deviation of the dataset (if they are not already provided), iterates over the dataset applying a specific formula to each element, and finally computes the Kurtosis as the mean of these results. The algorithm uses the fourth moment to estimate the Kurtosis.
+
+## Step-by-step Explanation
+The algorithm works as follows:
+1. The function `kurtosis` receives an array of numbers `x` and two optional named parameters: `mean` and `sd`.
+2. If the `mean` parameter is not provided, `_get_mean` function is called to calculate the sample mean of the dataset. If it is provided, the function uses the input value. 
+3. If the `sd` parameter is not provided, `std` function is used to calculate the sample standard deviation of the dataset with the previously calculated `mean`. If it is provided, the function uses the input value.
+4. A reference variable `t` is initialized to zero.
+5. The function `Array.iter` is called with an anonymous function receiving each element of `x`.
+6. Inside the anonymous function, the algorithm first computes the Standard Score `s` of the element.
+   - The Standard Score `s` is obtained by subtracting the sample mean from the element value and dividing the result by the sample standard deviation.
+7. The algorithm then computes the fourth power of the standard score, that is, `u = s^4`.
+8. The fourth power value is multiplied by the accumulated value of the `t` reference, that is, `u * t`.
+9. The accumulated value of `t` now is updated to `!t + u * u`.
+10. Steps 5 to 9 are executed for each element in the input `x`.
+10. The length of the input array is converted to a `float` variable `n`.
+11. The Kurtosis is calculated as the quotient of `t` by `n`.
+
+## Complexity Analysis
+The algorithm has a time complexity of O(n) for iterating all the elements in the input `x` array, multiplied by the computational cost of the arithmetic operations performed inside the `Array.iter` function, that includes one subtraction, one division, one power function execution, and some other basic arithmetic operations. The complexity of the problem in this algorithm is dominated by the complexity of the `std` function, which has a complexity of O(n). Therefore, the overall algorithm complexity is O(n), considering average and worst cases. Additionally, the space complexity of the algorithm is O(1), as all the auxiliary variable declarations have constant size.
