@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Rank Algorithm | Algorithm Blog</title>
+<meta name="generator" content="Jekyll v4.3.2" />
+<meta property="og:title" content="Rank Algorithm" />
+<meta name="author" content="Liang Wang" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Introduction Ranking is an important problem in various fields, such as sports, academic performance, and search relevance. This algorithm, the Rank Algorithm, aims to assign the correct rank to each element in an array of values, such that ties are handled correctly using a specified tie-breaking strategy." />
+<meta property="og:description" content="Introduction Ranking is an important problem in various fields, such as sports, academic performance, and search relevance. This algorithm, the Rank Algorithm, aims to assign the correct rank to each element in an array of values, such that ties are handled correctly using a specified tie-breaking strategy." />
+<link rel="canonical" href="/algorithm/2022/10/17/rank-algorithm.html" />
+<meta property="og:url" content="/algorithm/2022/10/17/rank-algorithm.html" />
+<meta property="og:site_name" content="Algorithm Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-10-17T14:33:36+03:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Rank Algorithm" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Liang Wang"},"dateModified":"2022-10-17T14:33:36+03:00","datePublished":"2022-10-17T14:33:36+03:00","description":"Introduction Ranking is an important problem in various fields, such as sports, academic performance, and search relevance. This algorithm, the Rank Algorithm, aims to assign the correct rank to each element in an array of values, such that ties are handled correctly using a specified tie-breaking strategy.","headline":"Rank Algorithm","mainEntityOfPage":{"@type":"WebPage","@id":"/algorithm/2022/10/17/rank-algorithm.html"},"url":"/algorithm/2022/10/17/rank-algorithm.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="Algorithm Blog" /><script async src="https://www.googletagmanager.com/gtag/js?id=UA-123353217-1"></script>
+<script>
+  window['ga-disable-UA-123353217-1'] = window.doNotTrack === "1" || navigator.doNotTrack === "1" || navigator.doNotTrack === "yes" || navigator.msDoNotTrack === "1";
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){window.dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-123353217-1');
+</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1868946892712371" crossorigin="anonymous"></script></head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Algorithm Blog</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Rank Algorithm</h1>
+    <p class="post-meta"><time class="dt-published" datetime="2022-10-17T14:33:36+03:00" itemprop="datePublished">
+        Oct 17, 2022
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <h2 id="introduction">Introduction</h2>
+<p>Ranking is an important problem in various fields, such as sports, academic performance, and search relevance. This algorithm, the Rank Algorithm, aims to assign the correct rank to each element in an array of values, such that ties are handled correctly using a specified tie-breaking strategy.</p>
+
+<h2 id="implementation">Implementation</h2>
+
+<div class="language-ocaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="c">(* Rank Algorithm *)</span>
+
+<span class="k">let</span> <span class="n">rank</span> <span class="o">?</span><span class="p">(</span><span class="n">ties_strategy</span> <span class="o">=</span> <span class="nt">`Average</span><span class="p">)</span> <span class="n">vs</span> <span class="o">=</span>
+  <span class="k">let</span> <span class="n">n</span> <span class="o">=</span> <span class="nn">Array</span><span class="p">.</span><span class="n">length</span> <span class="n">vs</span> <span class="k">in</span>
+  <span class="k">let</span> <span class="n">order</span> <span class="o">=</span> <span class="n">argsort</span> <span class="n">vs</span> <span class="k">in</span>
+  <span class="k">let</span> <span class="n">ranks</span> <span class="o">=</span> <span class="nn">Array</span><span class="p">.</span><span class="n">make</span> <span class="n">n</span> <span class="mi">0</span><span class="o">.</span> <span class="k">in</span>
+  <span class="k">let</span> <span class="n">d</span> <span class="o">=</span> <span class="n">ref</span> <span class="mi">0</span> <span class="k">in</span>
+  <span class="k">for</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="k">to</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span> <span class="k">do</span>
+    <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">||</span> <span class="n">compare</span> <span class="n">vs</span><span class="o">.</span><span class="p">(</span><span class="n">order</span><span class="o">.</span><span class="p">(</span><span class="n">i</span><span class="p">))</span> <span class="n">vs</span><span class="o">.</span><span class="p">(</span><span class="n">order</span><span class="o">.</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span> <span class="o">&lt;&gt;</span> <span class="mi">0</span>
+    <span class="k">then</span> <span class="p">(</span>
+      <span class="k">let</span> <span class="n">tie_rank</span> <span class="o">=</span> <span class="n">_resolve_ties</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">!</span><span class="n">d</span> <span class="n">ties_strategy</span> <span class="k">in</span>
+      <span class="k">for</span> <span class="n">j</span> <span class="o">=</span> <span class="n">i</span> <span class="o">-</span> <span class="o">!</span><span class="n">d</span> <span class="k">to</span> <span class="n">i</span> <span class="k">do</span>
+        <span class="n">ranks</span><span class="o">.</span><span class="p">(</span><span class="n">order</span><span class="o">.</span><span class="p">(</span><span class="n">j</span><span class="p">))</span> <span class="o">&lt;-</span> <span class="n">tie_rank</span>
+      <span class="k">done</span><span class="p">;</span>
+      <span class="n">d</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="k">else</span> <span class="n">incr</span> <span class="n">d</span> <span class="c">(* Found a duplicate! *)</span>
+  <span class="k">done</span><span class="p">;</span>
+  <span class="n">ranks</span>
+
+</code></pre></div></div>
+
+<p>The Rank Algorithm is implemented in OCaml and takes in an array of values <code class="language-plaintext highlighter-rouge">vs</code> as input. It also includes an optional parameter <code class="language-plaintext highlighter-rouge">ties_strategy</code>, which specifies the tie-breaking strategy to be used when there are ties in the values. The default strategy is the average of the tied ranks.</p>
+
+<h2 id="step-by-step-explanation">Step-by-step Explanation</h2>
+<ol>
+  <li>The algorithm starts by getting the length of the input array and initializing an array of integers <code class="language-plaintext highlighter-rouge">order</code> containing the indices of the elements in <code class="language-plaintext highlighter-rouge">vs</code>, sorted in ascending order of their values.</li>
+  <li>It also initializes an array <code class="language-plaintext highlighter-rouge">ranks</code> of the same length as <code class="language-plaintext highlighter-rouge">vs</code> with all elements initially set to 0. This array will contain the final ranks assigned to each element in <code class="language-plaintext highlighter-rouge">vs</code>.</li>
+  <li>A reference variable <code class="language-plaintext highlighter-rouge">d</code> is created and set to 0.</li>
+  <li>The algorithm then loops through each element in the sorted array <code class="language-plaintext highlighter-rouge">order</code> and performs the following steps:
+    <ul>
+      <li>If the current element is the last element or has a different value from the next element, then this signifies the end of a run of duplicate values.</li>
+      <li>The algorithm then calls a helper function <code class="language-plaintext highlighter-rouge">_resolve_ties</code> to determine the rank to assign to each element in the run. The function takes in the length of the run and the current value of the reference <code class="language-plaintext highlighter-rouge">d</code> (which contains the number of previous duplicates encountered so far). It also takes in the tie-breaking strategy specified in <code class="language-plaintext highlighter-rouge">ties_strategy</code>.</li>
+      <li>The helper function returns the rank to assign to each element in the run, and the algorithm updates the corresponding ranks in the <code class="language-plaintext highlighter-rouge">ranks</code> array using the original indices from <code class="language-plaintext highlighter-rouge">order</code>.</li>
+      <li>The reference <code class="language-plaintext highlighter-rouge">d</code> is set to 0 to start counting duplicates for the next run.</li>
+      <li>If the current element has the same value as the next element, then this signifies a duplicate value. The reference <code class="language-plaintext highlighter-rouge">d</code> is incremented and the loop continues to the next element.</li>
+    </ul>
+  </li>
+  <li>Once the loop is finished, the algorithm returns the <code class="language-plaintext highlighter-rouge">ranks</code> array containing the assigned ranks.</li>
+</ol>
+
+<h2 id="complexity-analysis">Complexity Analysis</h2>
+<p>The Rank Algorithm has a time complexity of <code class="language-plaintext highlighter-rouge">O(n log n)</code> due to the initial sorting of the values in <code class="language-plaintext highlighter-rouge">vs</code>. The loop that assigns ranks to each value has a time complexity of <code class="language-plaintext highlighter-rouge">O(n)</code> since each element is visited once. The <code class="language-plaintext highlighter-rouge">_resolve_ties</code> helper function has a time complexity of <code class="language-plaintext highlighter-rouge">O(n)</code> in the worst-case scenario where all <code class="language-plaintext highlighter-rouge">n</code> elements are tied. Overall, the time complexity of the Rank Algorithm is <code class="language-plaintext highlighter-rouge">O(n log n)</code> + <code class="language-plaintext highlighter-rouge">O(n)</code> + <code class="language-plaintext highlighter-rouge">O(n)</code> = <code class="language-plaintext highlighter-rouge">O(n log n)</code>. The space complexity of the algorithm is <code class="language-plaintext highlighter-rouge">O(n)</code> since the <code class="language-plaintext highlighter-rouge">order</code> and <code class="language-plaintext highlighter-rouge">ranks</code> arrays both have size <code class="language-plaintext highlighter-rouge">n</code>.</p>
+
+  </div><a class="u-url" href="/algorithm/2022/10/17/rank-algorithm.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+        <ul class="contact-list">
+          <li class="p-name">Liang Wang</li>
+          <li><a class="u-email" href="mailto:liang@ocaml.xyz">liang@ocaml.xyz</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p>Explore the elegance of classic and numerical algorithms through practical OCaml implementations, unraveling their inner workings and unveiling the art and science of algorithmic programming.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

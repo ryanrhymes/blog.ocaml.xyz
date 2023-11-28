@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Concordant | Algorithm Blog</title>
+<meta name="generator" content="Jekyll v4.3.2" />
+<meta property="og:title" content="Concordant" />
+<meta name="author" content="Liang Wang" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Introduction The Concordant algorithm essentially calculates the similarities between two ordered list of elements (arrays). This algorithm is commonly applied in several fields including statistics, bioinformatics, and computational biology. The main application of the Concordant algorithm is in measuring the degree of dependence between two entities, and particularly between two datasets." />
+<meta property="og:description" content="Introduction The Concordant algorithm essentially calculates the similarities between two ordered list of elements (arrays). This algorithm is commonly applied in several fields including statistics, bioinformatics, and computational biology. The main application of the Concordant algorithm is in measuring the degree of dependence between two entities, and particularly between two datasets." />
+<link rel="canonical" href="/algorithm/2021/01/13/concordant.html" />
+<meta property="og:url" content="/algorithm/2021/01/13/concordant.html" />
+<meta property="og:site_name" content="Algorithm Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-01-13T14:20:56+02:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Concordant" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Liang Wang"},"dateModified":"2021-01-13T14:20:56+02:00","datePublished":"2021-01-13T14:20:56+02:00","description":"Introduction The Concordant algorithm essentially calculates the similarities between two ordered list of elements (arrays). This algorithm is commonly applied in several fields including statistics, bioinformatics, and computational biology. The main application of the Concordant algorithm is in measuring the degree of dependence between two entities, and particularly between two datasets.","headline":"Concordant","mainEntityOfPage":{"@type":"WebPage","@id":"/algorithm/2021/01/13/concordant.html"},"url":"/algorithm/2021/01/13/concordant.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="Algorithm Blog" /><script async src="https://www.googletagmanager.com/gtag/js?id=UA-123353217-1"></script>
+<script>
+  window['ga-disable-UA-123353217-1'] = window.doNotTrack === "1" || navigator.doNotTrack === "1" || navigator.doNotTrack === "yes" || navigator.msDoNotTrack === "1";
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){window.dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-123353217-1');
+</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1868946892712371" crossorigin="anonymous"></script></head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Algorithm Blog</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Concordant</h1>
+    <p class="post-meta"><time class="dt-published" datetime="2021-01-13T14:20:56+02:00" itemprop="datePublished">
+        Jan 13, 2021
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <h2 id="introduction">Introduction</h2>
+<p>The Concordant algorithm essentially calculates the similarities between two ordered list of elements (arrays). This algorithm is commonly applied in several fields including statistics, bioinformatics, and computational biology. The main application of the Concordant algorithm is in measuring the degree of dependence between two entities, and particularly between two datasets.</p>
+
+<h2 id="implementation">Implementation</h2>
+
+<div class="language-ocaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="c">(* Concordant *)</span>
+
+<span class="k">let</span> <span class="n">concordant</span> <span class="n">x0</span> <span class="n">x1</span> <span class="o">=</span>
+  <span class="k">let</span> <span class="n">c</span> <span class="o">=</span> <span class="n">ref</span> <span class="mi">0</span> <span class="k">in</span>
+  <span class="k">for</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="k">to</span> <span class="nn">Array</span><span class="p">.</span><span class="n">length</span> <span class="n">x0</span> <span class="o">-</span> <span class="mi">2</span> <span class="k">do</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span> <span class="k">to</span> <span class="nn">Array</span><span class="p">.</span><span class="n">length</span> <span class="n">x0</span> <span class="o">-</span> <span class="mi">1</span> <span class="k">do</span>
+      <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;&gt;</span> <span class="n">j</span>
+         <span class="o">&amp;&amp;</span> <span class="p">((</span><span class="n">x0</span><span class="o">.</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">x0</span><span class="o">.</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="n">x1</span><span class="o">.</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">x1</span><span class="o">.</span><span class="p">(</span><span class="n">j</span><span class="p">))</span> <span class="o">||</span> <span class="p">(</span><span class="n">x0</span><span class="o">.</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">x0</span><span class="o">.</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="n">x1</span><span class="o">.</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">x1</span><span class="o">.</span><span class="p">(</span><span class="n">j</span><span class="p">)))</span>
+      <span class="k">then</span> <span class="n">c</span> <span class="o">:=</span> <span class="o">!</span><span class="n">c</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="k">done</span>
+  <span class="k">done</span><span class="p">;</span>
+  <span class="o">!</span><span class="n">c</span>
+
+</code></pre></div></div>
+
+<p>The Concordant algorithm takes two arrays x0 and x1 of the same length and returns a count of the number of pairs of items whose direction of inequality is the same in both arrays.</p>
+
+<h2 id="step-by-step-explanation">Step-by-step Explanation</h2>
+<ol>
+  <li>Start by initializing a counter variable c to zero</li>
+  <li>Using a nested for loop, iterate over the elements of the input arrays x0 and x1.</li>
+  <li>For each pair of elements (i,j):
+ a. Confirm that i and j are not equal
+ b. Compare the elements of x0 and x1 at indices i and j to determine direction of inequality in each array
+ c. If the direction of inequality is the same for both elements, increment the counter variable c by 1.</li>
+  <li>Return the counter variable c</li>
+</ol>
+
+<h2 id="complexity-analysis">Complexity Analysis</h2>
+<p>The Concordant Algorithm has a nested loop that runs over all elements in the arrays, resulting in a time complexity of <strong>O(N^2)</strong> where N is the length of the arrays. Hence, for large arrays, Concordant algorithm may take considerably more time to run. However, the algorithm uses a constant amount of space regardless of the input length since it only uses two input arrays for storing input values and a single integer to store the count of pairs that are concordant.</p>
+
+  </div><a class="u-url" href="/algorithm/2021/01/13/concordant.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+        <ul class="contact-list">
+          <li class="p-name">Liang Wang</li>
+          <li><a class="u-email" href="mailto:liang@ocaml.xyz">liang@ocaml.xyz</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p>Explore the elegance of classic and numerical algorithms through practical OCaml implementations, unraveling their inner workings and unveiling the art and science of algorithmic programming.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

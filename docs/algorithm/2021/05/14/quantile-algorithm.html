@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Quantile Algorithm | Algorithm Blog</title>
+<meta name="generator" content="Jekyll v4.3.2" />
+<meta property="og:title" content="Quantile Algorithm" />
+<meta name="author" content="Liang Wang" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Quantile Algorithm" />
+<meta property="og:description" content="Quantile Algorithm" />
+<link rel="canonical" href="/algorithm/2021/05/14/quantile-algorithm.html" />
+<meta property="og:url" content="/algorithm/2021/05/14/quantile-algorithm.html" />
+<meta property="og:site_name" content="Algorithm Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-05-14T20:30:04+03:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Quantile Algorithm" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Liang Wang"},"dateModified":"2021-05-14T20:30:04+03:00","datePublished":"2021-05-14T20:30:04+03:00","description":"Quantile Algorithm","headline":"Quantile Algorithm","mainEntityOfPage":{"@type":"WebPage","@id":"/algorithm/2021/05/14/quantile-algorithm.html"},"url":"/algorithm/2021/05/14/quantile-algorithm.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="Algorithm Blog" /><script async src="https://www.googletagmanager.com/gtag/js?id=UA-123353217-1"></script>
+<script>
+  window['ga-disable-UA-123353217-1'] = window.doNotTrack === "1" || navigator.doNotTrack === "1" || navigator.doNotTrack === "yes" || navigator.msDoNotTrack === "1";
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){window.dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-123353217-1');
+</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1868946892712371" crossorigin="anonymous"></script></head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Algorithm Blog</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Quantile Algorithm</h1>
+    <p class="post-meta"><time class="dt-published" datetime="2021-05-14T20:30:04+03:00" itemprop="datePublished">
+        May 14, 2021
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <h1 id="quantile-algorithm">Quantile Algorithm</h1>
+
+<h2 id="introduction">Introduction</h2>
+<p>The quantile algorithm is a statistical algorithm used to find the data value that splits a set of data samples into two equal halves. A quantile can be expressed as a percentage value (a percentile) or as a fraction, and is a commonly used statistical measure in fields such as finance, business, and healthcare.</p>
+
+<h2 id="implementation">Implementation</h2>
+
+<div class="language-ocaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="c">(* Quantile Algorithm *)</span>
+
+<span class="k">let</span> <span class="n">quantile</span> <span class="n">x</span> <span class="o">=</span>
+  <span class="k">let</span> <span class="n">y</span> <span class="o">=</span> <span class="n">sort</span> <span class="o">~</span><span class="n">inc</span><span class="o">:</span><span class="bp">true</span> <span class="n">x</span> <span class="k">in</span>
+  <span class="k">let</span> <span class="n">n</span> <span class="o">=</span> <span class="nn">Array</span><span class="p">.</span><span class="n">length</span> <span class="n">y</span> <span class="k">in</span>
+  <span class="k">fun</span> <span class="n">p</span> <span class="o">-&gt;</span>
+    <span class="k">if</span> <span class="n">p</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="o">.</span> <span class="o">||</span> <span class="n">p</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="o">.</span>
+    <span class="k">then</span>
+      <span class="k">raise</span> <span class="p">(</span><span class="nc">Invalid_argument</span> <span class="s2">"Owl_base_stats.quantile: expected float between 0 and 1"</span><span class="p">)</span>
+    <span class="k">else</span> <span class="p">(</span>
+      <span class="k">let</span> <span class="n">index</span> <span class="o">=</span> <span class="n">p</span> <span class="o">*.</span> <span class="n">float_of_int</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="k">in</span>
+      <span class="k">let</span> <span class="n">lhs</span> <span class="o">=</span> <span class="n">int_of_float</span> <span class="n">index</span> <span class="k">in</span>
+      <span class="k">let</span> <span class="n">delta</span> <span class="o">=</span> <span class="n">index</span> <span class="o">-.</span> <span class="n">float_of_int</span> <span class="n">lhs</span> <span class="k">in</span>
+      <span class="k">if</span> <span class="n">n</span> <span class="o">=</span> <span class="mi">0</span>
+      <span class="k">then</span> <span class="mi">0</span><span class="o">.</span>
+      <span class="k">else</span> <span class="k">if</span> <span class="n">lhs</span> <span class="o">=</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span>
+      <span class="k">then</span> <span class="n">y</span><span class="o">.</span><span class="p">(</span><span class="n">lhs</span><span class="p">)</span>
+      <span class="k">else</span> <span class="p">((</span><span class="mi">1</span><span class="o">.</span> <span class="o">-.</span> <span class="n">delta</span><span class="p">)</span> <span class="o">*.</span> <span class="n">y</span><span class="o">.</span><span class="p">(</span><span class="n">lhs</span><span class="p">))</span> <span class="o">+.</span> <span class="p">(</span><span class="n">delta</span> <span class="o">*.</span> <span class="n">y</span><span class="o">.</span><span class="p">(</span><span class="n">lhs</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)))</span>
+
+</code></pre></div></div>
+
+<p>The implementation shown for this algorithm is written in the programming language OCaml. It sorts the input array of data in ascending order, and then calculates the quantile value based on the input value for p (the quantile value to be calculated).</p>
+
+<h2 id="step-by-step-explanation">Step-by-step Explanation</h2>
+<ol>
+  <li>Sort the input array of data, x, in ascending order.</li>
+  <li>Calculate the length of the sorted array, n.</li>
+  <li>Define a function that takes in a value for p, the quantile to be found.</li>
+  <li>If the input value for p is less than 0 or greater than 1, raise an exception indicating an invalid input value.</li>
+  <li>Calculate the index of the quantile by multiplying p by n-1.</li>
+  <li>Get the integer value of the calculated index, and assign it to lhs.</li>
+  <li>Compute the delta value which is the difference between the calculated index and lhs.</li>
+  <li>If n is 0, return 0.</li>
+  <li>If lhs is equal to n - 1, return the last value in the sorted array.</li>
+  <li>Otherwise, calculate the quantile value using the formula ((1-delta) * y.(lhs)) + (delta * y.(lhs + 1)), where y.(lhs) is the value at index lhs in the sorted array.</li>
+</ol>
+
+<h2 id="complexity-analysis">Complexity Analysis</h2>
+<p>The sorting operation in the algorithm takes O(n log n) time, where n is the length of the input array. However, the rest of the algorithm is a constant time operation, so the overall time complexity of the algorithm is O(n log n) due to the sorting operation. The worst-case space complexity of the algorithm is O(n) due to the space required to store the sorted array. Overall, the algorithm is efficient in most cases and provides a fast way to compute quantiles.</p>
+
+  </div><a class="u-url" href="/algorithm/2021/05/14/quantile-algorithm.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+        <ul class="contact-list">
+          <li class="p-name">Liang Wang</li>
+          <li><a class="u-email" href="mailto:liang@ocaml.xyz">liang@ocaml.xyz</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p>Explore the elegance of classic and numerical algorithms through practical OCaml implementations, unraveling their inner workings and unveiling the art and science of algorithmic programming.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
