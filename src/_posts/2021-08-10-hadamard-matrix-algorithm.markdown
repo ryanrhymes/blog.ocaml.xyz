@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Hadamard Matrix algorithm."
+title:  "Hadamard Matrix algorithm"
 date:   2021-08-10 07:29:17 +0200
 categories: algorithm
 ---
