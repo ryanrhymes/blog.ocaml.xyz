@@ -16,3 +16,6 @@ publish: build
 	cp -r _site/* ../docs/
 	rm ../docs/Makefile
 	git add ../docs
+
+
+### databricks fs cp -r dbfs:/user/liang.wang/output/ocaml.xyz/ _posts/
