@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Shannon Entropy | Algorithm Blog</title>
+<meta name="generator" content="Jekyll v4.3.2" />
+<meta property="og:title" content="Shannon Entropy" />
+<meta name="author" content="Liang Wang" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Shannon Entropy" />
+<meta property="og:description" content="Shannon Entropy" />
+<link rel="canonical" href="/algorithm/2022/03/09/shannon-entropy.html" />
+<meta property="og:url" content="/algorithm/2022/03/09/shannon-entropy.html" />
+<meta property="og:site_name" content="Algorithm Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-03-09T13:57:42+02:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Shannon Entropy" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Liang Wang"},"dateModified":"2022-03-09T13:57:42+02:00","datePublished":"2022-03-09T13:57:42+02:00","description":"Shannon Entropy","headline":"Shannon Entropy","mainEntityOfPage":{"@type":"WebPage","@id":"/algorithm/2022/03/09/shannon-entropy.html"},"url":"/algorithm/2022/03/09/shannon-entropy.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="Algorithm Blog" /><script async src="https://www.googletagmanager.com/gtag/js?id=UA-123353217-1"></script>
+<script>
+  window['ga-disable-UA-123353217-1'] = window.doNotTrack === "1" || navigator.doNotTrack === "1" || navigator.doNotTrack === "yes" || navigator.msDoNotTrack === "1";
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){window.dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-123353217-1');
+</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1868946892712371" crossorigin="anonymous"></script></head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Algorithm Blog</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Shannon Entropy</h1>
+    <p class="post-meta"><time class="dt-published" datetime="2022-03-09T13:57:42+02:00" itemprop="datePublished">
+        Mar 9, 2022
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <h1 id="shannon-entropy">Shannon Entropy</h1>
+
+<h2 id="introduction">Introduction</h2>
+<p>Shannon entropy is a concept in information theory that measures the uncertainty or randomness associated with a set of data. It was introduced by Claude Shannon, a mathematician and electrical engineer, in his 1948 paper “A Mathematical Theory of Communication”.</p>
+
+<p>Shannon entropy is widely used in cryptography, data compression, and other fields where information needs to be encoded and transmitted efficiently and securely.</p>
+
+<h2 id="implementation">Implementation</h2>
+
+<div class="language-ocaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="c">(* Shannon Entropy *)</span>
+
+<span class="k">module</span> <span class="nc">CharMap</span> <span class="o">=</span> <span class="nn">Map</span><span class="p">.</span><span class="nc">Make</span><span class="p">(</span><span class="nc">Char</span><span class="p">)</span>
+
+<span class="k">let</span> <span class="n">entropy</span> <span class="n">s</span> <span class="o">=</span>
+  <span class="k">let</span> <span class="n">count</span> <span class="n">map</span> <span class="n">c</span> <span class="o">=</span>
+    <span class="nn">CharMap</span><span class="p">.</span><span class="n">update</span> <span class="n">c</span> <span class="p">(</span><span class="k">function</span> <span class="nc">Some</span> <span class="n">n</span> <span class="o">-&gt;</span> <span class="nc">Some</span> <span class="p">(</span><span class="n">n</span> <span class="o">+.</span> <span class="mi">1</span><span class="o">.</span><span class="p">)</span> <span class="o">|</span> <span class="nc">None</span> <span class="o">-&gt;</span> <span class="nc">Some</span> <span class="mi">1</span><span class="o">.</span><span class="p">)</span> <span class="n">map</span>
+  <span class="ow">and</span> <span class="n">calc</span> <span class="n">_</span> <span class="n">n</span> <span class="n">sum</span> <span class="o">=</span>
+    <span class="n">sum</span> <span class="o">+.</span> <span class="n">n</span> <span class="o">*.</span> <span class="nn">Float</span><span class="p">.</span><span class="n">log2</span> <span class="n">n</span>
+  <span class="k">in</span>
+  <span class="k">let</span> <span class="n">sum</span> <span class="o">=</span> <span class="nn">CharMap</span><span class="p">.</span><span class="n">fold</span> <span class="n">calc</span> <span class="p">(</span><span class="nn">String</span><span class="p">.</span><span class="n">fold_left</span> <span class="n">count</span> <span class="nn">CharMap</span><span class="p">.</span><span class="n">empty</span> <span class="n">s</span><span class="p">)</span> <span class="mi">0</span><span class="o">.</span>
+  <span class="ow">and</span> <span class="n">len</span> <span class="o">=</span> <span class="kt">float</span> <span class="p">(</span><span class="nn">String</span><span class="p">.</span><span class="n">length</span> <span class="n">s</span><span class="p">)</span> <span class="k">in</span>
+  <span class="nn">Float</span><span class="p">.</span><span class="n">log2</span> <span class="n">len</span> <span class="o">-.</span> <span class="n">sum</span> <span class="o">/.</span> <span class="n">len</span>
+
+<span class="k">let</span> <span class="bp">()</span> <span class="o">=</span>
+  <span class="n">entropy</span> <span class="s2">"1223334444"</span> <span class="o">|&gt;</span> <span class="n">string_of_float</span> <span class="o">|&gt;</span> <span class="n">print_endline</span>
+
+</code></pre></div></div>
+
+<p>The implementation of the Shannon entropy algorithm is written in OCaml. It takes a string as input and returns the entropy of the string as a floating-point number.</p>
+
+<h2 id="step-by-step-explanation">Step-by-step Explanation</h2>
+<ol>
+  <li>Define a module CharMap as a map from characters to floating-point numbers using the OCaml built-in Map library.</li>
+  <li>Define the <code class="language-plaintext highlighter-rouge">entropy</code> function which takes a string <code class="language-plaintext highlighter-rouge">s</code> as an argument.</li>
+  <li>Define the <code class="language-plaintext highlighter-rouge">count</code> function which takes a CharMap <code class="language-plaintext highlighter-rouge">map</code> and a character <code class="language-plaintext highlighter-rouge">c</code> as arguments. It counts the number of occurrences of character <code class="language-plaintext highlighter-rouge">c</code> in the string and updates the map accordingly. If <code class="language-plaintext highlighter-rouge">c</code> is not in the map, it is added with a count of 1.</li>
+  <li>Define the <code class="language-plaintext highlighter-rouge">calc</code> function which takes a character and its frequency in the string as arguments. It returns the product of frequency and the base-2 logarithm of frequency.</li>
+  <li>In the <code class="language-plaintext highlighter-rouge">entropy</code> function, fold <code class="language-plaintext highlighter-rouge">count</code> over the input string <code class="language-plaintext highlighter-rouge">s</code> starting with an empty CharMap to get a mapping of each character to its frequency.</li>
+  <li>Fold <code class="language-plaintext highlighter-rouge">calc</code> over the CharMap obtained in step 5 to calculate the Shannon entropy for the input string.</li>
+  <li>Calculate the length of the input string as a float using <code class="language-plaintext highlighter-rouge">String.length</code> and perform the final calculation to get the entropy as a floating-point number.</li>
+  <li>The entropy value is returned from the <code class="language-plaintext highlighter-rouge">entropy</code> function.</li>
+</ol>
+
+<h2 id="complexity-analysis">Complexity Analysis</h2>
+<p>The Shannon entropy algorithm calculates the frequency of each character in a given string and then applies the Shannon entropy formula using that frequency distribution.</p>
+
+<p>Let <code class="language-plaintext highlighter-rouge">n</code> be the length of the input string. Then:</p>
+
+<ul>
+  <li>The <code class="language-plaintext highlighter-rouge">String.fold_left</code> call in step 5 takes <code class="language-plaintext highlighter-rouge">O(n)</code> time to traverse the input string and update the character frequency map.</li>
+  <li>The <code class="language-plaintext highlighter-rouge">CharMap.fold</code> call in step 6 takes <code class="language-plaintext highlighter-rouge">O(k log k)</code> time where <code class="language-plaintext highlighter-rouge">k</code> is the number of distinct characters in the input string. In the worst case, <code class="language-plaintext highlighter-rouge">k</code> can be as large as the total number of Unicode characters which is around 143,000.</li>
+  <li>The final calculation in step 7 takes constant time.</li>
+</ul>
+
+<p>Therefore, the overall time complexity of the algorithm is <code class="language-plaintext highlighter-rouge">O(n + k log k)</code>. In practice, the <code class="language-plaintext highlighter-rouge">k log k</code> term dominates since it is much larger than <code class="language-plaintext highlighter-rouge">n</code> for most input strings.</p>
+
+  </div><a class="u-url" href="/algorithm/2022/03/09/shannon-entropy.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+        <ul class="contact-list">
+          <li class="p-name">Liang Wang</li>
+          <li><a class="u-email" href="mailto:liang@ocaml.xyz">liang@ocaml.xyz</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p>Explore the elegance of classic and numerical algorithms through practical OCaml implementations, unraveling their inner workings and unveiling the art and science of algorithmic programming.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

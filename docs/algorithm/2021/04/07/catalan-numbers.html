@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Catalan numbers | Algorithm Blog</title>
+<meta name="generator" content="Jekyll v4.3.2" />
+<meta property="og:title" content="Catalan numbers" />
+<meta name="author" content="Liang Wang" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Introduction The Catalan numbers are a sequence of natural numbers that have important applications in several fields such as combinatorics, algebra, geometry and several other branches of mathematics. This sequence is named after Eugène Charles Catalan, a Belgian mathematician. Catalan numbers describe the number of ways to perform several tasks such as arranging brackets in expressions, forming triangulations from non-convex polygons, arranging ball sequences, etc." />
+<meta property="og:description" content="Introduction The Catalan numbers are a sequence of natural numbers that have important applications in several fields such as combinatorics, algebra, geometry and several other branches of mathematics. This sequence is named after Eugène Charles Catalan, a Belgian mathematician. Catalan numbers describe the number of ways to perform several tasks such as arranging brackets in expressions, forming triangulations from non-convex polygons, arranging ball sequences, etc." />
+<link rel="canonical" href="/algorithm/2021/04/07/catalan-numbers.html" />
+<meta property="og:url" content="/algorithm/2021/04/07/catalan-numbers.html" />
+<meta property="og:site_name" content="Algorithm Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-04-07T18:27:33+03:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Catalan numbers" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Liang Wang"},"dateModified":"2021-04-07T18:27:33+03:00","datePublished":"2021-04-07T18:27:33+03:00","description":"Introduction The Catalan numbers are a sequence of natural numbers that have important applications in several fields such as combinatorics, algebra, geometry and several other branches of mathematics. This sequence is named after Eugène Charles Catalan, a Belgian mathematician. Catalan numbers describe the number of ways to perform several tasks such as arranging brackets in expressions, forming triangulations from non-convex polygons, arranging ball sequences, etc.","headline":"Catalan numbers","mainEntityOfPage":{"@type":"WebPage","@id":"/algorithm/2021/04/07/catalan-numbers.html"},"url":"/algorithm/2021/04/07/catalan-numbers.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="Algorithm Blog" /><script async src="https://www.googletagmanager.com/gtag/js?id=UA-123353217-1"></script>
+<script>
+  window['ga-disable-UA-123353217-1'] = window.doNotTrack === "1" || navigator.doNotTrack === "1" || navigator.doNotTrack === "yes" || navigator.msDoNotTrack === "1";
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){window.dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-123353217-1');
+</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1868946892712371" crossorigin="anonymous"></script></head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Algorithm Blog</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Catalan numbers</h1>
+    <p class="post-meta"><time class="dt-published" datetime="2021-04-07T18:27:33+03:00" itemprop="datePublished">
+        Apr 7, 2021
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <h2 id="introduction">Introduction</h2>
+<p>The Catalan numbers are a sequence of natural numbers that have important applications in several fields such as combinatorics, algebra, geometry and several other branches of mathematics. This sequence is named after Eugène Charles Catalan, a Belgian mathematician. Catalan numbers describe the number of ways to perform several tasks such as arranging brackets in expressions, forming triangulations from non-convex polygons, arranging ball sequences, etc.</p>
+
+<h2 id="implementation">Implementation</h2>
+
+<div class="language-ocaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="c">(* Catalan numbers *)</span>
+
+<span class="k">let</span> <span class="n">imp_catalan</span> <span class="n">n</span> <span class="o">=</span>
+  <span class="k">let</span> <span class="n">return</span> <span class="o">=</span> <span class="n">ref</span> <span class="mi">1</span> <span class="k">in</span>
+  <span class="k">for</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="k">to</span> <span class="n">n</span> <span class="k">do</span>
+    <span class="n">return</span> <span class="o">:=</span> <span class="o">!</span><span class="n">return</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+  <span class="k">done</span><span class="p">;</span>
+  <span class="o">!</span><span class="n">return</span>
+
+<span class="k">let</span> <span class="k">rec</span> <span class="n">catalan</span> <span class="o">=</span> <span class="k">function</span>
+  <span class="o">|</span> <span class="mi">0</span> <span class="o">-&gt;</span> <span class="mi">1</span>
+  <span class="o">|</span> <span class="n">n</span> <span class="o">-&gt;</span> <span class="n">catalan</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="k">let</span> <span class="n">memoize</span> <span class="n">f</span> <span class="o">=</span>
+  <span class="k">let</span> <span class="n">cache</span> <span class="o">=</span> <span class="nn">Hashtbl</span><span class="p">.</span><span class="n">create</span> <span class="mi">20</span> <span class="k">in</span>
+  <span class="k">fun</span> <span class="n">n</span> <span class="o">-&gt;</span>
+    <span class="k">match</span> <span class="nn">Hashtbl</span><span class="p">.</span><span class="n">find_opt</span> <span class="n">cache</span> <span class="n">n</span> <span class="k">with</span>
+    <span class="o">|</span> <span class="nc">None</span> <span class="o">-&gt;</span>
+      <span class="k">let</span> <span class="n">x</span> <span class="o">=</span> <span class="n">f</span> <span class="n">n</span> <span class="k">in</span>
+      <span class="nn">Hashtbl</span><span class="p">.</span><span class="n">replace</span> <span class="n">cache</span> <span class="n">n</span> <span class="n">x</span><span class="p">;</span>
+      <span class="n">x</span>
+    <span class="o">|</span> <span class="nc">Some</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span>
+
+<span class="k">let</span> <span class="n">catalan_cache</span> <span class="o">=</span> <span class="nn">Hashtbl</span><span class="p">.</span><span class="n">create</span> <span class="mi">20</span>
+
+<span class="k">let</span> <span class="k">rec</span> <span class="n">memo_catalan</span> <span class="n">n</span> <span class="o">=</span>
+  <span class="k">if</span> <span class="n">n</span> <span class="o">=</span> <span class="mi">0</span> <span class="k">then</span> <span class="mi">1</span> <span class="k">else</span>
+    <span class="k">match</span> <span class="nn">Hashtbl</span><span class="p">.</span><span class="n">find_opt</span> <span class="n">catalan_cache</span> <span class="n">n</span> <span class="k">with</span>
+    <span class="o">|</span> <span class="nc">None</span> <span class="o">-&gt;</span>
+      <span class="k">let</span> <span class="n">x</span> <span class="o">=</span> <span class="n">memo_catalan</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="k">in</span>
+      <span class="nn">Hashtbl</span><span class="p">.</span><span class="n">replace</span> <span class="n">catalan_cache</span> <span class="n">n</span> <span class="n">x</span><span class="p">;</span>
+      <span class="n">x</span>
+    <span class="o">|</span> <span class="nc">Some</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span>
+
+<span class="k">let</span> <span class="bp">()</span> <span class="o">=</span>
+  <span class="k">if</span> <span class="n">not</span> <span class="o">!</span><span class="nn">Sys</span><span class="p">.</span><span class="n">interactive</span> <span class="k">then</span>
+    <span class="k">let</span> <span class="n">bench</span> <span class="n">label</span> <span class="n">f</span> <span class="n">n</span> <span class="n">times</span> <span class="o">=</span>
+      <span class="k">let</span> <span class="n">start</span> <span class="o">=</span> <span class="nn">Unix</span><span class="p">.</span><span class="n">gettimeofday</span> <span class="bp">()</span> <span class="k">in</span>
+      <span class="k">begin</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="k">to</span> <span class="n">times</span> <span class="k">do</span> <span class="n">f</span> <span class="n">n</span> <span class="k">done</span><span class="p">;</span>
+        <span class="k">let</span> <span class="n">stop</span> <span class="o">=</span> <span class="nn">Unix</span><span class="p">.</span><span class="n">gettimeofday</span> <span class="bp">()</span> <span class="k">in</span>
+        <span class="nn">Printf</span><span class="p">.</span><span class="n">printf</span> <span class="s2">"%s (%d runs) : %.3f
+"</span>
+          <span class="n">label</span> <span class="n">times</span> <span class="p">(</span><span class="n">stop</span> <span class="o">-.</span> <span class="n">start</span><span class="p">)</span>
+      <span class="k">end</span> <span class="k">in</span>
+    <span class="k">let</span> <span class="n">show</span> <span class="n">f</span> <span class="n">g</span> <span class="n">h</span> <span class="n">f'</span> <span class="n">n</span> <span class="o">=</span>
+      <span class="k">for</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="k">to</span> <span class="n">n</span> <span class="k">do</span>
+        <span class="nn">Printf</span><span class="p">.</span><span class="n">printf</span> <span class="s2">"%2d %7d %7d %7d %7d
+"</span>
+          <span class="n">i</span> <span class="p">(</span><span class="n">f</span> <span class="n">i</span><span class="p">)</span> <span class="p">(</span><span class="n">g</span> <span class="n">i</span><span class="p">)</span> <span class="p">(</span><span class="n">h</span> <span class="n">i</span><span class="p">)</span> <span class="p">(</span><span class="n">f'</span> <span class="n">i</span><span class="p">)</span>
+      <span class="k">done</span>
+    <span class="k">in</span>
+    <span class="nn">List</span><span class="p">.</span><span class="n">iter</span> <span class="p">(</span><span class="k">fun</span> <span class="p">(</span><span class="n">l</span><span class="o">,</span> <span class="n">f</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">bench</span> <span class="n">l</span> <span class="n">f</span> <span class="mi">15</span> <span class="mi">10_000_000</span><span class="p">)</span>
+      <span class="p">[</span><span class="s2">"imperative"</span><span class="o">,</span> <span class="n">imp_catalan</span><span class="p">;</span>
+       <span class="s2">"recursive"</span><span class="o">,</span> <span class="n">catalan</span><span class="p">;</span>
+       <span class="s2">"hand-memoized"</span><span class="o">,</span> <span class="n">memo_catalan</span><span class="p">;</span>
+       <span class="s2">"memoized"</span><span class="o">,</span> <span class="p">(</span><span class="n">memoize</span> <span class="n">catalan</span><span class="p">)];</span>
+    <span class="n">show</span> <span class="n">imp_catalan</span> <span class="n">catalan</span> <span class="n">memo_catalan</span> <span class="p">(</span><span class="n">memoize</span> <span class="n">catalan</span><span class="p">)</span> <span class="mi">15</span>
+
+</code></pre></div></div>
+
+<p>The algorithm calculates the Catalan number using four different implementation methods:</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">imp_catalan</code> calculates Catalan numbers using imperative programming</li>
+  <li><code class="language-plaintext highlighter-rouge">catalan</code> calculates Catalan numbers using a recursive algorithm</li>
+  <li><code class="language-plaintext highlighter-rouge">memoize</code> constructs a memoized function</li>
+  <li><code class="language-plaintext highlighter-rouge">memo_catalan</code> calculates Catalan numbers by memoization using the <code class="language-plaintext highlighter-rouge">memoize</code> function constructed above</li>
+</ul>
+
+<h2 id="step-by-step-explanation">Step-by-Step Explanation</h2>
+<ol>
+  <li>In <code class="language-plaintext highlighter-rouge">imp_catalan</code>, a reference value <code class="language-plaintext highlighter-rouge">return</code> is initialized to 1.</li>
+  <li>A for-loop runs from 1 to <code class="language-plaintext highlighter-rouge">n</code>.</li>
+  <li>For each iteration, <code class="language-plaintext highlighter-rouge">return</code> is updated as follows:
+    <ul>
+      <li>multiplied by <code class="language-plaintext highlighter-rouge">2</code></li>
+      <li>multiplied by <code class="language-plaintext highlighter-rouge">2i-1</code> (where <code class="language-plaintext highlighter-rouge">i</code> is the current iteration number)</li>
+      <li>divided by <code class="language-plaintext highlighter-rouge">i+2</code></li>
+    </ul>
+  </li>
+  <li>
+    <p>Finally, <code class="language-plaintext highlighter-rouge">!return</code> (i.e., the value in the reference <code class="language-plaintext highlighter-rouge">return</code>) is returned.</p>
+  </li>
+  <li>In <code class="language-plaintext highlighter-rouge">catalan</code>, the function takes an integer argument <code class="language-plaintext highlighter-rouge">n</code>.</li>
+  <li>If <code class="language-plaintext highlighter-rouge">n</code> is zero, the function returns one, else it calculates and returns the Catalan number recursively as follows:
+    <ul>
+      <li>call <code class="language-plaintext highlighter-rouge">catalan</code> with <code class="language-plaintext highlighter-rouge">(n-1)</code> as argument</li>
+      <li>multiply the result of the recursive call by <code class="language-plaintext highlighter-rouge">2</code></li>
+      <li>multiply it by <code class="language-plaintext highlighter-rouge">2n-1</code></li>
+      <li>divide it by <code class="language-plaintext highlighter-rouge">n+1</code></li>
+    </ul>
+  </li>
+  <li>In <code class="language-plaintext highlighter-rouge">memoize</code>, the function takes as input another function <code class="language-plaintext highlighter-rouge">f</code>.</li>
+  <li>The result is a new function that caches the output of <code class="language-plaintext highlighter-rouge">f</code> for a given input <code class="language-plaintext highlighter-rouge">n</code>.</li>
+  <li>First, a <code class="language-plaintext highlighter-rouge">cache</code> hash table is created to hold the function values.</li>
+  <li>The new function takes as input an argument <code class="language-plaintext highlighter-rouge">n</code>, and first checks if the value for this input is already in the cache.</li>
+  <li>If it is not in the cache, the original function <code class="language-plaintext highlighter-rouge">f</code> is applied to <code class="language-plaintext highlighter-rouge">n</code>, and the result is stored in the cache.</li>
+  <li>
+    <p>Finally, the function returns the value either found in the cache or computed by <code class="language-plaintext highlighter-rouge">f</code>.</p>
+  </li>
+  <li>In <code class="language-plaintext highlighter-rouge">memo_catalan</code>, the function takes the argument <code class="language-plaintext highlighter-rouge">n</code>.</li>
+  <li>If the input is <code class="language-plaintext highlighter-rouge">0</code>, the function returns <code class="language-plaintext highlighter-rouge">1</code>.</li>
+  <li>Otherwise, it checks if the value is already in the cache.</li>
+  <li>If the value is not in the cache, calculate the Catalan number recursively using <code class="language-plaintext highlighter-rouge">(n-1)</code>, multiplied by <code class="language-plaintext highlighter-rouge">2</code>, multiplied by <code class="language-plaintext highlighter-rouge">2n-1</code>, and divided by <code class="language-plaintext highlighter-rouge">n+1</code>.</li>
+  <li>
+    <p>The calculated value is then stored in the cache and returned.</p>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">show</code> function prints out a table of Catalan numbers for the first <code class="language-plaintext highlighter-rouge">n</code> integers, computing the results using various methods.</li>
+</ol>
+
+<h2 id="complexity-analysis">Complexity Analysis</h2>
+<ul>
+  <li>The time complexity of <code class="language-plaintext highlighter-rouge">imp_catalan</code> is O(n) since the for-loop runs for n iterations.</li>
+  <li>The time complexity of <code class="language-plaintext highlighter-rouge">catalan</code> is O(2^n) since it solves the problem recursively.</li>
+  <li>The time complexity of <code class="language-plaintext highlighter-rouge">memo_catalan</code> is O(n) since it computes <code class="language-plaintext highlighter-rouge">n</code> values recursively before reusing previously memoized solutions.</li>
+  <li>The time complexity of <code class="language-plaintext highlighter-rouge">memoize</code> is O(n) since the memoization table holds a maximum of <code class="language-plaintext highlighter-rouge">n</code> values.</li>
+  <li>The space complexity of <code class="language-plaintext highlighter-rouge">imp_catalan</code>, <code class="language-plaintext highlighter-rouge">catalan</code>, <code class="language-plaintext highlighter-rouge">memoize</code>, and <code class="language-plaintext highlighter-rouge">memo_catalan</code> is O(1) as they require a constant amount of memory to compute each Catalan number.</li>
+</ul>
+
+  </div><a class="u-url" href="/algorithm/2021/04/07/catalan-numbers.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+        <ul class="contact-list">
+          <li class="p-name">Liang Wang</li>
+          <li><a class="u-email" href="mailto:liang@ocaml.xyz">liang@ocaml.xyz</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p>Explore the elegance of classic and numerical algorithms through practical OCaml implementations, unraveling their inner workings and unveiling the art and science of algorithmic programming.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

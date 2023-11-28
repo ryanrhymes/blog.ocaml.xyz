@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Binomial coefficients | Algorithm Blog</title>
+<meta name="generator" content="Jekyll v4.3.2" />
+<meta property="og:title" content="Binomial coefficients" />
+<meta name="author" content="Liang Wang" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Introduction" />
+<meta property="og:description" content="Introduction" />
+<link rel="canonical" href="/algorithm/2022/02/27/binomialcoeff.html" />
+<meta property="og:url" content="/algorithm/2022/02/27/binomialcoeff.html" />
+<meta property="og:site_name" content="Algorithm Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-02-27T12:05:36+02:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Binomial coefficients" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Liang Wang"},"dateModified":"2022-02-27T12:05:36+02:00","datePublished":"2022-02-27T12:05:36+02:00","description":"Introduction","headline":"Binomial coefficients","mainEntityOfPage":{"@type":"WebPage","@id":"/algorithm/2022/02/27/binomialcoeff.html"},"url":"/algorithm/2022/02/27/binomialcoeff.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="Algorithm Blog" /><script async src="https://www.googletagmanager.com/gtag/js?id=UA-123353217-1"></script>
+<script>
+  window['ga-disable-UA-123353217-1'] = window.doNotTrack === "1" || navigator.doNotTrack === "1" || navigator.doNotTrack === "yes" || navigator.msDoNotTrack === "1";
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){window.dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-123353217-1');
+</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1868946892712371" crossorigin="anonymous"></script></head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Algorithm Blog</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Binomial coefficients</h1>
+    <p class="post-meta"><time class="dt-published" datetime="2022-02-27T12:05:36+02:00" itemprop="datePublished">
+        Feb 27, 2022
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <h2 id="introduction">Introduction</h2>
+
+<p>Binomial coefficients are mathematical entities that arise in combinatorics, probability theory, and algebra. The binomial coefficient <code class="language-plaintext highlighter-rouge">n choose k</code> represents the number of ways to choose k elements from a set of n elements without regard to order. The algorithm we will discuss computes the binomial coefficient using a combinatorial formula that iteratively multiplies the numerator by n - i and the denominator by i + 1, starting from 1 and going up to the smaller of k and n - k.</p>
+
+<h2 id="implementation">Implementation</h2>
+
+<div class="language-ocaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="c">(* Evaluate binomial coefficients *)</span>
+
+<span class="k">let</span> <span class="n">binomialCoeff</span> <span class="n">n</span> <span class="n">p</span> <span class="o">=</span>
+  <span class="k">let</span> <span class="n">p</span> <span class="o">=</span> <span class="k">if</span> <span class="n">p</span> <span class="o">&lt;</span> <span class="n">n</span> <span class="o">-.</span> <span class="n">p</span> <span class="k">then</span> <span class="n">p</span> <span class="k">else</span> <span class="n">n</span> <span class="o">-.</span> <span class="n">p</span> <span class="k">in</span>
+  <span class="k">let</span> <span class="k">rec</span> <span class="n">cm</span> <span class="n">res</span> <span class="n">num</span> <span class="n">denum</span> <span class="o">=</span>
+    <span class="k">if</span> <span class="n">denum</span> <span class="o">&lt;=</span> <span class="n">p</span> <span class="k">then</span> <span class="n">cm</span> <span class="p">((</span><span class="n">res</span> <span class="o">*.</span> <span class="n">num</span><span class="p">)</span> <span class="o">/.</span> <span class="n">denum</span><span class="p">)</span> <span class="p">(</span><span class="n">num</span> <span class="o">-.</span> <span class="mi">1</span><span class="o">.</span><span class="p">)</span> <span class="p">(</span><span class="n">denum</span> <span class="o">+.</span> <span class="mi">1</span><span class="o">.</span><span class="p">)</span>
+    <span class="k">else</span> <span class="n">res</span> <span class="k">in</span>
+  <span class="n">cm</span> <span class="mi">1</span><span class="o">.</span> <span class="n">n</span> <span class="mi">1</span><span class="o">.</span>
+
+</code></pre></div></div>
+
+<p>The binomial coefficient algorithm takes two arguments: <code class="language-plaintext highlighter-rouge">n</code> and <code class="language-plaintext highlighter-rouge">p</code>. It calculates the binomial coefficient of <code class="language-plaintext highlighter-rouge">n</code> and <code class="language-plaintext highlighter-rouge">p</code>. It first computes the minimum of <code class="language-plaintext highlighter-rouge">p</code> and <code class="language-plaintext highlighter-rouge">n - p</code>, then initializes variables <code class="language-plaintext highlighter-rouge">res</code>, <code class="language-plaintext highlighter-rouge">num</code>, and <code class="language-plaintext highlighter-rouge">denum</code> and passes them to a helper function <code class="language-plaintext highlighter-rouge">cm</code>.</p>
+
+<p><code class="language-plaintext highlighter-rouge">cm</code> takes a result <code class="language-plaintext highlighter-rouge">res</code>, a numerator <code class="language-plaintext highlighter-rouge">num</code>, and a denominator <code class="language-plaintext highlighter-rouge">denum</code> and iteratively multiplies <code class="language-plaintext highlighter-rouge">res</code> by <code class="language-plaintext highlighter-rouge">num</code> and divides by <code class="language-plaintext highlighter-rouge">denum</code>, decrementing <code class="language-plaintext highlighter-rouge">num</code> and incrementing <code class="language-plaintext highlighter-rouge">denum</code> until <code class="language-plaintext highlighter-rouge">denum</code> is greater than <code class="language-plaintext highlighter-rouge">p</code>. The final result of <code class="language-plaintext highlighter-rouge">cm</code> is the binomial coefficient of <code class="language-plaintext highlighter-rouge">n</code> and <code class="language-plaintext highlighter-rouge">p</code>.</p>
+
+<h2 id="step-by-step-explanation">Step-by-step Explanation</h2>
+
+<ol>
+  <li>
+    <p>Check if <code class="language-plaintext highlighter-rouge">p</code> is greater than <code class="language-plaintext highlighter-rouge">n - p</code>. If it is, set <code class="language-plaintext highlighter-rouge">p</code> to <code class="language-plaintext highlighter-rouge">n - p</code> to reduce the number of computations. This is because <code class="language-plaintext highlighter-rouge">n choose k</code> is equivalent to <code class="language-plaintext highlighter-rouge">n choose n-k</code>, and <code class="language-plaintext highlighter-rouge">k</code> must be no greater than <code class="language-plaintext highlighter-rouge">n / 2</code>.</p>
+  </li>
+  <li>
+    <p>Initialize a result variable <code class="language-plaintext highlighter-rouge">res</code> to 1, a numerator variable <code class="language-plaintext highlighter-rouge">num</code> to <code class="language-plaintext highlighter-rouge">n</code>, and a denominator variable <code class="language-plaintext highlighter-rouge">denum</code> to 1.</p>
+  </li>
+  <li>
+    <p>Pass <code class="language-plaintext highlighter-rouge">res</code>, <code class="language-plaintext highlighter-rouge">num</code>, and <code class="language-plaintext highlighter-rouge">denum</code> to a helper function <code class="language-plaintext highlighter-rouge">cm</code>.</p>
+  </li>
+  <li>
+    <p>In <code class="language-plaintext highlighter-rouge">cm</code>, calculate <code class="language-plaintext highlighter-rouge">res * num / denum</code> and assign to <code class="language-plaintext highlighter-rouge">res</code>.</p>
+  </li>
+  <li>
+    <p>Decrement <code class="language-plaintext highlighter-rouge">num</code> by 1 and increment <code class="language-plaintext highlighter-rouge">denum</code> by 1.</p>
+  </li>
+  <li>
+    <p>If <code class="language-plaintext highlighter-rouge">denum</code> is less than or equal to <code class="language-plaintext highlighter-rouge">p</code>, recurse by calling <code class="language-plaintext highlighter-rouge">cm</code> with <code class="language-plaintext highlighter-rouge">res</code>, <code class="language-plaintext highlighter-rouge">num</code>, and <code class="language-plaintext highlighter-rouge">denum</code> as arguments.</p>
+  </li>
+  <li>
+    <p>If <code class="language-plaintext highlighter-rouge">denum</code> is greater than <code class="language-plaintext highlighter-rouge">p</code>, return <code class="language-plaintext highlighter-rouge">res</code> as the binomial coefficient of <code class="language-plaintext highlighter-rouge">n</code> and <code class="language-plaintext highlighter-rouge">p</code>.</p>
+  </li>
+</ol>
+
+<h2 id="complexity-analysis">Complexity Analysis</h2>
+
+<p>The algorithm performs a constant amount of initialization before calling the helper function <code class="language-plaintext highlighter-rouge">cm</code>. The helper function <code class="language-plaintext highlighter-rouge">cm</code> performs <code class="language-plaintext highlighter-rouge">p</code> iterations, each of which performs one multiplication and one division. Therefore, the time complexity of the algorithm is O(p), where <code class="language-plaintext highlighter-rouge">p</code> is the smaller of <code class="language-plaintext highlighter-rouge">p</code> and <code class="language-plaintext highlighter-rouge">n - p</code>.</p>
+
+<p>The space complexity of the algorithm is O(1), as it only initializes a constant number of variables regardless of the input size.</p>
+
+  </div><a class="u-url" href="/algorithm/2022/02/27/binomialcoeff.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+        <ul class="contact-list">
+          <li class="p-name">Liang Wang</li>
+          <li><a class="u-email" href="mailto:liang@ocaml.xyz">liang@ocaml.xyz</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p>Explore the elegance of classic and numerical algorithms through practical OCaml implementations, unraveling their inner workings and unveiling the art and science of algorithmic programming.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

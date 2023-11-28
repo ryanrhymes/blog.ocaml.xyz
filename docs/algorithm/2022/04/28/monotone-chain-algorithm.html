@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Monotone chain algorithm | Algorithm Blog</title>
+<meta name="generator" content="Jekyll v4.3.2" />
+<meta property="og:title" content="Monotone chain algorithm" />
+<meta name="author" content="Liang Wang" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Introduction Convex hull is a fundamental problem in computational geometry. It involves finding the smallest convex polygon that completely encloses a set of points in the plane. Convex hulls have various applications in fields like image processing, navigation, and robotics. Andrew’s algorithm is a well-known method for constructing the convex hull of a set of points in Euclidean space." />
+<meta property="og:description" content="Introduction Convex hull is a fundamental problem in computational geometry. It involves finding the smallest convex polygon that completely encloses a set of points in the plane. Convex hulls have various applications in fields like image processing, navigation, and robotics. Andrew’s algorithm is a well-known method for constructing the convex hull of a set of points in Euclidean space." />
+<link rel="canonical" href="/algorithm/2022/04/28/monotone-chain-algorithm.html" />
+<meta property="og:url" content="/algorithm/2022/04/28/monotone-chain-algorithm.html" />
+<meta property="og:site_name" content="Algorithm Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-04-28T07:57:48+03:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Monotone chain algorithm" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Liang Wang"},"dateModified":"2022-04-28T07:57:48+03:00","datePublished":"2022-04-28T07:57:48+03:00","description":"Introduction Convex hull is a fundamental problem in computational geometry. It involves finding the smallest convex polygon that completely encloses a set of points in the plane. Convex hulls have various applications in fields like image processing, navigation, and robotics. Andrew’s algorithm is a well-known method for constructing the convex hull of a set of points in Euclidean space.","headline":"Monotone chain algorithm","mainEntityOfPage":{"@type":"WebPage","@id":"/algorithm/2022/04/28/monotone-chain-algorithm.html"},"url":"/algorithm/2022/04/28/monotone-chain-algorithm.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="Algorithm Blog" /><script async src="https://www.googletagmanager.com/gtag/js?id=UA-123353217-1"></script>
+<script>
+  window['ga-disable-UA-123353217-1'] = window.doNotTrack === "1" || navigator.doNotTrack === "1" || navigator.doNotTrack === "yes" || navigator.msDoNotTrack === "1";
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){window.dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-123353217-1');
+</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1868946892712371" crossorigin="anonymous"></script></head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Algorithm Blog</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Monotone chain algorithm</h1>
+    <p class="post-meta"><time class="dt-published" datetime="2022-04-28T07:57:48+03:00" itemprop="datePublished">
+        Apr 28, 2022
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <h2 id="introduction">Introduction</h2>
+<p>Convex hull is a fundamental problem in computational geometry. It involves finding the smallest convex polygon that completely encloses a set of points in the plane. Convex hulls have various applications in fields like image processing, navigation, and robotics. Andrew’s algorithm is a well-known method for constructing the convex hull of a set of points in Euclidean space.</p>
+
+<h2 id="implementation">Implementation</h2>
+
+<div class="language-ocaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">(*
+ * Convex hulls by Andrew's monotone chain algorithm.
+ *
+ * For a description of the algorithm, see
+ * https://en.wikibooks.org/w/index.php?title=Algorithm_Implementation/Geometry/Convex_hull/Monotone_chain&amp;stableid=40169
+ *)</span>
+
+<span class="c">(*------------------------------------------------------------------*)</span>
+<span class="c">(* Just enough plane geometry for our purpose.  *)</span>
+
+<span class="k">module</span> <span class="nc">Plane_point</span> <span class="o">=</span>
+  <span class="k">struct</span>
+    <span class="k">type</span> <span class="n">t</span> <span class="o">=</span> <span class="kt">float</span> <span class="o">*</span> <span class="kt">float</span>
+
+    <span class="k">let</span> <span class="n">make</span> <span class="p">(</span><span class="n">xy</span> <span class="o">:</span> <span class="n">t</span><span class="p">)</span> <span class="o">=</span> <span class="n">xy</span>
+    <span class="k">let</span> <span class="n">to_tuple</span> <span class="p">((</span><span class="n">x</span><span class="o">,</span> <span class="n">y</span><span class="p">)</span> <span class="o">:</span> <span class="n">t</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="o">,</span> <span class="n">y</span><span class="p">)</span>
+
+    <span class="k">let</span> <span class="n">x</span> <span class="p">((</span><span class="n">x</span><span class="o">,</span> <span class="n">_</span><span class="p">)</span> <span class="o">:</span> <span class="n">t</span><span class="p">)</span> <span class="o">=</span> <span class="n">x</span>
+    <span class="k">let</span> <span class="n">y</span> <span class="p">((</span><span class="n">_</span><span class="o">,</span> <span class="n">y</span><span class="p">)</span> <span class="o">:</span> <span class="n">t</span><span class="p">)</span> <span class="o">=</span> <span class="n">y</span>
+
+    <span class="k">let</span> <span class="n">equal</span> <span class="p">(</span><span class="n">u</span> <span class="o">:</span> <span class="n">t</span><span class="p">)</span> <span class="p">(</span><span class="n">v</span> <span class="o">:</span> <span class="n">t</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span> <span class="n">u</span> <span class="o">=</span> <span class="n">x</span> <span class="n">v</span> <span class="o">&amp;&amp;</span> <span class="n">y</span> <span class="n">u</span> <span class="o">=</span> <span class="n">y</span> <span class="n">v</span><span class="p">)</span>
+
+    <span class="c">(* Impose a total order on points, making it one that will work
+       for Andrew's monotone chain algorithm. *)</span>
+    <span class="k">let</span> <span class="n">order</span> <span class="p">(</span><span class="n">u</span> <span class="o">:</span> <span class="n">t</span><span class="p">)</span> <span class="p">(</span><span class="n">v</span> <span class="o">:</span> <span class="n">t</span><span class="p">)</span> <span class="o">=</span>
+      <span class="p">(</span><span class="n">x</span> <span class="n">u</span> <span class="o">&lt;</span> <span class="n">x</span> <span class="n">v</span><span class="p">)</span> <span class="o">||</span> <span class="p">(</span><span class="n">x</span> <span class="n">u</span> <span class="o">=</span> <span class="n">x</span> <span class="n">v</span> <span class="o">&amp;&amp;</span> <span class="n">y</span> <span class="n">u</span> <span class="o">&lt;</span> <span class="n">y</span> <span class="n">v</span><span class="p">)</span>
+
+    <span class="c">(* The Array module's sort routines expect a "cmp" function. *)</span>
+    <span class="k">let</span> <span class="n">cmp</span> <span class="n">u</span> <span class="n">v</span> <span class="o">=</span>
+      <span class="k">if</span> <span class="n">order</span> <span class="n">u</span> <span class="n">v</span> <span class="k">then</span>
+        <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+      <span class="k">else</span> <span class="k">if</span> <span class="n">order</span> <span class="n">v</span> <span class="n">u</span> <span class="k">then</span>
+        <span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+      <span class="k">else</span>
+        <span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="c">(* Subtraction is really a vector or multivector operation. *)</span>
+    <span class="k">let</span> <span class="n">sub</span> <span class="p">(</span><span class="n">u</span> <span class="o">:</span> <span class="n">t</span><span class="p">)</span> <span class="p">(</span><span class="n">v</span> <span class="o">:</span> <span class="n">t</span><span class="p">)</span> <span class="o">=</span> <span class="n">make</span> <span class="p">(</span><span class="n">x</span> <span class="n">u</span> <span class="o">-.</span> <span class="n">x</span> <span class="n">v</span><span class="o">,</span> <span class="n">y</span> <span class="n">u</span> <span class="o">-.</span> <span class="n">y</span> <span class="n">v</span><span class="p">)</span>
+
+    <span class="c">(* Cross product is really a multivector operation. *)</span>
+    <span class="k">let</span> <span class="n">cross</span> <span class="p">(</span><span class="n">u</span> <span class="o">:</span> <span class="n">t</span><span class="p">)</span> <span class="p">(</span><span class="n">v</span> <span class="o">:</span> <span class="n">t</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span> <span class="n">u</span> <span class="o">*.</span> <span class="n">y</span> <span class="n">v</span><span class="p">)</span> <span class="o">-.</span> <span class="p">(</span><span class="n">y</span> <span class="n">u</span> <span class="o">*.</span> <span class="n">x</span> <span class="n">v</span><span class="p">)</span>
+
+    <span class="k">let</span> <span class="n">to_string</span> <span class="p">((</span><span class="n">x</span><span class="o">,</span> <span class="n">y</span><span class="p">)</span> <span class="o">:</span> <span class="n">t</span><span class="p">)</span> <span class="o">=</span>
+      <span class="s2">"("</span> <span class="o">^</span> <span class="n">string_of_float</span> <span class="n">x</span> <span class="o">^</span> <span class="s2">" "</span> <span class="o">^</span> <span class="n">string_of_float</span> <span class="n">y</span> <span class="o">^</span> <span class="s2">")"</span>
+  <span class="k">end</span>
+<span class="p">;;</span>
+
+<span class="c">(*------------------------------------------------------------------*)</span>
+<span class="c">(* We want something akin to array_delete_neighbor_dups of Scheme's
+   SRFI-132. *)</span>
+
+<span class="k">let</span> <span class="n">array_delete_neighbor_dups</span> <span class="n">equal</span> <span class="n">arr</span> <span class="o">=</span>
+  <span class="c">(* Returns a Seq.t rather than an array. *)</span>
+  <span class="k">let</span> <span class="k">rec</span> <span class="n">loop</span> <span class="n">i</span> <span class="n">lst</span> <span class="o">=</span>
+    <span class="c">(* Cons a list of non-duplicates, going backwards through the
+       array so the list will be in forwards order. *)</span>
+    <span class="k">if</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="k">then</span>
+      <span class="n">arr</span><span class="o">.</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">::</span> <span class="n">lst</span>
+    <span class="k">else</span> <span class="k">if</span> <span class="n">equal</span> <span class="n">arr</span><span class="o">.</span><span class="p">(</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="n">arr</span><span class="o">.</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">then</span>
+      <span class="n">loop</span> <span class="p">(</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="n">lst</span>
+    <span class="k">else</span>
+      <span class="n">loop</span> <span class="p">(</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="n">arr</span><span class="o">.</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">::</span> <span class="n">lst</span><span class="p">)</span>
+  <span class="k">in</span>
+  <span class="k">let</span> <span class="n">n</span> <span class="o">=</span> <span class="nn">Array</span><span class="p">.</span><span class="n">length</span> <span class="n">arr</span> <span class="k">in</span>
+  <span class="nn">List</span><span class="p">.</span><span class="n">to_seq</span> <span class="p">(</span><span class="k">if</span> <span class="n">n</span> <span class="o">=</span> <span class="mi">0</span> <span class="k">then</span> <span class="bp">[]</span> <span class="k">else</span> <span class="n">loop</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="bp">[]</span><span class="p">)</span>
+<span class="p">;;</span>
+
+<span class="c">(*------------------------------------------------------------------*)</span>
+<span class="c">(* The convex hull algorithm. *)</span>
+
+<span class="k">let</span> <span class="n">cross_test</span> <span class="n">pt_i</span> <span class="n">hull</span> <span class="n">j</span> <span class="o">=</span>
+  <span class="k">let</span> <span class="n">hull_j</span> <span class="o">=</span> <span class="n">hull</span><span class="o">.</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+  <span class="ow">and</span> <span class="n">hull_j1</span> <span class="o">=</span> <span class="n">hull</span><span class="o">.</span><span class="p">(</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="k">in</span>
+  <span class="mi">0</span><span class="o">.</span><span class="mi">0</span> <span class="o">&lt;</span> <span class="nn">Plane_point</span><span class="p">.(</span><span class="n">cross</span> <span class="p">(</span><span class="n">sub</span> <span class="n">hull_j</span> <span class="n">hull_j1</span><span class="p">)</span>
+                       <span class="p">(</span><span class="n">sub</span> <span class="n">pt_i</span> <span class="n">hull_j1</span><span class="p">))</span>
+
+<span class="k">let</span> <span class="n">construct_lower_hull</span> <span class="n">n</span> <span class="n">pt</span> <span class="o">=</span>
+  <span class="k">let</span> <span class="n">hull</span> <span class="o">=</span> <span class="nn">Array</span><span class="p">.</span><span class="n">make</span> <span class="n">n</span> <span class="p">(</span><span class="nn">Plane_point</span><span class="p">.</span><span class="n">make</span> <span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="o">,</span> <span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="p">))</span> <span class="k">in</span>
+  <span class="k">let</span> <span class="bp">()</span> <span class="o">=</span> <span class="n">hull</span><span class="o">.</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">&lt;-</span> <span class="n">pt</span><span class="o">.</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+  <span class="ow">and</span> <span class="bp">()</span> <span class="o">=</span> <span class="n">hull</span><span class="o">.</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">&lt;-</span> <span class="n">pt</span><span class="o">.</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="k">in</span>
+  <span class="k">let</span> <span class="k">rec</span> <span class="n">outer_loop</span> <span class="n">i</span> <span class="n">j</span> <span class="o">=</span>
+    <span class="k">if</span> <span class="n">i</span> <span class="o">=</span> <span class="n">n</span> <span class="k">then</span>
+      <span class="n">j</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="k">else</span>
+      <span class="k">let</span> <span class="n">pt_i</span> <span class="o">=</span> <span class="n">pt</span><span class="o">.</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">in</span>
+      <span class="k">let</span> <span class="k">rec</span> <span class="n">inner_loop</span> <span class="n">j</span> <span class="o">=</span>
+        <span class="k">if</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">cross_test</span> <span class="n">pt_i</span> <span class="n">hull</span> <span class="n">j</span> <span class="k">then</span>
+          <span class="k">begin</span>
+            <span class="n">hull</span><span class="o">.</span><span class="p">(</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&lt;-</span> <span class="n">pt_i</span><span class="p">;</span>
+            <span class="n">j</span> <span class="o">+</span> <span class="mi">1</span>
+          <span class="k">end</span>
+        <span class="k">else</span>
+          <span class="n">inner_loop</span> <span class="p">(</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+      <span class="k">in</span>
+      <span class="n">outer_loop</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="n">inner_loop</span> <span class="n">j</span><span class="p">)</span>
+  <span class="k">in</span>
+  <span class="k">let</span> <span class="n">hull_size</span> <span class="o">=</span> <span class="n">outer_loop</span> <span class="mi">2</span> <span class="mi">1</span> <span class="k">in</span>
+  <span class="p">(</span><span class="n">hull_size</span><span class="o">,</span> <span class="n">hull</span><span class="p">)</span>
+
+<span class="k">let</span> <span class="n">construct_upper_hull</span> <span class="n">n</span> <span class="n">pt</span> <span class="o">=</span>
+  <span class="k">let</span> <span class="n">hull</span> <span class="o">=</span> <span class="nn">Array</span><span class="p">.</span><span class="n">make</span> <span class="n">n</span> <span class="p">(</span><span class="nn">Plane_point</span><span class="p">.</span><span class="n">make</span> <span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="o">,</span> <span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="p">))</span> <span class="k">in</span>
+  <span class="k">let</span> <span class="bp">()</span> <span class="o">=</span> <span class="n">hull</span><span class="o">.</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">&lt;-</span> <span class="n">pt</span><span class="o">.</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+  <span class="ow">and</span> <span class="bp">()</span> <span class="o">=</span> <span class="n">hull</span><span class="o">.</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">&lt;-</span> <span class="n">pt</span><span class="o">.</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span> <span class="k">in</span>
+  <span class="k">let</span> <span class="k">rec</span> <span class="n">outer_loop</span> <span class="n">i</span> <span class="n">j</span> <span class="o">=</span>
+    <span class="k">if</span> <span class="n">i</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="k">then</span>
+      <span class="n">j</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="k">else</span>
+      <span class="k">let</span> <span class="n">pt_i</span> <span class="o">=</span> <span class="n">pt</span><span class="o">.</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">in</span>
+      <span class="k">let</span> <span class="k">rec</span> <span class="n">inner_loop</span> <span class="n">j</span> <span class="o">=</span>
+        <span class="k">if</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">cross_test</span> <span class="n">pt_i</span> <span class="n">hull</span> <span class="n">j</span> <span class="k">then</span>
+          <span class="k">begin</span>
+            <span class="n">hull</span><span class="o">.</span><span class="p">(</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&lt;-</span> <span class="n">pt_i</span><span class="p">;</span>
+            <span class="n">j</span> <span class="o">+</span> <span class="mi">1</span>
+          <span class="k">end</span>
+        <span class="k">else</span>
+          <span class="n">inner_loop</span> <span class="p">(</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+      <span class="k">in</span>
+      <span class="n">outer_loop</span> <span class="p">(</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="n">inner_loop</span> <span class="n">j</span><span class="p">)</span>
+  <span class="k">in</span>
+  <span class="k">let</span> <span class="n">hull_size</span> <span class="o">=</span> <span class="n">outer_loop</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">3</span><span class="p">)</span> <span class="mi">1</span> <span class="k">in</span>
+  <span class="p">(</span><span class="n">hull_size</span><span class="o">,</span> <span class="n">hull</span><span class="p">)</span>
+
+<span class="k">let</span> <span class="n">construct_hull</span> <span class="n">n</span> <span class="n">pt</span> <span class="o">=</span>
+
+  <span class="c">(* Side note: Construction of the lower and upper hulls can be done
+     in parallel. *)</span>
+  <span class="k">let</span> <span class="p">(</span><span class="n">lower_hull_size</span><span class="o">,</span> <span class="n">lower_hull</span><span class="p">)</span> <span class="o">=</span> <span class="n">construct_lower_hull</span> <span class="n">n</span> <span class="n">pt</span>
+  <span class="ow">and</span> <span class="p">(</span><span class="n">upper_hull_size</span><span class="o">,</span> <span class="n">upper_hull</span><span class="p">)</span> <span class="o">=</span> <span class="n">construct_upper_hull</span> <span class="n">n</span> <span class="n">pt</span> <span class="k">in</span>
+
+  <span class="k">let</span> <span class="n">hull_size</span> <span class="o">=</span> <span class="n">lower_hull_size</span> <span class="o">+</span> <span class="n">upper_hull_size</span> <span class="o">-</span> <span class="mi">2</span> <span class="k">in</span>
+  <span class="k">let</span> <span class="n">hull</span> <span class="o">=</span> <span class="nn">Array</span><span class="p">.</span><span class="n">make</span> <span class="n">hull_size</span> <span class="p">(</span><span class="nn">Plane_point</span><span class="p">.</span><span class="n">make</span> <span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="o">,</span> <span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="p">))</span> <span class="k">in</span>
+
+  <span class="k">begin</span>
+    <span class="nn">Array</span><span class="p">.</span><span class="n">blit</span> <span class="n">lower_hull</span> <span class="mi">0</span> <span class="n">hull</span> <span class="mi">0</span> <span class="p">(</span><span class="n">lower_hull_size</span> <span class="o">-</span> <span class="mi">1</span><span class="p">);</span>
+    <span class="nn">Array</span><span class="p">.</span><span class="n">blit</span> <span class="n">upper_hull</span> <span class="mi">0</span> <span class="n">hull</span> <span class="p">(</span><span class="n">lower_hull_size</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+      <span class="p">(</span><span class="n">upper_hull_size</span> <span class="o">-</span> <span class="mi">1</span><span class="p">);</span>
+    <span class="n">hull</span>
+  <span class="k">end</span>
+
+<span class="k">let</span> <span class="n">plane_convex_hull</span> <span class="n">points</span> <span class="o">=</span>
+  <span class="c">(* Takes an arbitrary sequence of points, which may be in any order
+     and may contain duplicates. Returns an ordered array of points
+     that make up the convex hull. If the sequence of points is empty,
+     the returned array is empty. *)</span>
+  <span class="k">let</span> <span class="n">pt</span> <span class="o">=</span> <span class="nn">Array</span><span class="p">.</span><span class="n">of_seq</span> <span class="n">points</span> <span class="k">in</span>
+  <span class="k">let</span> <span class="bp">()</span> <span class="o">=</span> <span class="nn">Array</span><span class="p">.</span><span class="n">fast_sort</span> <span class="nn">Plane_point</span><span class="p">.</span><span class="n">cmp</span> <span class="n">pt</span> <span class="k">in</span>
+  <span class="k">let</span> <span class="n">pt</span> <span class="o">=</span> <span class="nn">Array</span><span class="p">.</span><span class="n">of_seq</span>
+             <span class="p">(</span><span class="n">array_delete_neighbor_dups</span> <span class="nn">Plane_point</span><span class="p">.</span><span class="n">equal</span> <span class="n">pt</span><span class="p">)</span> <span class="k">in</span>
+  <span class="k">let</span> <span class="n">n</span> <span class="o">=</span> <span class="nn">Array</span><span class="p">.</span><span class="n">length</span> <span class="n">pt</span> <span class="k">in</span>
+  <span class="k">if</span> <span class="n">n</span> <span class="o">&lt;=</span> <span class="mi">2</span> <span class="k">then</span>
+    <span class="n">pt</span>
+  <span class="k">else</span>
+    <span class="n">construct_hull</span> <span class="n">n</span> <span class="n">pt</span>
+<span class="p">;;</span>
+
+<span class="c">(*------------------------------------------------------------------*)</span>
+
+<span class="k">let</span> <span class="n">example_points</span> <span class="o">=</span>
+  <span class="p">[</span><span class="nn">Plane_point</span><span class="p">.</span><span class="n">make</span> <span class="p">(</span><span class="mi">16</span><span class="o">.</span><span class="mi">0</span><span class="o">,</span> <span class="mi">3</span><span class="o">.</span><span class="mi">0</span><span class="p">);</span>
+   <span class="nn">Plane_point</span><span class="p">.</span><span class="n">make</span> <span class="p">(</span><span class="mi">12</span><span class="o">.</span><span class="mi">0</span><span class="o">,</span> <span class="mi">17</span><span class="o">.</span><span class="mi">0</span><span class="p">);</span>
+   <span class="nn">Plane_point</span><span class="p">.</span><span class="n">make</span> <span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="o">,</span> <span class="mi">6</span><span class="o">.</span><span class="mi">0</span><span class="p">);</span>
+   <span class="nn">Plane_point</span><span class="p">.</span><span class="n">make</span> <span class="p">(</span><span class="o">-</span><span class="mi">4</span><span class="o">.</span><span class="mi">0</span><span class="o">,</span> <span class="o">-</span><span class="mi">6</span><span class="o">.</span><span class="mi">0</span><span class="p">);</span>
+   <span class="nn">Plane_point</span><span class="p">.</span><span class="n">make</span> <span class="p">(</span><span class="mi">16</span><span class="o">.</span><span class="mi">0</span><span class="o">,</span> <span class="mi">6</span><span class="o">.</span><span class="mi">0</span><span class="p">);</span>
+   <span class="nn">Plane_point</span><span class="p">.</span><span class="n">make</span> <span class="p">(</span><span class="mi">16</span><span class="o">.</span><span class="mi">0</span><span class="o">,</span> <span class="o">-</span><span class="mi">7</span><span class="o">.</span><span class="mi">0</span><span class="p">);</span>
+   <span class="nn">Plane_point</span><span class="p">.</span><span class="n">make</span> <span class="p">(</span><span class="mi">16</span><span class="o">.</span><span class="mi">0</span><span class="o">,</span> <span class="o">-</span><span class="mi">3</span><span class="o">.</span><span class="mi">0</span><span class="p">);</span>
+   <span class="nn">Plane_point</span><span class="p">.</span><span class="n">make</span> <span class="p">(</span><span class="mi">17</span><span class="o">.</span><span class="mi">0</span><span class="o">,</span> <span class="o">-</span><span class="mi">4</span><span class="o">.</span><span class="mi">0</span><span class="p">);</span>
+   <span class="nn">Plane_point</span><span class="p">.</span><span class="n">make</span> <span class="p">(</span><span class="mi">5</span><span class="o">.</span><span class="mi">0</span><span class="o">,</span> <span class="mi">19</span><span class="o">.</span><span class="mi">0</span><span class="p">);</span>
+   <span class="nn">Plane_point</span><span class="p">.</span><span class="n">make</span> <span class="p">(</span><span class="mi">19</span><span class="o">.</span><span class="mi">0</span><span class="o">,</span> <span class="o">-</span><span class="mi">8</span><span class="o">.</span><span class="mi">0</span><span class="p">);</span>
+   <span class="nn">Plane_point</span><span class="p">.</span><span class="n">make</span> <span class="p">(</span><span class="mi">3</span><span class="o">.</span><span class="mi">0</span><span class="o">,</span> <span class="mi">16</span><span class="o">.</span><span class="mi">0</span><span class="p">);</span>
+   <span class="nn">Plane_point</span><span class="p">.</span><span class="n">make</span> <span class="p">(</span><span class="mi">12</span><span class="o">.</span><span class="mi">0</span><span class="o">,</span> <span class="mi">13</span><span class="o">.</span><span class="mi">0</span><span class="p">);</span>
+   <span class="nn">Plane_point</span><span class="p">.</span><span class="n">make</span> <span class="p">(</span><span class="mi">3</span><span class="o">.</span><span class="mi">0</span><span class="o">,</span> <span class="o">-</span><span class="mi">4</span><span class="o">.</span><span class="mi">0</span><span class="p">);</span>
+   <span class="nn">Plane_point</span><span class="p">.</span><span class="n">make</span> <span class="p">(</span><span class="mi">17</span><span class="o">.</span><span class="mi">0</span><span class="o">,</span> <span class="mi">5</span><span class="o">.</span><span class="mi">0</span><span class="p">);</span>
+   <span class="nn">Plane_point</span><span class="p">.</span><span class="n">make</span> <span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="o">.</span><span class="mi">0</span><span class="o">,</span> <span class="mi">15</span><span class="o">.</span><span class="mi">0</span><span class="p">);</span>
+   <span class="nn">Plane_point</span><span class="p">.</span><span class="n">make</span> <span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="o">.</span><span class="mi">0</span><span class="o">,</span> <span class="o">-</span><span class="mi">9</span><span class="o">.</span><span class="mi">0</span><span class="p">);</span>
+   <span class="nn">Plane_point</span><span class="p">.</span><span class="n">make</span> <span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="o">,</span> <span class="mi">11</span><span class="o">.</span><span class="mi">0</span><span class="p">);</span>
+   <span class="nn">Plane_point</span><span class="p">.</span><span class="n">make</span> <span class="p">(</span><span class="o">-</span><span class="mi">9</span><span class="o">.</span><span class="mi">0</span><span class="o">,</span> <span class="o">-</span><span class="mi">3</span><span class="o">.</span><span class="mi">0</span><span class="p">);</span>
+   <span class="nn">Plane_point</span><span class="p">.</span><span class="n">make</span> <span class="p">(</span><span class="o">-</span><span class="mi">4</span><span class="o">.</span><span class="mi">0</span><span class="o">,</span> <span class="o">-</span><span class="mi">2</span><span class="o">.</span><span class="mi">0</span><span class="p">);</span>
+   <span class="nn">Plane_point</span><span class="p">.</span><span class="n">make</span> <span class="p">(</span><span class="mi">12</span><span class="o">.</span><span class="mi">0</span><span class="o">,</span> <span class="mi">10</span><span class="o">.</span><span class="mi">0</span><span class="p">)]</span>
+<span class="p">;;</span>
+
+<span class="k">let</span> <span class="n">hull</span> <span class="o">=</span> <span class="n">plane_convex_hull</span> <span class="p">(</span><span class="nn">List</span><span class="p">.</span><span class="n">to_seq</span> <span class="n">example_points</span><span class="p">)</span>
+<span class="p">;;</span>
+
+<span class="nn">Array</span><span class="p">.</span><span class="n">iter</span>
+  <span class="p">(</span><span class="k">fun</span> <span class="n">p</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="n">print_string</span> <span class="p">(</span><span class="nn">Plane_point</span><span class="p">.</span><span class="n">to_string</span> <span class="n">p</span><span class="p">);</span>
+             <span class="n">print_string</span> <span class="s2">" "</span><span class="p">))</span>
+  <span class="n">hull</span><span class="p">;</span>
+<span class="n">print_newline</span> <span class="bp">()</span>
+<span class="p">;;</span>
+
+<span class="c">(*------------------------------------------------------------------*)</span>
+
+</code></pre></div></div>
+
+<p>Andrew’s monotone chain algorithm is a method for computing the convex hull of a set of points in the plane. The algorithm proceeds by sorting the points by their x-coordinates, then using two lower and upper “chains” of points to iteratively construct the convex polygon. The chains start with the two leftmost and rightmost points, respectively, and extend in an alternating fashion as new points are added. At each step, the algorithm determines whether a newly added point creates a convex turn, and if so, whether it creates a left or right turn.</p>
+
+<h2 id="step-by-step-explanation">Step-by-step Explanation</h2>
+<ol>
+  <li>Begin by taking a set of points in the plane.</li>
+  <li>Sort the points by their x-coordinates. If two points have the same x-coordinate, sort them by their y-coordinates.</li>
+  <li>Create two empty stacks, one for the lower chain of points and one for the upper chain of points.</li>
+  <li>Push the two leftmost points onto the lower chain stack, and the two rightmost points onto the upper chain stack.</li>
+  <li>Iterate over the remaining points, adding each to the lower or upper chain as appropriate.</li>
+  <li>To add a point to a chain, first remove all points from the chain that create a right turn with the new point. These removed points are now not part of the convex hull and can be safely discarded.</li>
+  <li>Once all right-turning points have been removed, add the new point to the chain.</li>
+  <li>Repeat steps 6-7 for the other chain.</li>
+  <li>The points remaining in the lower and upper chains, plus the first point of each chain, form the convex hull of the original set of points.</li>
+</ol>
+
+<h2 id="complexity-analysis">Complexity Analysis</h2>
+<p>Andrew’s algorithm has a time complexity of O(n log n) for sorting the points, and O(n) for constructing the hull. The space complexity is also O(n), since the convex hull may contain all the original points. In practice, the algorithm has been shown to be one of the fastest methods for computing the convex hull of a set of points in the plane, and is widely used in applications requiring this computation.</p>
+
+  </div><a class="u-url" href="/algorithm/2022/04/28/monotone-chain-algorithm.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+        <ul class="contact-list">
+          <li class="p-name">Liang Wang</li>
+          <li><a class="u-email" href="mailto:liang@ocaml.xyz">liang@ocaml.xyz</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p>Explore the elegance of classic and numerical algorithms through practical OCaml implementations, unraveling their inner workings and unveiling the art and science of algorithmic programming.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
