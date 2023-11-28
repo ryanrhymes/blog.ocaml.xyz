@@ -1,64 +1,402 @@
 <?xml version="1.0" encoding="UTF-8"?>
-		<!--	created with www.mysitemapgenerator.com	-->
-		<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset
+      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+<!-- created with Free Online Sitemap Generator www.xml-sitemaps.com -->
+
+
 <url>
-	<loc>https://blog.ocaml.xyz/</loc>
-	<lastmod>2023-11-23T00:30:30+01:00</lastmod>
-	<priority>1.0</priority>
+  <loc>https://blog.ocaml.xyz/</loc>
+  <lastmod>2023-11-28T13:14:21+00:00</lastmod>
+  <priority>1.00</priority>
 </url>
 <url>
-	<loc>https://blog.ocaml.xyz/algorithm/2023/11/20/radix-sort.html</loc>
-	<lastmod>2023-11-23T00:30:30+01:00</lastmod>
-	<priority>0.2</priority>
+  <loc>https://blog.ocaml.xyz/algorithm/2023/11/23/dijkstra-algorithm.html</loc>
+  <lastmod>2023-11-28T13:14:21+00:00</lastmod>
+  <priority>0.80</priority>
 </url>
 <url>
-	<loc>https://blog.ocaml.xyz/algorithm/2023/11/20/insertion-sort.html</loc>
-	<lastmod>2023-11-23T00:30:30+01:00</lastmod>
-	<priority>0.2</priority>
+  <loc>https://blog.ocaml.xyz/algorithm/2023/11/22/caesar-cipher.html</loc>
+  <lastmod>2023-11-28T13:14:21+00:00</lastmod>
+  <priority>0.80</priority>
 </url>
 <url>
-	<loc>https://blog.ocaml.xyz/algorithm/2023/11/20/mergesort.html</loc>
-	<lastmod>2023-11-23T00:30:30+01:00</lastmod>
-	<priority>0.2</priority>
+  <loc>https://blog.ocaml.xyz/algorithm/2023/11/22/best-shuffle.html</loc>
+  <lastmod>2023-11-28T13:14:21+00:00</lastmod>
+  <priority>0.80</priority>
 </url>
 <url>
-	<loc>https://blog.ocaml.xyz/algorithm/2023/11/20/heapsort.html</loc>
-	<lastmod>2023-11-23T00:30:30+01:00</lastmod>
-	<priority>0.2</priority>
+  <loc>https://blog.ocaml.xyz/algorithm/2023/11/22/balanced-bracket.html</loc>
+  <lastmod>2023-11-28T13:14:21+00:00</lastmod>
+  <priority>0.80</priority>
 </url>
 <url>
-	<loc>https://blog.ocaml.xyz/algorithm/2023/11/20/quicksort.html</loc>
-	<lastmod>2023-11-23T00:30:30+01:00</lastmod>
-	<priority>0.2</priority>
+  <loc>https://blog.ocaml.xyz/algorithm/2023/11/22/a-star.html</loc>
+  <lastmod>2023-11-28T13:14:21+00:00</lastmod>
+  <priority>0.80</priority>
 </url>
 <url>
-	<loc>https://blog.ocaml.xyz/algorithm/2023/11/10/shell-sort.html</loc>
-	<lastmod>2023-11-23T00:30:30+01:00</lastmod>
-	<priority>0.2</priority>
+  <loc>https://blog.ocaml.xyz/algorithm/2023/11/22/best-first-search.html</loc>
+  <lastmod>2023-11-28T13:14:21+00:00</lastmod>
+  <priority>0.80</priority>
 </url>
 <url>
-	<loc>https://blog.ocaml.xyz/algorithm/2023/11/10/counting-sort.html</loc>
-	<lastmod>2023-11-23T00:30:30+01:00</lastmod>
-	<priority>0.2</priority>
+  <loc>https://blog.ocaml.xyz/algorithm/2023/11/22/additive-prime.html</loc>
+  <lastmod>2023-11-28T13:14:21+00:00</lastmod>
+  <priority>0.80</priority>
 </url>
 <url>
-	<loc>https://blog.ocaml.xyz/algorithm/2023/11/10/selection-sort.html</loc>
-	<lastmod>2023-11-23T00:30:30+01:00</lastmod>
-	<priority>0.2</priority>
+  <loc>https://blog.ocaml.xyz/algorithm/2023/11/22/matrix-inverse.html</loc>
+  <lastmod>2023-11-28T13:14:21+00:00</lastmod>
+  <priority>0.80</priority>
 </url>
 <url>
-	<loc>https://blog.ocaml.xyz/algorithm/2023/11/10/bubble-sort.html</loc>
-	<lastmod>2023-11-23T00:30:30+01:00</lastmod>
-	<priority>0.2</priority>
+  <loc>https://blog.ocaml.xyz/algorithm/2023/11/22/tridiagonal-algorithm.html</loc>
+  <lastmod>2023-11-28T13:14:21+00:00</lastmod>
+  <priority>0.80</priority>
 </url>
 <url>
-	<loc>https://blog.ocaml.xyz/algorithm/2023/11/10/bucket-sort.html</loc>
-	<lastmod>2023-11-23T00:30:30+01:00</lastmod>
-	<priority>0.2</priority>
+  <loc>https://blog.ocaml.xyz/algorithm/2023/11/22/lu-decomposition.html</loc>
+  <lastmod>2023-11-28T13:14:21+00:00</lastmod>
+  <priority>0.80</priority>
 </url>
 <url>
-	<loc>https://blog.ocaml.xyz/algorithm/2021/01/01/red-black-tree.html</loc>
-	<lastmod>2023-11-23T00:30:30+01:00</lastmod>
-	<priority>0.2</priority>
+  <loc>https://blog.ocaml.xyz/algorithm/2023/11/22/gaussian-elimination.html</loc>
+  <lastmod>2023-11-28T13:14:21+00:00</lastmod>
+  <priority>0.80</priority>
 </url>
+<url>
+  <loc>https://blog.ocaml.xyz/algorithm/2023/11/22/ridder-algorithm.html</loc>
+  <lastmod>2023-11-28T13:14:21+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://blog.ocaml.xyz/algorithm/2023/11/22/brent-algorithm.html</loc>
+  <lastmod>2023-11-28T13:14:21+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://blog.ocaml.xyz/algorithm/2023/11/22/false-pos.html</loc>
+  <lastmod>2023-11-28T13:14:21+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://blog.ocaml.xyz/algorithm/2023/11/21/gaussian-legendre.html</loc>
+  <lastmod>2023-11-28T13:14:21+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://blog.ocaml.xyz/algorithm/2023/11/21/trapzd.html</loc>
+  <lastmod>2023-11-28T13:14:21+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://blog.ocaml.xyz/algorithm/2023/11/21/rational-interpolation.html</loc>
+  <lastmod>2023-11-28T13:14:21+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://blog.ocaml.xyz/algorithm/2023/11/21/polynomial-interpolation.html</loc>
+  <lastmod>2023-11-28T13:14:21+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://blog.ocaml.xyz/algorithm/2023/11/21/topological-sort.html</loc>
+  <lastmod>2023-11-28T13:14:21+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://blog.ocaml.xyz/algorithm/2023/11/21/bisec-algorithm.html</loc>
+  <lastmod>2023-11-28T13:14:21+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://blog.ocaml.xyz/algorithm/2023/11/21/fisher-yates.html</loc>
+  <lastmod>2023-11-28T13:14:21+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://blog.ocaml.xyz/algorithm/2023/11/21/brents-algorithm.html</loc>
+  <lastmod>2023-11-28T13:14:21+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://blog.ocaml.xyz/algorithm/2023/11/21/simpson-rule.html</loc>
+  <lastmod>2023-11-28T13:14:21+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://blog.ocaml.xyz/algorithm/2023/11/21/breadth-first-search.html</loc>
+  <lastmod>2023-11-28T13:14:21+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://blog.ocaml.xyz/algorithm/2023/11/21/depth-first-search.html</loc>
+  <lastmod>2023-11-28T13:14:21+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://blog.ocaml.xyz/algorithm/2023/11/20/radix-sort.html</loc>
+  <lastmod>2023-11-28T13:14:21+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://blog.ocaml.xyz/algorithm/2023/11/20/insertion-sort.html</loc>
+  <lastmod>2023-11-28T13:14:21+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://blog.ocaml.xyz/algorithm/2023/11/20/mergesort.html</loc>
+  <lastmod>2023-11-28T13:14:21+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://blog.ocaml.xyz/algorithm/2023/11/20/heapsort.html</loc>
+  <lastmod>2023-11-28T13:14:21+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://blog.ocaml.xyz/algorithm/2023/11/20/quicksort.html</loc>
+  <lastmod>2023-11-28T13:14:21+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://blog.ocaml.xyz/algorithm/2023/11/20/romberg-integration.html</loc>
+  <lastmod>2023-11-28T13:14:21+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://blog.ocaml.xyz/algorithm/2023/11/10/shell-sort.html</loc>
+  <lastmod>2023-11-28T13:14:21+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://blog.ocaml.xyz/algorithm/2023/11/10/counting-sort.html</loc>
+  <lastmod>2023-11-28T13:14:21+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://blog.ocaml.xyz/algorithm/2023/11/10/selection-sort.html</loc>
+  <lastmod>2023-11-28T13:14:21+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://blog.ocaml.xyz/algorithm/2023/11/10/bubble-sort.html</loc>
+  <lastmod>2023-11-28T13:14:21+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://blog.ocaml.xyz/algorithm/2023/11/10/bucket-sort.html</loc>
+  <lastmod>2023-11-28T13:14:21+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://blog.ocaml.xyz/algorithm/2022/10/17/rank-algorithm.html</loc>
+  <lastmod>2023-11-28T13:14:21+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://blog.ocaml.xyz/algorithm/2022/10/05/variance-calculation-algorithm.html</loc>
+  <lastmod>2023-11-28T13:14:21+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://blog.ocaml.xyz/algorithm/2022/09/28/babbage-problem.html</loc>
+  <lastmod>2023-11-28T13:14:21+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://blog.ocaml.xyz/algorithm/2022/09/13/gaussian_kde.html</loc>
+  <lastmod>2023-11-28T13:14:21+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://blog.ocaml.xyz/algorithm/2022/09/11/skewness-algorithm.html</loc>
+  <lastmod>2023-11-28T13:14:21+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://blog.ocaml.xyz/algorithm/2022/08/31/elliptic-curve-arithmetic.html</loc>
+  <lastmod>2023-11-28T13:14:21+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://blog.ocaml.xyz/algorithm/2022/07/26/egyptian-division.html</loc>
+  <lastmod>2023-11-28T13:14:21+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://blog.ocaml.xyz/algorithm/2022/07/24/calendar-problem.html</loc>
+  <lastmod>2023-11-28T13:14:21+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://blog.ocaml.xyz/algorithm/2022/07/18/sample.html</loc>
+  <lastmod>2023-11-28T13:14:21+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://blog.ocaml.xyz/algorithm/2022/07/01/chinese-remainder-theorem.html</loc>
+  <lastmod>2023-11-28T13:14:21+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://blog.ocaml.xyz/algorithm/2022/06/26/anagrams-problem.html</loc>
+  <lastmod>2023-11-28T13:14:21+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://blog.ocaml.xyz/algorithm/2022/06/18/shuffle-algorithm.html</loc>
+  <lastmod>2023-11-28T13:14:21+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://blog.ocaml.xyz/algorithm/2022/06/14/numerical-differentiation.html</loc>
+  <lastmod>2023-11-28T13:14:21+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://blog.ocaml.xyz/algorithm/2022/05/11/minmax-algorithm.html</loc>
+  <lastmod>2023-11-28T13:14:21+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://blog.ocaml.xyz/algorithm/2022/05/10/magic-matrix.html</loc>
+  <lastmod>2023-11-28T13:14:21+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://blog.ocaml.xyz/algorithm/2022/05/05/kurtosis.html</loc>
+  <lastmod>2023-11-28T13:14:21+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://blog.ocaml.xyz/algorithm/2022/03/26/dot-product.html</loc>
+  <lastmod>2023-11-28T13:14:21+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://blog.ocaml.xyz/algorithm/2022/03/25/covariance.html</loc>
+  <lastmod>2023-11-28T13:14:21+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://blog.ocaml.xyz/algorithm/2022/03/13/disarium-numbers.html</loc>
+  <lastmod>2023-11-28T13:14:21+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://blog.ocaml.xyz/algorithm/2022/01/10/binary-search.html</loc>
+  <lastmod>2023-11-28T13:14:21+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://blog.ocaml.xyz/algorithm/2021/12/07/dragon-curve.html</loc>
+  <lastmod>2023-11-28T13:14:21+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://blog.ocaml.xyz/algorithm/2021/11/19/tukey-fences.html</loc>
+  <lastmod>2023-11-28T13:14:21+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://blog.ocaml.xyz/algorithm/2021/11/07/central_moment.html</loc>
+  <lastmod>2023-11-28T13:14:21+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://blog.ocaml.xyz/algorithm/2021/10/27/choose-algorithm.html</loc>
+  <lastmod>2023-11-28T13:14:21+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://blog.ocaml.xyz/algorithm/2021/09/12/church-numerals.html</loc>
+  <lastmod>2023-11-28T13:14:21+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://blog.ocaml.xyz/algorithm/2021/08/20/benford-law.html</loc>
+  <lastmod>2023-11-28T13:14:21+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://blog.ocaml.xyz/algorithm/2021/08/14/discordant.html</loc>
+  <lastmod>2023-11-28T13:14:21+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://blog.ocaml.xyz/algorithm/2021/08/10/hadamard-matrix-algorithm.html</loc>
+  <lastmod>2023-11-28T13:14:21+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://blog.ocaml.xyz/algorithm/2021/08/08/kendall-tau.html</loc>
+  <lastmod>2023-11-28T13:14:21+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://blog.ocaml.xyz/algorithm/2021/07/22/anadromes-problem.html</loc>
+  <lastmod>2023-11-28T13:14:21+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://blog.ocaml.xyz/algorithm/2021/07/09/conway-game-of-life-algorithm.html</loc>
+  <lastmod>2023-11-28T13:14:21+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://blog.ocaml.xyz/algorithm/2021/06/29/absdev.html</loc>
+  <lastmod>2023-11-28T13:14:21+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://blog.ocaml.xyz/algorithm/2021/05/31/emirp-primes.html</loc>
+  <lastmod>2023-11-28T13:14:21+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://blog.ocaml.xyz/algorithm/2021/05/14/quantile-algorithm.html</loc>
+  <lastmod>2023-11-28T13:14:21+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://blog.ocaml.xyz/algorithm/2021/04/21/ascending-primes.html</loc>
+  <lastmod>2023-11-28T13:14:21+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://blog.ocaml.xyz/algorithm/2021/04/21/hermitian-matrix.html</loc>
+  <lastmod>2023-11-28T13:14:21+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://blog.ocaml.xyz/algorithm/2021/04/13/calculate-median.html</loc>
+  <lastmod>2023-11-28T13:14:21+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://blog.ocaml.xyz/algorithm/2021/01/31/stack.html</loc>
+  <lastmod>2023-11-28T13:14:21+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://blog.ocaml.xyz/algorithm/2021/01/13/concordant.html</loc>
+  <lastmod>2023-11-28T13:14:21+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://blog.ocaml.xyz/algorithm/2021/01/02/min-heap.html</loc>
+  <lastmod>2023-11-28T13:14:21+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://blog.ocaml.xyz/algorithm/2021/01/01/red-black-tree.html</loc>
+  <lastmod>2023-11-28T13:14:21+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+
+
 </urlset>
