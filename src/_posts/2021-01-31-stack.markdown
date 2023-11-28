@@ -1,0 +1,91 @@
+---
+layout: post
+title:  "Stack"
+date:   2021-01-31 23:57:31 +0200
+categories: algorithm
+---
+
+## Introduction
+A stack is an abstract data type that follows the Last-In-First-Out (LIFO) principle. The stack operates with two main methods: PUSH (inserts an element to the top of the stack) and POP (removes the top element from the stack). It can be visualized as a pile of plates in a cafeteria where the topmost plate is the only one accessible and is taken first. 
+
+A stack is a fundamental data structure widely used in computer science and programming. It is often used in programming languages to implement function calls, recursive algorithms, expression evaluation, and undo operations, etc.
+
+## Implementation
+
+```ocaml
+
+(* Stack *)
+
+type 'a t =
+  { mutable used : int
+  ; mutable size : int
+  ; mutable data : 'a array
+  }
+
+let allocate_space x = Array.(append x (copy x))
+
+let make () = { used = 0; size = 0; data = [||] }
+
+let push s x =
+  if s.size = 0 then s.data <- [| x |];
+  if s.used = s.size
+  then (
+    s.data <- allocate_space s.data;
+    s.size <- Array.length s.data);
+  s.data.(s.used) <- x;
+  s.used <- s.used + 1
+
+
+let pop s =
+  match s.used with
+  | 0 -> None
+  | i ->
+    s.used <- i - 1;
+    Some s.data.(s.used)
+
+
+let peek s =
+  match s.used with
+  | 0 -> None
+  | i -> Some s.data.(i - 1)
+
+
+let is_empty s = s.used = 0
+
+let mem s x = Array.mem x s.data
+
+let memq s x = Array.memq x s.data
+
+let to_array s = Array.sub s.data 0 s.used
+
+```
+
+The provided OCaml code well-implements a stack. The stack is represented as a mutable record with three fields, namely `used`, `size` and `data`. The `used` field tracks the number of elements currently in the stack. The `data` field is an array that stores the stack elements. The `size` field keeps track of the array's capacity in number of elements.
+
+## Step-by-step Explanation
+1. The `allocate_space` function appends the given array to its copy and returns the concatenated array.
+2. The `make` function initializes a new stack with zero size and zero used space.
+3. The `push` function adds a new element to the stack. The following cases are tested:
+   - If the stack has not been initialized yet, `data` is set to an array containing only the input element.
+   - If the stack is full (i.e., `used` equals `size`), the `data` array is extended by invoking the `allocate_space` function, and `size` is updated accordingly.
+   - In any of the above cases, the new element is appended to `data`, `used` is updated accordingly.
+4. The `pop` function removes and returns the top element of the stack. The following cases are tested:
+   - If the stack is empty (i.e., `used` equals 0), `None` is returned.
+  - In any other case, the top element is removed from `data`, `used` is updated accordingly, and the top element is returned.
+5. The `peek` function returns the top element of the stack without modifying the stack in any way. The following cases are tested:
+   - If the stack is empty, `None` is returned.
+   - In any other case, the top element is returned without modifying the stack.
+6. The `is_empty` function returns `true` if the stack is empty (i.e., `used` is 0), and `false` otherwise.
+7. The `mem` function returns `true` if the given element is in the stack (`data`), and `false` otherwise, invoking the `mem` function of the `Array` module. 
+8. The `memq` function returns `true` if the given element is in the stack (`data`), and `false` otherwise, invoking the `memq` function of the `Array` module.
+9. The `to_array` function converts the stack into an array and returns it. The resulting array contains the same elements in the same order as they were in the stack.
+
+
+## Complexity Analysis
+The time-complexity of the `push` operation is O(1) in the average and worst case. The `push` function checks for empty and full stacks using constant time checks. Also, the `allocate_space` function is called on average once every time the size of the stack is doubled. 
+
+The time-complexity of the `pop` and `peek` operations is O(1) in the worst and average cases since they perform constant-time checks on the stack size. 
+
+The space-complexity of the stack is O(n). The size of the stack may be increased dynamically by `allocate_space` when the stack reaches its full capacity, which could be proportional to a maximum number of elements to be stored in the stack. 
+
+Therefore, this implementation of the stack provides good performance in time and space complexity and enable smooth and efficient processing of LIFO data structures.

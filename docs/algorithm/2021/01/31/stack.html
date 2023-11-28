@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Stack | Algorithm Blog</title>
+<meta name="generator" content="Jekyll v4.3.2" />
+<meta property="og:title" content="Stack" />
+<meta name="author" content="Liang Wang" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Introduction A stack is an abstract data type that follows the Last-In-First-Out (LIFO) principle. The stack operates with two main methods: PUSH (inserts an element to the top of the stack) and POP (removes the top element from the stack). It can be visualized as a pile of plates in a cafeteria where the topmost plate is the only one accessible and is taken first." />
+<meta property="og:description" content="Introduction A stack is an abstract data type that follows the Last-In-First-Out (LIFO) principle. The stack operates with two main methods: PUSH (inserts an element to the top of the stack) and POP (removes the top element from the stack). It can be visualized as a pile of plates in a cafeteria where the topmost plate is the only one accessible and is taken first." />
+<link rel="canonical" href="/algorithm/2021/01/31/stack.html" />
+<meta property="og:url" content="/algorithm/2021/01/31/stack.html" />
+<meta property="og:site_name" content="Algorithm Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-01-31T23:57:31+02:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Stack" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Liang Wang"},"dateModified":"2021-01-31T23:57:31+02:00","datePublished":"2021-01-31T23:57:31+02:00","description":"Introduction A stack is an abstract data type that follows the Last-In-First-Out (LIFO) principle. The stack operates with two main methods: PUSH (inserts an element to the top of the stack) and POP (removes the top element from the stack). It can be visualized as a pile of plates in a cafeteria where the topmost plate is the only one accessible and is taken first.","headline":"Stack","mainEntityOfPage":{"@type":"WebPage","@id":"/algorithm/2021/01/31/stack.html"},"url":"/algorithm/2021/01/31/stack.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="Algorithm Blog" /><script async src="https://www.googletagmanager.com/gtag/js?id=UA-123353217-1"></script>
+<script>
+  window['ga-disable-UA-123353217-1'] = window.doNotTrack === "1" || navigator.doNotTrack === "1" || navigator.doNotTrack === "yes" || navigator.msDoNotTrack === "1";
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){window.dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-123353217-1');
+</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1868946892712371" crossorigin="anonymous"></script></head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Algorithm Blog</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Stack</h1>
+    <p class="post-meta"><time class="dt-published" datetime="2021-01-31T23:57:31+02:00" itemprop="datePublished">
+        Jan 31, 2021
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <h2 id="introduction">Introduction</h2>
+<p>A stack is an abstract data type that follows the Last-In-First-Out (LIFO) principle. The stack operates with two main methods: PUSH (inserts an element to the top of the stack) and POP (removes the top element from the stack). It can be visualized as a pile of plates in a cafeteria where the topmost plate is the only one accessible and is taken first.</p>
+
+<p>A stack is a fundamental data structure widely used in computer science and programming. It is often used in programming languages to implement function calls, recursive algorithms, expression evaluation, and undo operations, etc.</p>
+
+<h2 id="implementation">Implementation</h2>
+
+<div class="language-ocaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="c">(* Stack *)</span>
+
+<span class="k">type</span> <span class="k">'</span><span class="n">a</span> <span class="n">t</span> <span class="o">=</span>
+  <span class="p">{</span> <span class="k">mutable</span> <span class="n">used</span> <span class="o">:</span> <span class="kt">int</span>
+  <span class="p">;</span> <span class="k">mutable</span> <span class="n">size</span> <span class="o">:</span> <span class="kt">int</span>
+  <span class="p">;</span> <span class="k">mutable</span> <span class="n">data</span> <span class="o">:</span> <span class="k">'</span><span class="n">a</span> <span class="kt">array</span>
+  <span class="p">}</span>
+
+<span class="k">let</span> <span class="n">allocate_space</span> <span class="n">x</span> <span class="o">=</span> <span class="nn">Array</span><span class="p">.(</span><span class="n">append</span> <span class="n">x</span> <span class="p">(</span><span class="n">copy</span> <span class="n">x</span><span class="p">))</span>
+
+<span class="k">let</span> <span class="n">make</span> <span class="bp">()</span> <span class="o">=</span> <span class="p">{</span> <span class="n">used</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">size</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="o">||</span><span class="p">]</span> <span class="p">}</span>
+
+<span class="k">let</span> <span class="n">push</span> <span class="n">s</span> <span class="n">x</span> <span class="o">=</span>
+  <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">size</span> <span class="o">=</span> <span class="mi">0</span> <span class="k">then</span> <span class="n">s</span><span class="o">.</span><span class="n">data</span> <span class="o">&lt;-</span> <span class="p">[</span><span class="o">|</span> <span class="n">x</span> <span class="o">|</span><span class="p">];</span>
+  <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">used</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">size</span>
+  <span class="k">then</span> <span class="p">(</span>
+    <span class="n">s</span><span class="o">.</span><span class="n">data</span> <span class="o">&lt;-</span> <span class="n">allocate_space</span> <span class="n">s</span><span class="o">.</span><span class="n">data</span><span class="p">;</span>
+    <span class="n">s</span><span class="o">.</span><span class="n">size</span> <span class="o">&lt;-</span> <span class="nn">Array</span><span class="p">.</span><span class="n">length</span> <span class="n">s</span><span class="o">.</span><span class="n">data</span><span class="p">);</span>
+  <span class="n">s</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">used</span><span class="p">)</span> <span class="o">&lt;-</span> <span class="n">x</span><span class="p">;</span>
+  <span class="n">s</span><span class="o">.</span><span class="n">used</span> <span class="o">&lt;-</span> <span class="n">s</span><span class="o">.</span><span class="n">used</span> <span class="o">+</span> <span class="mi">1</span>
+
+
+<span class="k">let</span> <span class="n">pop</span> <span class="n">s</span> <span class="o">=</span>
+  <span class="k">match</span> <span class="n">s</span><span class="o">.</span><span class="n">used</span> <span class="k">with</span>
+  <span class="o">|</span> <span class="mi">0</span> <span class="o">-&gt;</span> <span class="nc">None</span>
+  <span class="o">|</span> <span class="n">i</span> <span class="o">-&gt;</span>
+    <span class="n">s</span><span class="o">.</span><span class="n">used</span> <span class="o">&lt;-</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="nc">Some</span> <span class="n">s</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">used</span><span class="p">)</span>
+
+
+<span class="k">let</span> <span class="n">peek</span> <span class="n">s</span> <span class="o">=</span>
+  <span class="k">match</span> <span class="n">s</span><span class="o">.</span><span class="n">used</span> <span class="k">with</span>
+  <span class="o">|</span> <span class="mi">0</span> <span class="o">-&gt;</span> <span class="nc">None</span>
+  <span class="o">|</span> <span class="n">i</span> <span class="o">-&gt;</span> <span class="nc">Some</span> <span class="n">s</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="p">(</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+
+
+<span class="k">let</span> <span class="n">is_empty</span> <span class="n">s</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">used</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="k">let</span> <span class="n">mem</span> <span class="n">s</span> <span class="n">x</span> <span class="o">=</span> <span class="nn">Array</span><span class="p">.</span><span class="n">mem</span> <span class="n">x</span> <span class="n">s</span><span class="o">.</span><span class="n">data</span>
+
+<span class="k">let</span> <span class="n">memq</span> <span class="n">s</span> <span class="n">x</span> <span class="o">=</span> <span class="nn">Array</span><span class="p">.</span><span class="n">memq</span> <span class="n">x</span> <span class="n">s</span><span class="o">.</span><span class="n">data</span>
+
+<span class="k">let</span> <span class="n">to_array</span> <span class="n">s</span> <span class="o">=</span> <span class="nn">Array</span><span class="p">.</span><span class="n">sub</span> <span class="n">s</span><span class="o">.</span><span class="n">data</span> <span class="mi">0</span> <span class="n">s</span><span class="o">.</span><span class="n">used</span>
+
+</code></pre></div></div>
+
+<p>The provided OCaml code well-implements a stack. The stack is represented as a mutable record with three fields, namely <code class="language-plaintext highlighter-rouge">used</code>, <code class="language-plaintext highlighter-rouge">size</code> and <code class="language-plaintext highlighter-rouge">data</code>. The <code class="language-plaintext highlighter-rouge">used</code> field tracks the number of elements currently in the stack. The <code class="language-plaintext highlighter-rouge">data</code> field is an array that stores the stack elements. The <code class="language-plaintext highlighter-rouge">size</code> field keeps track of the array’s capacity in number of elements.</p>
+
+<h2 id="step-by-step-explanation">Step-by-step Explanation</h2>
+<ol>
+  <li>The <code class="language-plaintext highlighter-rouge">allocate_space</code> function appends the given array to its copy and returns the concatenated array.</li>
+  <li>The <code class="language-plaintext highlighter-rouge">make</code> function initializes a new stack with zero size and zero used space.</li>
+  <li>The <code class="language-plaintext highlighter-rouge">push</code> function adds a new element to the stack. The following cases are tested:
+    <ul>
+      <li>If the stack has not been initialized yet, <code class="language-plaintext highlighter-rouge">data</code> is set to an array containing only the input element.</li>
+      <li>If the stack is full (i.e., <code class="language-plaintext highlighter-rouge">used</code> equals <code class="language-plaintext highlighter-rouge">size</code>), the <code class="language-plaintext highlighter-rouge">data</code> array is extended by invoking the <code class="language-plaintext highlighter-rouge">allocate_space</code> function, and <code class="language-plaintext highlighter-rouge">size</code> is updated accordingly.</li>
+      <li>In any of the above cases, the new element is appended to <code class="language-plaintext highlighter-rouge">data</code>, <code class="language-plaintext highlighter-rouge">used</code> is updated accordingly.</li>
+    </ul>
+  </li>
+  <li>The <code class="language-plaintext highlighter-rouge">pop</code> function removes and returns the top element of the stack. The following cases are tested:
+    <ul>
+      <li>If the stack is empty (i.e., <code class="language-plaintext highlighter-rouge">used</code> equals 0), <code class="language-plaintext highlighter-rouge">None</code> is returned.
+       - In any other case, the top element is removed from <code class="language-plaintext highlighter-rouge">data</code>, <code class="language-plaintext highlighter-rouge">used</code> is updated accordingly, and the top element is returned.</li>
+    </ul>
+  </li>
+  <li>The <code class="language-plaintext highlighter-rouge">peek</code> function returns the top element of the stack without modifying the stack in any way. The following cases are tested:
+    <ul>
+      <li>If the stack is empty, <code class="language-plaintext highlighter-rouge">None</code> is returned.</li>
+      <li>In any other case, the top element is returned without modifying the stack.</li>
+    </ul>
+  </li>
+  <li>The <code class="language-plaintext highlighter-rouge">is_empty</code> function returns <code class="language-plaintext highlighter-rouge">true</code> if the stack is empty (i.e., <code class="language-plaintext highlighter-rouge">used</code> is 0), and <code class="language-plaintext highlighter-rouge">false</code> otherwise.</li>
+  <li>The <code class="language-plaintext highlighter-rouge">mem</code> function returns <code class="language-plaintext highlighter-rouge">true</code> if the given element is in the stack (<code class="language-plaintext highlighter-rouge">data</code>), and <code class="language-plaintext highlighter-rouge">false</code> otherwise, invoking the <code class="language-plaintext highlighter-rouge">mem</code> function of the <code class="language-plaintext highlighter-rouge">Array</code> module.</li>
+  <li>The <code class="language-plaintext highlighter-rouge">memq</code> function returns <code class="language-plaintext highlighter-rouge">true</code> if the given element is in the stack (<code class="language-plaintext highlighter-rouge">data</code>), and <code class="language-plaintext highlighter-rouge">false</code> otherwise, invoking the <code class="language-plaintext highlighter-rouge">memq</code> function of the <code class="language-plaintext highlighter-rouge">Array</code> module.</li>
+  <li>The <code class="language-plaintext highlighter-rouge">to_array</code> function converts the stack into an array and returns it. The resulting array contains the same elements in the same order as they were in the stack.</li>
+</ol>
+
+<h2 id="complexity-analysis">Complexity Analysis</h2>
+<p>The time-complexity of the <code class="language-plaintext highlighter-rouge">push</code> operation is O(1) in the average and worst case. The <code class="language-plaintext highlighter-rouge">push</code> function checks for empty and full stacks using constant time checks. Also, the <code class="language-plaintext highlighter-rouge">allocate_space</code> function is called on average once every time the size of the stack is doubled.</p>
+
+<p>The time-complexity of the <code class="language-plaintext highlighter-rouge">pop</code> and <code class="language-plaintext highlighter-rouge">peek</code> operations is O(1) in the worst and average cases since they perform constant-time checks on the stack size.</p>
+
+<p>The space-complexity of the stack is O(n). The size of the stack may be increased dynamically by <code class="language-plaintext highlighter-rouge">allocate_space</code> when the stack reaches its full capacity, which could be proportional to a maximum number of elements to be stored in the stack.</p>
+
+<p>Therefore, this implementation of the stack provides good performance in time and space complexity and enable smooth and efficient processing of LIFO data structures.</p>
+
+  </div><a class="u-url" href="/algorithm/2021/01/31/stack.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+        <ul class="contact-list">
+          <li class="p-name">Liang Wang</li>
+          <li><a class="u-email" href="mailto:liang@ocaml.xyz">liang@ocaml.xyz</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p>Explore the elegance of classic and numerical algorithms through practical OCaml implementations, unraveling their inner workings and unveiling the art and science of algorithmic programming.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
