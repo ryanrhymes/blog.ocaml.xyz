@@ -19,3 +19,5 @@ publish: build
 
 
 ### databricks fs cp -r dbfs:/user/liang.wang/output/ocaml.xyz/ _posts/
+### databricks fs rm -r dbfs:/user/liang.wang/output/ocaml.xyz/
+### databricks fs ls dbfs:/user/liang.wang/output/ocaml.xyz

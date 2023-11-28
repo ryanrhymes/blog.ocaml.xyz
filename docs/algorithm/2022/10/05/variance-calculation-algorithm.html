@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Variance Calculation Algorithm | Algorithm Blog</title>
+<meta name="generator" content="Jekyll v4.3.2" />
+<meta property="og:title" content="Variance Calculation Algorithm" />
+<meta name="author" content="Liang Wang" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Introduction: The variance is a measure of how spread out a set of data is. It’s used in statistics, probability theory and machine learning. In machine learning, variance is used as a measure of how well the model is doing, aiming to decrease it in order to improve the model’s performance. Calculating variance can be done by hand but it can be time-consuming and even more difficult when large sets of data are involved. Therefore, algorithms have been created to automate the process of calculating variance." />
+<meta property="og:description" content="Introduction: The variance is a measure of how spread out a set of data is. It’s used in statistics, probability theory and machine learning. In machine learning, variance is used as a measure of how well the model is doing, aiming to decrease it in order to improve the model’s performance. Calculating variance can be done by hand but it can be time-consuming and even more difficult when large sets of data are involved. Therefore, algorithms have been created to automate the process of calculating variance." />
+<link rel="canonical" href="/algorithm/2022/10/05/variance-calculation-algorithm.html" />
+<meta property="og:url" content="/algorithm/2022/10/05/variance-calculation-algorithm.html" />
+<meta property="og:site_name" content="Algorithm Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-10-05T15:16:15+03:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Variance Calculation Algorithm" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Liang Wang"},"dateModified":"2022-10-05T15:16:15+03:00","datePublished":"2022-10-05T15:16:15+03:00","description":"Introduction: The variance is a measure of how spread out a set of data is. It’s used in statistics, probability theory and machine learning. In machine learning, variance is used as a measure of how well the model is doing, aiming to decrease it in order to improve the model’s performance. Calculating variance can be done by hand but it can be time-consuming and even more difficult when large sets of data are involved. Therefore, algorithms have been created to automate the process of calculating variance.","headline":"Variance Calculation Algorithm","mainEntityOfPage":{"@type":"WebPage","@id":"/algorithm/2022/10/05/variance-calculation-algorithm.html"},"url":"/algorithm/2022/10/05/variance-calculation-algorithm.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="Algorithm Blog" /><script async src="https://www.googletagmanager.com/gtag/js?id=UA-123353217-1"></script>
+<script>
+  window['ga-disable-UA-123353217-1'] = window.doNotTrack === "1" || navigator.doNotTrack === "1" || navigator.doNotTrack === "yes" || navigator.msDoNotTrack === "1";
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){window.dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-123353217-1');
+</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1868946892712371" crossorigin="anonymous"></script></head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Algorithm Blog</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Variance Calculation Algorithm</h1>
+    <p class="post-meta"><time class="dt-published" datetime="2022-10-05T15:16:15+03:00" itemprop="datePublished">
+        Oct 5, 2022
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <h2 id="introduction">Introduction:</h2>
+<p>The variance is a measure of how spread out a set of data is. It’s used in statistics, probability theory and machine learning. In machine learning, variance is used as a measure of how well the model is doing, aiming to decrease it in order to improve the model’s performance. Calculating variance can be done by hand but it can be time-consuming and even more difficult when large sets of data are involved. Therefore, algorithms have been created to automate the process of calculating variance.</p>
+
+<h2 id="implementation">Implementation</h2>
+
+<div class="language-ocaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="c">(* Calculate Variance *)</span>
+
+<span class="k">let</span> <span class="n">var</span> <span class="o">?</span><span class="n">mean</span> <span class="n">x</span> <span class="o">=</span>
+  <span class="k">let</span> <span class="n">m</span> <span class="o">=</span> <span class="n">_get_mean</span> <span class="n">mean</span> <span class="n">x</span> <span class="k">in</span>
+  <span class="k">let</span> <span class="n">t</span> <span class="o">=</span> <span class="n">ref</span> <span class="mi">0</span><span class="o">.</span> <span class="k">in</span>
+  <span class="nn">Array</span><span class="p">.</span><span class="n">iter</span>
+    <span class="p">(</span><span class="k">fun</span> <span class="n">a</span> <span class="o">-&gt;</span>
+      <span class="k">let</span> <span class="n">d</span> <span class="o">=</span> <span class="n">a</span> <span class="o">-.</span> <span class="n">m</span> <span class="k">in</span>
+      <span class="n">t</span> <span class="o">:=</span> <span class="o">!</span><span class="n">t</span> <span class="o">+.</span> <span class="p">(</span><span class="n">d</span> <span class="o">*.</span> <span class="n">d</span><span class="p">))</span>
+    <span class="n">x</span><span class="p">;</span>
+  <span class="k">let</span> <span class="n">l</span> <span class="o">=</span> <span class="n">float_of_int</span> <span class="p">(</span><span class="nn">Array</span><span class="p">.</span><span class="n">length</span> <span class="n">x</span><span class="p">)</span> <span class="k">in</span>
+  <span class="k">let</span> <span class="n">n</span> <span class="o">=</span> <span class="k">if</span> <span class="n">l</span> <span class="o">=</span> <span class="mi">1</span><span class="o">.</span> <span class="k">then</span> <span class="mi">1</span><span class="o">.</span> <span class="k">else</span> <span class="n">l</span> <span class="o">-.</span> <span class="mi">1</span><span class="o">.</span> <span class="k">in</span>
+  <span class="o">!</span><span class="n">t</span> <span class="o">/.</span> <span class="n">n</span>
+
+</code></pre></div></div>
+<p>:
+This algorithm takes a set of numbers, x, and an optional mean value, and returns their variance. If the mean value is provided, it uses that as the mean rather than calculating the mean itself.</p>
+
+<h2 id="step-by-step-explanation">Step-by-step Explanation:</h2>
+<ol>
+  <li>If a mean value is provided, it assigns that as m(variable to store the calculated mean).</li>
+  <li>If a mean value is not provided, it gets the mean value by calling the _get_mean function and assigns that to m.</li>
+  <li>It initializes a variable, t, to 0.</li>
+  <li>It iterates through every element in the array, x.</li>
+  <li>It calculates the difference between the element and the mean of the array, assigning it to d.</li>
+  <li>It squares the difference d and multiplies it with itself to get the power of two.</li>
+  <li>It adds the result from step 6 with the current value of t and assigns the result back to t.</li>
+  <li>After all the elements in the array have been iterated through, it gets the length of the array and stores it as l.</li>
+  <li>It creates another variable, n, which is equal to the length of the array minus one if the length is greater than one. If the length is one, then n is equal to 1(avoiding division by zero).</li>
+  <li>Finally, it divides the value of t by n and returns the result as the variance.</li>
+</ol>
+
+<h2 id="complexity-analysis">Complexity Analysis:</h2>
+<h3 id="time-complexity">Time Complexity:</h3>
+<p>The time complexity of the _get_mean function is O(n), since it iterates through every element once. The for loop starting from line 4 to line 7 iterates through every element of the array once, leading to a time complexity of O(n). The total time complexity of the algorithm is O(n), since the largest time-consuming portion of the algorithm has a time complexity of O(n).</p>
+
+<h3 id="space-complexity">Space Complexity:</h3>
+<p>The algorithm uses a constant amount of extra memory, regardless of the size of the input array. Therefore, the space complexity of the algorithm is O(1).</p>
+
+  </div><a class="u-url" href="/algorithm/2022/10/05/variance-calculation-algorithm.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+        <ul class="contact-list">
+          <li class="p-name">Liang Wang</li>
+          <li><a class="u-email" href="mailto:liang@ocaml.xyz">liang@ocaml.xyz</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p>Explore the elegance of classic and numerical algorithms through practical OCaml implementations, unraveling their inner workings and unveiling the art and science of algorithmic programming.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

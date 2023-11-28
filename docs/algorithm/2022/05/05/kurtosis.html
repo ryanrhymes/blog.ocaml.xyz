@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Calculate Kurtosis | Algorithm Blog</title>
+<meta name="generator" content="Jekyll v4.3.2" />
+<meta property="og:title" content="Calculate Kurtosis" />
+<meta name="author" content="Liang Wang" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Introduction The Kurtosis is a statistical measure that defines how extreme the tails of a distribution are, thus, providing essential information about the shape of the distribution. The Kurtosis is widely used in various domains including finance, physics, and biology. The algorithm presented in this document aims to estimate the Kurtosis of a dataset." />
+<meta property="og:description" content="Introduction The Kurtosis is a statistical measure that defines how extreme the tails of a distribution are, thus, providing essential information about the shape of the distribution. The Kurtosis is widely used in various domains including finance, physics, and biology. The algorithm presented in this document aims to estimate the Kurtosis of a dataset." />
+<link rel="canonical" href="/algorithm/2022/05/05/kurtosis.html" />
+<meta property="og:url" content="/algorithm/2022/05/05/kurtosis.html" />
+<meta property="og:site_name" content="Algorithm Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-05-05T08:17:57+03:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Calculate Kurtosis" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Liang Wang"},"dateModified":"2022-05-05T08:17:57+03:00","datePublished":"2022-05-05T08:17:57+03:00","description":"Introduction The Kurtosis is a statistical measure that defines how extreme the tails of a distribution are, thus, providing essential information about the shape of the distribution. The Kurtosis is widely used in various domains including finance, physics, and biology. The algorithm presented in this document aims to estimate the Kurtosis of a dataset.","headline":"Calculate Kurtosis","mainEntityOfPage":{"@type":"WebPage","@id":"/algorithm/2022/05/05/kurtosis.html"},"url":"/algorithm/2022/05/05/kurtosis.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="Algorithm Blog" /><script async src="https://www.googletagmanager.com/gtag/js?id=UA-123353217-1"></script>
+<script>
+  window['ga-disable-UA-123353217-1'] = window.doNotTrack === "1" || navigator.doNotTrack === "1" || navigator.doNotTrack === "yes" || navigator.msDoNotTrack === "1";
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){window.dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-123353217-1');
+</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1868946892712371" crossorigin="anonymous"></script></head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Algorithm Blog</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Calculate Kurtosis</h1>
+    <p class="post-meta"><time class="dt-published" datetime="2022-05-05T08:17:57+03:00" itemprop="datePublished">
+        May 5, 2022
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <h2 id="introduction">Introduction</h2>
+<p>The Kurtosis is a statistical measure that defines how extreme the tails of a distribution are, thus, providing essential information about the shape of the distribution. The Kurtosis is widely used in various domains including finance, physics, and biology. The algorithm presented in this document aims to estimate the Kurtosis of a dataset.</p>
+
+<h2 id="implementation">Implementation</h2>
+
+<div class="language-ocaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="c">(* Calculate Kurtosis *)</span>
+
+<span class="k">let</span> <span class="n">kurtosis</span> <span class="o">?</span><span class="n">mean</span> <span class="o">?</span><span class="n">sd</span> <span class="n">x</span> <span class="o">=</span>
+  <span class="k">let</span> <span class="n">m</span> <span class="o">=</span> <span class="n">_get_mean</span> <span class="n">mean</span> <span class="n">x</span> <span class="k">in</span>
+  <span class="k">let</span> <span class="n">s</span> <span class="o">=</span>
+    <span class="k">match</span> <span class="n">sd</span> <span class="k">with</span>
+    <span class="o">|</span> <span class="nc">Some</span> <span class="n">a</span> <span class="o">-&gt;</span> <span class="n">a</span>
+    <span class="o">|</span> <span class="nc">None</span>   <span class="o">-&gt;</span> <span class="n">std</span> <span class="o">~</span><span class="n">mean</span><span class="o">:</span><span class="n">m</span> <span class="n">x</span>
+  <span class="k">in</span>
+  <span class="k">let</span> <span class="n">t</span> <span class="o">=</span> <span class="n">ref</span> <span class="mi">0</span><span class="o">.</span> <span class="k">in</span>
+  <span class="nn">Array</span><span class="p">.</span><span class="n">iter</span>
+    <span class="p">(</span><span class="k">fun</span> <span class="n">a</span> <span class="o">-&gt;</span>
+      <span class="k">let</span> <span class="n">s</span> <span class="o">=</span> <span class="p">(</span><span class="n">a</span> <span class="o">-.</span> <span class="n">m</span><span class="p">)</span> <span class="o">/.</span> <span class="n">s</span> <span class="k">in</span>
+      <span class="k">let</span> <span class="n">u</span> <span class="o">=</span> <span class="n">s</span> <span class="o">*.</span> <span class="n">s</span> <span class="k">in</span>
+      <span class="n">t</span> <span class="o">:=</span> <span class="o">!</span><span class="n">t</span> <span class="o">+.</span> <span class="p">(</span><span class="n">u</span> <span class="o">*.</span> <span class="n">u</span><span class="p">))</span>
+    <span class="n">x</span><span class="p">;</span>
+  <span class="k">let</span> <span class="n">n</span> <span class="o">=</span> <span class="n">float_of_int</span> <span class="p">(</span><span class="nn">Array</span><span class="p">.</span><span class="n">length</span> <span class="n">x</span><span class="p">)</span> <span class="k">in</span>
+  <span class="o">!</span><span class="n">t</span> <span class="o">/.</span> <span class="n">n</span>
+
+</code></pre></div></div>
+
+<p>The present algorithm determines the Kurtosis of a given array of numbers. The algorithm receives an array of numbers, calculates the sample mean and the sample standard deviation of the dataset (if they are not already provided), iterates over the dataset applying a specific formula to each element, and finally computes the Kurtosis as the mean of these results. The algorithm uses the fourth moment to estimate the Kurtosis.</p>
+
+<h2 id="step-by-step-explanation">Step-by-step Explanation</h2>
+<p>The algorithm works as follows:</p>
+<ol>
+  <li>The function <code class="language-plaintext highlighter-rouge">kurtosis</code> receives an array of numbers <code class="language-plaintext highlighter-rouge">x</code> and two optional named parameters: <code class="language-plaintext highlighter-rouge">mean</code> and <code class="language-plaintext highlighter-rouge">sd</code>.</li>
+  <li>If the <code class="language-plaintext highlighter-rouge">mean</code> parameter is not provided, <code class="language-plaintext highlighter-rouge">_get_mean</code> function is called to calculate the sample mean of the dataset. If it is provided, the function uses the input value.</li>
+  <li>If the <code class="language-plaintext highlighter-rouge">sd</code> parameter is not provided, <code class="language-plaintext highlighter-rouge">std</code> function is used to calculate the sample standard deviation of the dataset with the previously calculated <code class="language-plaintext highlighter-rouge">mean</code>. If it is provided, the function uses the input value.</li>
+  <li>A reference variable <code class="language-plaintext highlighter-rouge">t</code> is initialized to zero.</li>
+  <li>The function <code class="language-plaintext highlighter-rouge">Array.iter</code> is called with an anonymous function receiving each element of <code class="language-plaintext highlighter-rouge">x</code>.</li>
+  <li>Inside the anonymous function, the algorithm first computes the Standard Score <code class="language-plaintext highlighter-rouge">s</code> of the element.
+    <ul>
+      <li>The Standard Score <code class="language-plaintext highlighter-rouge">s</code> is obtained by subtracting the sample mean from the element value and dividing the result by the sample standard deviation.</li>
+    </ul>
+  </li>
+  <li>The algorithm then computes the fourth power of the standard score, that is, <code class="language-plaintext highlighter-rouge">u = s^4</code>.</li>
+  <li>The fourth power value is multiplied by the accumulated value of the <code class="language-plaintext highlighter-rouge">t</code> reference, that is, <code class="language-plaintext highlighter-rouge">u * t</code>.</li>
+  <li>The accumulated value of <code class="language-plaintext highlighter-rouge">t</code> now is updated to <code class="language-plaintext highlighter-rouge">!t + u * u</code>.</li>
+  <li>Steps 5 to 9 are executed for each element in the input <code class="language-plaintext highlighter-rouge">x</code>.</li>
+  <li>The length of the input array is converted to a <code class="language-plaintext highlighter-rouge">float</code> variable <code class="language-plaintext highlighter-rouge">n</code>.</li>
+  <li>The Kurtosis is calculated as the quotient of <code class="language-plaintext highlighter-rouge">t</code> by <code class="language-plaintext highlighter-rouge">n</code>.</li>
+</ol>
+
+<h2 id="complexity-analysis">Complexity Analysis</h2>
+<p>The algorithm has a time complexity of O(n) for iterating all the elements in the input <code class="language-plaintext highlighter-rouge">x</code> array, multiplied by the computational cost of the arithmetic operations performed inside the <code class="language-plaintext highlighter-rouge">Array.iter</code> function, that includes one subtraction, one division, one power function execution, and some other basic arithmetic operations. The complexity of the problem in this algorithm is dominated by the complexity of the <code class="language-plaintext highlighter-rouge">std</code> function, which has a complexity of O(n). Therefore, the overall algorithm complexity is O(n), considering average and worst cases. Additionally, the space complexity of the algorithm is O(1), as all the auxiliary variable declarations have constant size.</p>
+
+  </div><a class="u-url" href="/algorithm/2022/05/05/kurtosis.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+        <ul class="contact-list">
+          <li class="p-name">Liang Wang</li>
+          <li><a class="u-email" href="mailto:liang@ocaml.xyz">liang@ocaml.xyz</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p>Explore the elegance of classic and numerical algorithms through practical OCaml implementations, unraveling their inner workings and unveiling the art and science of algorithmic programming.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
