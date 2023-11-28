@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Huffman Coding | Algorithm Blog</title>
+<meta name="generator" content="Jekyll v4.3.2" />
+<meta property="og:title" content="Huffman Coding" />
+<meta name="author" content="Liang Wang" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Introduction:" />
+<meta property="og:description" content="Introduction:" />
+<link rel="canonical" href="/algorithm/2022/06/20/huffman-coding.html" />
+<meta property="og:url" content="/algorithm/2022/06/20/huffman-coding.html" />
+<meta property="og:site_name" content="Algorithm Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-06-20T18:03:44+03:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Huffman Coding" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Liang Wang"},"dateModified":"2022-06-20T18:03:44+03:00","datePublished":"2022-06-20T18:03:44+03:00","description":"Introduction:","headline":"Huffman Coding","mainEntityOfPage":{"@type":"WebPage","@id":"/algorithm/2022/06/20/huffman-coding.html"},"url":"/algorithm/2022/06/20/huffman-coding.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="Algorithm Blog" /><script async src="https://www.googletagmanager.com/gtag/js?id=UA-123353217-1"></script>
+<script>
+  window['ga-disable-UA-123353217-1'] = window.doNotTrack === "1" || navigator.doNotTrack === "1" || navigator.doNotTrack === "yes" || navigator.msDoNotTrack === "1";
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){window.dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-123353217-1');
+</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1868946892712371" crossorigin="anonymous"></script></head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Algorithm Blog</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Huffman Coding</h1>
+    <p class="post-meta"><time class="dt-published" datetime="2022-06-20T18:03:44+03:00" itemprop="datePublished">
+        Jun 20, 2022
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <h2 id="introduction">Introduction:</h2>
+
+<p>Huffman Coding is a lossless data compression algorithm that uses variable-length codes to represent symbols’ frequency in the input data. The algorithm was first introduced by David A. Huffman while he was a Sc.D. student at MIT in 1950. The algorithm is widely used in data compression techniques and is a fundamental concept in the field of information theory.</p>
+
+<h2 id="implementation">Implementation</h2>
+
+<div class="language-ocaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="c">(* Huffman Coding *)</span>
+
+<span class="k">type</span> <span class="k">'</span><span class="n">a</span> <span class="n">huffman_tree</span> <span class="o">=</span>
+  <span class="o">|</span> <span class="nc">Leaf</span> <span class="k">of</span> <span class="k">'</span><span class="n">a</span>
+  <span class="o">|</span> <span class="nc">Node</span> <span class="k">of</span> <span class="k">'</span><span class="n">a</span> <span class="n">huffman_tree</span> <span class="o">*</span> <span class="k">'</span><span class="n">a</span> <span class="n">huffman_tree</span>
+ 
+<span class="k">module</span> <span class="nc">HSet</span> <span class="o">=</span> <span class="nn">Set</span><span class="p">.</span><span class="nc">Make</span>
+  <span class="p">(</span><span class="k">struct</span>
+     <span class="k">type</span> <span class="n">t</span> <span class="o">=</span> <span class="kt">int</span> <span class="o">*</span> <span class="kt">char</span> <span class="n">huffman_tree</span> <span class="c">(* pair of frequency and the tree *)</span>
+     <span class="k">let</span> <span class="n">compare</span> <span class="o">=</span> <span class="n">compare</span>
+       <span class="c">(* We can use the built-in compare function to order this: it will order
+          first by the first element (frequency) and then by the second (the tree),
+          the latter of which we don't care about but which helps prevent elements
+          from being equal, since Set does not allow duplicate elements *)</span>
+   <span class="k">end</span><span class="p">);;</span>
+
+<span class="k">let</span> <span class="n">build_tree</span> <span class="n">charFreqs</span> <span class="o">=</span>
+  <span class="k">let</span> <span class="n">leaves</span> <span class="o">=</span> <span class="nn">HSet</span><span class="p">.</span><span class="n">of_list</span> <span class="p">(</span><span class="nn">List</span><span class="p">.</span><span class="n">map</span> <span class="p">(</span><span class="k">fun</span> <span class="p">(</span><span class="n">c</span><span class="o">,</span><span class="n">f</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="n">f</span><span class="o">,</span> <span class="nc">Leaf</span> <span class="n">c</span><span class="p">))</span> <span class="n">charFreqs</span><span class="p">)</span> <span class="k">in</span>
+  <span class="k">let</span> <span class="k">rec</span> <span class="n">aux</span> <span class="n">trees</span> <span class="o">=</span>
+    <span class="k">let</span> <span class="n">f1</span><span class="o">,</span> <span class="n">a</span> <span class="o">=</span> <span class="nn">HSet</span><span class="p">.</span><span class="n">min_elt</span> <span class="n">trees</span> <span class="k">in</span>
+    <span class="k">let</span> <span class="n">trees'</span> <span class="o">=</span> <span class="nn">HSet</span><span class="p">.</span><span class="n">remove</span> <span class="p">(</span><span class="n">f1</span><span class="o">,</span><span class="n">a</span><span class="p">)</span> <span class="n">trees</span> <span class="k">in</span>
+    <span class="k">if</span> <span class="nn">HSet</span><span class="p">.</span><span class="n">is_empty</span> <span class="n">trees'</span> <span class="k">then</span>
+      <span class="n">a</span>
+    <span class="k">else</span>
+      <span class="k">let</span> <span class="n">f2</span><span class="o">,</span> <span class="n">b</span> <span class="o">=</span> <span class="nn">HSet</span><span class="p">.</span><span class="n">min_elt</span> <span class="n">trees'</span> <span class="k">in</span>
+      <span class="k">let</span> <span class="n">trees''</span> <span class="o">=</span> <span class="nn">HSet</span><span class="p">.</span><span class="n">remove</span> <span class="p">(</span><span class="n">f2</span><span class="o">,</span><span class="n">b</span><span class="p">)</span> <span class="n">trees'</span> <span class="k">in</span>
+      <span class="k">let</span> <span class="n">trees'''</span> <span class="o">=</span> <span class="nn">HSet</span><span class="p">.</span><span class="n">add</span> <span class="p">(</span><span class="n">f1</span> <span class="o">+</span> <span class="n">f2</span><span class="o">,</span> <span class="nc">Node</span> <span class="p">(</span><span class="n">a</span><span class="o">,</span> <span class="n">b</span><span class="p">))</span> <span class="n">trees''</span> <span class="k">in</span>
+      <span class="n">aux</span> <span class="n">trees'''</span>
+  <span class="k">in</span>
+  <span class="n">aux</span> <span class="n">leaves</span>
+
+<span class="k">let</span> <span class="k">rec</span> <span class="n">print_tree</span> <span class="n">code</span> <span class="o">=</span> <span class="k">function</span>
+  <span class="o">|</span> <span class="nc">Leaf</span> <span class="n">c</span> <span class="o">-&gt;</span>
+      <span class="nn">Printf</span><span class="p">.</span><span class="n">printf</span> <span class="s2">"%c	%s
+"</span> <span class="n">c</span> <span class="p">(</span><span class="nn">String</span><span class="p">.</span><span class="n">concat</span> <span class="s2">""</span> <span class="p">(</span><span class="nn">List</span><span class="p">.</span><span class="n">rev</span> <span class="n">code</span><span class="p">));</span>
+  <span class="o">|</span> <span class="nc">Node</span> <span class="p">(</span><span class="n">l</span><span class="o">,</span> <span class="n">r</span><span class="p">)</span> <span class="o">-&gt;</span>
+      <span class="n">print_tree</span> <span class="p">(</span><span class="s2">"0"</span><span class="o">::</span><span class="n">code</span><span class="p">)</span> <span class="n">l</span><span class="p">;</span>
+      <span class="n">print_tree</span> <span class="p">(</span><span class="s2">"1"</span><span class="o">::</span><span class="n">code</span><span class="p">)</span> <span class="n">r</span>
+ 
+<span class="k">let</span> <span class="bp">()</span> <span class="o">=</span>
+  <span class="k">let</span> <span class="n">str</span> <span class="o">=</span> <span class="s2">"this is an example for huffman encoding"</span> <span class="k">in</span>
+  <span class="k">let</span> <span class="n">charFreqs</span> <span class="o">=</span> <span class="nn">Hashtbl</span><span class="p">.</span><span class="n">create</span> <span class="mi">42</span> <span class="k">in</span>
+  <span class="nn">String</span><span class="p">.</span><span class="n">iter</span> <span class="p">(</span><span class="k">fun</span> <span class="n">c</span> <span class="o">-&gt;</span>
+      <span class="k">let</span> <span class="n">old</span> <span class="o">=</span>
+        <span class="k">try</span> <span class="nn">Hashtbl</span><span class="p">.</span><span class="n">find</span> <span class="n">charFreqs</span> <span class="n">c</span>
+        <span class="k">with</span> <span class="nc">Not_found</span> <span class="o">-&gt;</span> <span class="mi">0</span> <span class="k">in</span>
+      <span class="nn">Hashtbl</span><span class="p">.</span><span class="n">replace</span> <span class="n">charFreqs</span> <span class="n">c</span> <span class="p">(</span><span class="n">old</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+    <span class="p">)</span> <span class="n">str</span><span class="p">;</span>
+
+  <span class="k">let</span> <span class="n">charFreqs</span> <span class="o">=</span> <span class="nn">Hashtbl</span><span class="p">.</span><span class="n">fold</span> <span class="p">(</span><span class="k">fun</span> <span class="n">c</span> <span class="n">f</span> <span class="n">acc</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="n">c</span><span class="o">,</span><span class="n">f</span><span class="p">)</span><span class="o">::</span><span class="n">acc</span><span class="p">)</span> <span class="n">charFreqs</span> <span class="bp">[]</span> <span class="k">in</span>
+  <span class="k">let</span> <span class="n">tree</span> <span class="o">=</span> <span class="n">build_tree</span> <span class="n">charFreqs</span> <span class="k">in</span>
+  <span class="n">print_string</span> <span class="s2">"Symbol	Huffman code
+"</span><span class="p">;</span>
+  <span class="n">print_tree</span> <span class="bp">[]</span> <span class="n">tree</span>
+
+</code></pre></div></div>
+<p>:</p>
+
+<p>The implementation is written in OCaml programming language. The algorithm takes a string as its input, then it calculates the frequency of each character in the input string, and then it constructs a binary tree based on the calculated frequencies. This binary tree is used to represent each symbol in the input data with a binary code. The characters with higher frequency are represented by smaller-bit binary codes, and the characters with lower frequency are represented by longer bit codes.</p>
+
+<h2 id="step-by-step-explanation">Step-by-step Explanation:</h2>
+
+<ol>
+  <li>The input string is provided to the algorithm.</li>
+  <li>The algorithm constructs a hash table to store the frequency of each input character.</li>
+  <li>The hash table is converted into a list of tuples, where each tuple contains a character and its corresponding frequency.</li>
+  <li>The list of tuples is converted into a set of leaves, where each leaf represents a symbol (character) and its frequency.</li>
+  <li>The algorithm constructs a binary tree by combining the two smallest trees in the set of leaves. This step is repeated until only one tree remains in the set.</li>
+  <li>The code for each character is generated by traversing the binary tree. The left child represents a ‘0,’ and the right child represents a ‘1.’ When arriving at a leaf, we convert the path traversed to reach it as the code for that character.</li>
+</ol>
+
+<h2 id="complexity-analysis">Complexity Analysis:</h2>
+
+<p>The time complexity of constructing the frequency hash table is O(N), where N is the length of the input string. The time complexity of constructing a list of tuples is also O(N), where N is the length of the list of tuples. The creation of a set of leaves has a time complexity of O(N log N), where N is the number of leaves (one for each character). The creation of the binary tree has a time complexity of O(N log N), where N is the number of leaves. The time complexity of generating each character’s code is O(log N), where N is the number of leaves in the binary tree.</p>
+
+<p>In summary, the overall time complexity of the Huffman Coding algorithm is O(N log N), where N is the number of unique characters in the input string. This algorithm is relatively efficient and can compress text files by 20% to 90%, depending on the file size and character distribution.</p>
+
+  </div><a class="u-url" href="/algorithm/2022/06/20/huffman-coding.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+        <ul class="contact-list">
+          <li class="p-name">Liang Wang</li>
+          <li><a class="u-email" href="mailto:liang@ocaml.xyz">liang@ocaml.xyz</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p>Explore the elegance of classic and numerical algorithms through practical OCaml implementations, unraveling their inner workings and unveiling the art and science of algorithmic programming.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
