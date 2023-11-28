@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Disarium numbers | Algorithm Blog</title>
+<meta name="generator" content="Jekyll v4.3.2" />
+<meta property="og:title" content="Disarium numbers" />
+<meta name="author" content="Liang Wang" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Introduction The Disarium number is a special type of number in which the sum of its digits powered with their respective positions gives the original number itself. This algorithm checks whether a given number is a Disarium number or not." />
+<meta property="og:description" content="Introduction The Disarium number is a special type of number in which the sum of its digits powered with their respective positions gives the original number itself. This algorithm checks whether a given number is a Disarium number or not." />
+<link rel="canonical" href="/algorithm/2022/03/13/disarium-numbers.html" />
+<meta property="og:url" content="/algorithm/2022/03/13/disarium-numbers.html" />
+<meta property="og:site_name" content="Algorithm Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-03-13T23:10:48+02:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Disarium numbers" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Liang Wang"},"dateModified":"2022-03-13T23:10:48+02:00","datePublished":"2022-03-13T23:10:48+02:00","description":"Introduction The Disarium number is a special type of number in which the sum of its digits powered with their respective positions gives the original number itself. This algorithm checks whether a given number is a Disarium number or not.","headline":"Disarium numbers","mainEntityOfPage":{"@type":"WebPage","@id":"/algorithm/2022/03/13/disarium-numbers.html"},"url":"/algorithm/2022/03/13/disarium-numbers.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="Algorithm Blog" /><script async src="https://www.googletagmanager.com/gtag/js?id=UA-123353217-1"></script>
+<script>
+  window['ga-disable-UA-123353217-1'] = window.doNotTrack === "1" || navigator.doNotTrack === "1" || navigator.doNotTrack === "yes" || navigator.msDoNotTrack === "1";
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){window.dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-123353217-1');
+</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1868946892712371" crossorigin="anonymous"></script></head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Algorithm Blog</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Disarium numbers</h1>
+    <p class="post-meta"><time class="dt-published" datetime="2022-03-13T23:10:48+02:00" itemprop="datePublished">
+        Mar 13, 2022
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <h2 id="introduction">Introduction</h2>
+<p>The Disarium number is a special type of number in which the sum of its digits powered with their respective positions gives the original number itself. This algorithm checks whether a given number is a Disarium number or not.</p>
+
+<h2 id="implementation">Implementation</h2>
+
+<div class="language-ocaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="c">(* Disarium numbers *)</span>
+
+<span class="k">let</span> <span class="k">rec</span> <span class="n">pow</span> <span class="n">b</span> <span class="n">n</span> <span class="o">=</span>
+  <span class="k">if</span> <span class="n">n</span> <span class="ow">land</span> <span class="mi">1</span> <span class="o">=</span> <span class="mi">0</span>
+  <span class="k">then</span> <span class="k">if</span> <span class="n">n</span> <span class="o">=</span> <span class="mi">2</span> <span class="k">then</span> <span class="n">b</span> <span class="o">*</span> <span class="n">b</span> <span class="k">else</span> <span class="n">pow</span> <span class="p">(</span><span class="n">b</span> <span class="o">*</span> <span class="n">b</span><span class="p">)</span> <span class="p">(</span><span class="n">n</span> <span class="n">lsr</span> <span class="mi">1</span><span class="p">)</span>
+  <span class="k">else</span> <span class="k">if</span> <span class="n">n</span> <span class="o">=</span> <span class="mi">3</span> <span class="k">then</span> <span class="n">b</span> <span class="o">*</span> <span class="n">b</span> <span class="o">*</span> <span class="n">b</span> <span class="k">else</span> <span class="n">b</span> <span class="o">*</span> <span class="n">pow</span> <span class="p">(</span><span class="n">b</span> <span class="o">*</span> <span class="n">b</span><span class="p">)</span> <span class="p">(</span><span class="n">n</span> <span class="n">lsr</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="k">let</span> <span class="n">is_disarium</span> <span class="n">n</span> <span class="o">=</span>
+  <span class="k">let</span> <span class="k">rec</span> <span class="n">aux</span> <span class="n">x</span> <span class="n">f</span> <span class="o">=</span>
+    <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="mi">10</span>
+    <span class="k">then</span> <span class="n">f</span> <span class="mi">2</span> <span class="n">x</span>
+    <span class="k">else</span> <span class="n">aux</span> <span class="p">(</span><span class="n">x</span> <span class="o">/</span> <span class="mi">10</span><span class="p">)</span> <span class="p">(</span><span class="k">fun</span> <span class="n">l</span> <span class="n">y</span> <span class="o">-&gt;</span> <span class="n">f</span> <span class="p">(</span><span class="n">succ</span> <span class="n">l</span><span class="p">)</span> <span class="p">(</span><span class="n">y</span> <span class="o">+</span> <span class="n">pow</span> <span class="p">(</span><span class="n">x</span> <span class="ow">mod</span> <span class="mi">10</span><span class="p">)</span> <span class="n">l</span><span class="p">))</span>
+  <span class="k">in</span>
+  <span class="n">n</span> <span class="o">=</span> <span class="n">aux</span> <span class="n">n</span> <span class="nn">Fun</span><span class="p">.(</span><span class="n">const</span> <span class="n">id</span><span class="p">)</span>
+
+<span class="k">let</span> <span class="bp">()</span> <span class="o">=</span>
+  <span class="nn">Seq</span><span class="p">.(</span><span class="n">ints</span> <span class="mi">0</span> <span class="o">|&gt;</span> <span class="n">filter</span> <span class="n">is_disarium</span> <span class="o">|&gt;</span> <span class="n">take</span> <span class="mi">19</span> <span class="o">|&gt;</span> <span class="n">iter</span> <span class="p">(</span><span class="nn">Printf</span><span class="p">.</span><span class="n">printf</span> <span class="s2">" %u%!"</span><span class="p">))</span>
+  <span class="o">|&gt;</span> <span class="n">print_newline</span>
+
+</code></pre></div></div>
+
+<p>The algorithm has two functions:</p>
+
+<p>The first function named <code class="language-plaintext highlighter-rouge">pow</code> computes the result of the exponentiation of the given base <code class="language-plaintext highlighter-rouge">b</code> to the given exponent <code class="language-plaintext highlighter-rouge">n</code>. It recursively divides the exponent by 2 to repeatedly square the base by repeated multiplication, so that fewer total multiplication operations are necessary.</p>
+
+<p>The second function named <code class="language-plaintext highlighter-rouge">is_disarium</code> checks if the given integer <code class="language-plaintext highlighter-rouge">n</code> is a Disarium number. It computes the sum of the powers by iterating over the digits of the given number from the least significant digit towards the most significant one. It recursively divides the numbers by 10 and computes the sum of the powered digit values.</p>
+
+<p>The last block of code invokes the <code class="language-plaintext highlighter-rouge">Seq</code> module and generates a stream of integers from <code class="language-plaintext highlighter-rouge">0</code> onward, filters out all Disarium numbers, takes the first <code class="language-plaintext highlighter-rouge">19</code> values, and prints them out with the <code class="language-plaintext highlighter-rouge">iter</code> function.</p>
+
+<h2 id="step-by-step-explanation">Step-by-Step Explanation</h2>
+<ol>
+  <li>The <code class="language-plaintext highlighter-rouge">pow</code> function takes two parameters: the base <code class="language-plaintext highlighter-rouge">b</code> and the exponent <code class="language-plaintext highlighter-rouge">n</code>.</li>
+  <li>It first checks if <code class="language-plaintext highlighter-rouge">n</code> is an odd number by checking if <code class="language-plaintext highlighter-rouge">n land 1 = 0</code>. If it is even, it recursively divides the exponent by 2 and squares the base by repeated multiplication until the exponent becomes 2.</li>
+  <li>If <code class="language-plaintext highlighter-rouge">n</code> is odd, it checks if <code class="language-plaintext highlighter-rouge">n</code> is equal to <code class="language-plaintext highlighter-rouge">3</code>. If it is, it multiplies the base by itself three times in order to get the result.</li>
+  <li>If <code class="language-plaintext highlighter-rouge">n</code> is an odd number that is greater than <code class="language-plaintext highlighter-rouge">3</code>, it recursively divides the exponent by 2 and squares the base by repeated multiplication until the exponent becomes 3, then it multiplies it by the squared base.</li>
+  <li>The <code class="language-plaintext highlighter-rouge">is_disarium</code> function takes one integer parameter <code class="language-plaintext highlighter-rouge">n</code>.</li>
+  <li>It uses the <code class="language-plaintext highlighter-rouge">aux</code> function, which takes two parameters, <code class="language-plaintext highlighter-rouge">x</code> and <code class="language-plaintext highlighter-rouge">f</code>. <code class="language-plaintext highlighter-rouge">x</code> represents the number whose digits are summed up, and <code class="language-plaintext highlighter-rouge">f</code> is a function that applies the power function to each digit and adds them together.</li>
+  <li>If <code class="language-plaintext highlighter-rouge">x</code> is less than <code class="language-plaintext highlighter-rouge">10</code>, it is the last digit of the given number, and the <code class="language-plaintext highlighter-rouge">aux</code> function applies the power function <code class="language-plaintext highlighter-rouge">2</code> to it and returns the result.</li>
+  <li>If <code class="language-plaintext highlighter-rouge">x</code> is greater than <code class="language-plaintext highlighter-rouge">10</code>, it is the combination of two things: the result of the repeated division by <code class="language-plaintext highlighter-rouge">10</code> and the last digit obtained by computing the remainder of <code class="language-plaintext highlighter-rouge">x</code> divided by <code class="language-plaintext highlighter-rouge">10</code>.</li>
+  <li>The <code class="language-plaintext highlighter-rouge">aux</code> function applies the power function to the last digit of <code class="language-plaintext highlighter-rouge">x</code>, adds it to the result of the recursive call to <code class="language-plaintext highlighter-rouge">aux</code> with the quotient, and increments the power of the digits by <code class="language-plaintext highlighter-rouge">1</code>.</li>
+  <li>The <code class="language-plaintext highlighter-rouge">is_disarium</code> function returns <code class="language-plaintext highlighter-rouge">true</code> if and only if the sum of the powered digits <code class="language-plaintext highlighter-rouge">x</code> is equal to the original number <code class="language-plaintext highlighter-rouge">n</code>.</li>
+</ol>
+
+<h2 id="complexity-analysis">Complexity Analysis</h2>
+<p>The <code class="language-plaintext highlighter-rouge">pow</code> function has a time complexity of $O(\log n)$, where <code class="language-plaintext highlighter-rouge">n</code> is the exponent, because it recursively divides the exponent by two at each recursive call, reducing the number of multiplication operations needed.</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">is_disarium</code> function iterates over the digits of the number <code class="language-plaintext highlighter-rouge">n</code>, so the time complexity depends on the number of digits. The number of digits is proportional to the logarithm of <code class="language-plaintext highlighter-rouge">n</code>, so the time complexity is $O(\log n)$.</p>
+
+<p>Overall, the time complexity of the algorithm is $O(\log n)$.</p>
+
+  </div><a class="u-url" href="/algorithm/2022/03/13/disarium-numbers.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+        <ul class="contact-list">
+          <li class="p-name">Liang Wang</li>
+          <li><a class="u-email" href="mailto:liang@ocaml.xyz">liang@ocaml.xyz</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p>Explore the elegance of classic and numerical algorithms through practical OCaml implementations, unraveling their inner workings and unveiling the art and science of algorithmic programming.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

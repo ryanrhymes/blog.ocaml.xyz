@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Dragon Curve | Algorithm Blog</title>
+<meta name="generator" content="Jekyll v4.3.2" />
+<meta property="og:title" content="Dragon Curve" />
+<meta name="author" content="Liang Wang" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Introduction The Dragon Curve is a fractal shape that is created by recursive transformation and is named after the mythological dragon. It is a well-known shape in the field of Computer Science and has various applications in areas like computer graphics, data compression, and cryptography." />
+<meta property="og:description" content="Introduction The Dragon Curve is a fractal shape that is created by recursive transformation and is named after the mythological dragon. It is a well-known shape in the field of Computer Science and has various applications in areas like computer graphics, data compression, and cryptography." />
+<link rel="canonical" href="/algorithm/2021/12/07/dragon-curve.html" />
+<meta property="og:url" content="/algorithm/2021/12/07/dragon-curve.html" />
+<meta property="og:site_name" content="Algorithm Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-12-07T01:28:04+02:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Dragon Curve" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Liang Wang"},"dateModified":"2021-12-07T01:28:04+02:00","datePublished":"2021-12-07T01:28:04+02:00","description":"Introduction The Dragon Curve is a fractal shape that is created by recursive transformation and is named after the mythological dragon. It is a well-known shape in the field of Computer Science and has various applications in areas like computer graphics, data compression, and cryptography.","headline":"Dragon Curve","mainEntityOfPage":{"@type":"WebPage","@id":"/algorithm/2021/12/07/dragon-curve.html"},"url":"/algorithm/2021/12/07/dragon-curve.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="Algorithm Blog" /><script async src="https://www.googletagmanager.com/gtag/js?id=UA-123353217-1"></script>
+<script>
+  window['ga-disable-UA-123353217-1'] = window.doNotTrack === "1" || navigator.doNotTrack === "1" || navigator.doNotTrack === "yes" || navigator.msDoNotTrack === "1";
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){window.dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-123353217-1');
+</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1868946892712371" crossorigin="anonymous"></script></head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Algorithm Blog</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Dragon Curve</h1>
+    <p class="post-meta"><time class="dt-published" datetime="2021-12-07T01:28:04+02:00" itemprop="datePublished">
+        Dec 7, 2021
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <h1 id="introduction">Introduction</h1>
+<p>The Dragon Curve is a fractal shape that is created by recursive transformation and is named after the mythological dragon. It is a well-known shape in the field of Computer Science and has various applications in areas like computer graphics, data compression, and cryptography.</p>
+
+<h1 id="implementation">Implementation</h1>
+<p>The Dragon Curve algorithm is implemented in OCaml programming language using the following steps:</p>
+<ol>
+  <li>Define two helper functions <code class="language-plaintext highlighter-rouge">zig</code> and <code class="language-plaintext highlighter-rouge">zag</code> that take two points as input and return a new point that lies halfway between them but is rotated 90 degrees.</li>
+  <li>Define a recursive function <code class="language-plaintext highlighter-rouge">dragon</code> that takes four arguments: two initial points, one point in between them rotated 90 degrees, and an integer <code class="language-plaintext highlighter-rouge">n</code> that represents the number of iterations.</li>
+  <li>If <code class="language-plaintext highlighter-rouge">n</code> is 0, the function returns the two initial points; otherwise, it recursively calls itself with the 4 points and <code class="language-plaintext highlighter-rouge">n-1</code> and then concatenates the two resulting lists.</li>
+  <li>Finally, create a canvas and draw a line connecting the list of points generated by the <code class="language-plaintext highlighter-rouge">dragon</code> function.</li>
+</ol>
+
+<h1 id="step-by-step-explanation">Step-by-step Explanation</h1>
+<ol>
+  <li>Define two points <code class="language-plaintext highlighter-rouge">p1</code> and <code class="language-plaintext highlighter-rouge">p2</code>.</li>
+  <li>Generate a list of points using the <code class="language-plaintext highlighter-rouge">dragon</code> function with <code class="language-plaintext highlighter-rouge">p1</code>, <code class="language-plaintext highlighter-rouge">zig(p1,p2)</code>, <code class="language-plaintext highlighter-rouge">p2</code>, and <code class="language-plaintext highlighter-rouge">15</code> as arguments. This creates a list of points that generate the dragon curve when connected.</li>
+  <li>Create a canvas with width 430 and height 300.</li>
+  <li>Draw a line connecting all the points generated by the <code class="language-plaintext highlighter-rouge">dragon</code> function using the <code class="language-plaintext highlighter-rouge">Canvas.create_line</code> function.</li>
+  <li>Open the main loop of the program using <code class="language-plaintext highlighter-rouge">Tk.mainLoop ()</code>.</li>
+</ol>
+
+<h1 id="complexity-analysis">Complexity Analysis</h1>
+<p>The algorithm has a time complexity of <code class="language-plaintext highlighter-rouge">O(2^n)</code> and a space complexity of <code class="language-plaintext highlighter-rouge">O(2^n)</code>. This is because at each recursive step, the function creates two new points that generate a line segment, leading to an exponential growth in the number of points generated at each iteration. This can cause performance issues for larger values of <code class="language-plaintext highlighter-rouge">n</code>. However, the space complexity can be reduced by eliminating the creation of intermediate lists, which can be achieved by using tail recursion.</p>
+
+  </div><a class="u-url" href="/algorithm/2021/12/07/dragon-curve.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+        <ul class="contact-list">
+          <li class="p-name">Liang Wang</li>
+          <li><a class="u-email" href="mailto:liang@ocaml.xyz">liang@ocaml.xyz</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p>Explore the elegance of classic and numerical algorithms through practical OCaml implementations, unraveling their inner workings and unveiling the art and science of algorithmic programming.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
