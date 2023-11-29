@@ -10,17 +10,17 @@
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="Introduction Topological sort is a sorting algorithm used to sort a directed acyclic graph (DAG) in a specific order. It is commonly used in many applications such as task scheduling, dependency resolution, and data processing. Implementation Here is an implementation of topological sort in OCaml: let topological_sort (graph: int list array) : int list = let n = Array.length graph in let visited = Array.make n false in let stack = ref [] in let rec dfs (u: int) : unit = visited.(u) &lt;- true; List.iter (fun v -&gt; if not visited.(v) then dfs v) graph.(u); stack := u :: !stack in for i = 0 to n - 1 do if not visited.(i) then dfs i done; !stack Here, graph is a representation of the DAG in the form of an adjacency list. The function returns a list of nodes in topological order. Here is an example." />
 <meta property="og:description" content="Introduction Topological sort is a sorting algorithm used to sort a directed acyclic graph (DAG) in a specific order. It is commonly used in many applications such as task scheduling, dependency resolution, and data processing. Implementation Here is an implementation of topological sort in OCaml: let topological_sort (graph: int list array) : int list = let n = Array.length graph in let visited = Array.make n false in let stack = ref [] in let rec dfs (u: int) : unit = visited.(u) &lt;- true; List.iter (fun v -&gt; if not visited.(v) then dfs v) graph.(u); stack := u :: !stack in for i = 0 to n - 1 do if not visited.(i) then dfs i done; !stack Here, graph is a representation of the DAG in the form of an adjacency list. The function returns a list of nodes in topological order. Here is an example." />
-<link rel="canonical" href="https://blog.ocaml.xyz/algorithm/2023/11/21/topological-sort.html" />
-<meta property="og:url" content="https://blog.ocaml.xyz/algorithm/2023/11/21/topological-sort.html" />
+<link rel="canonical" href="/algorithm/2023/11/21/topological-sort.html" />
+<meta property="og:url" content="/algorithm/2023/11/21/topological-sort.html" />
 <meta property="og:site_name" content="Algorithm Blog" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2023-11-21T04:00:00+02:00" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Topological Sort" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Liang Wang"},"dateModified":"2023-11-21T04:00:00+02:00","datePublished":"2023-11-21T04:00:00+02:00","description":"Introduction Topological sort is a sorting algorithm used to sort a directed acyclic graph (DAG) in a specific order. It is commonly used in many applications such as task scheduling, dependency resolution, and data processing. Implementation Here is an implementation of topological sort in OCaml: let topological_sort (graph: int list array) : int list = let n = Array.length graph in let visited = Array.make n false in let stack = ref [] in let rec dfs (u: int) : unit = visited.(u) &lt;- true; List.iter (fun v -&gt; if not visited.(v) then dfs v) graph.(u); stack := u :: !stack in for i = 0 to n - 1 do if not visited.(i) then dfs i done; !stack Here, graph is a representation of the DAG in the form of an adjacency list. The function returns a list of nodes in topological order. Here is an example.","headline":"Topological Sort","mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.ocaml.xyz/algorithm/2023/11/21/topological-sort.html"},"url":"https://blog.ocaml.xyz/algorithm/2023/11/21/topological-sort.html"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Liang Wang"},"dateModified":"2023-11-21T04:00:00+02:00","datePublished":"2023-11-21T04:00:00+02:00","description":"Introduction Topological sort is a sorting algorithm used to sort a directed acyclic graph (DAG) in a specific order. It is commonly used in many applications such as task scheduling, dependency resolution, and data processing. Implementation Here is an implementation of topological sort in OCaml: let topological_sort (graph: int list array) : int list = let n = Array.length graph in let visited = Array.make n false in let stack = ref [] in let rec dfs (u: int) : unit = visited.(u) &lt;- true; List.iter (fun v -&gt; if not visited.(v) then dfs v) graph.(u); stack := u :: !stack in for i = 0 to n - 1 do if not visited.(i) then dfs i done; !stack Here, graph is a representation of the DAG in the form of an adjacency list. The function returns a list of nodes in topological order. Here is an example.","headline":"Topological Sort","mainEntityOfPage":{"@type":"WebPage","@id":"/algorithm/2023/11/21/topological-sort.html"},"url":"/algorithm/2023/11/21/topological-sort.html"}</script>
 <!-- End Jekyll SEO tag -->
-<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://blog.ocaml.xyz/feed.xml" title="Algorithm Blog" /><script async src="https://www.googletagmanager.com/gtag/js?id=UA-123353217-1"></script>
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="Algorithm Blog" /><script async src="https://www.googletagmanager.com/gtag/js?id=UA-123353217-1"></script>
 <script>
   window['ga-disable-UA-123353217-1'] = window.doNotTrack === "1" || navigator.doNotTrack === "1" || navigator.doNotTrack === "yes" || navigator.msDoNotTrack === "1";
   window.dataLayer = window.dataLayer || [];
@@ -140,7 +140,7 @@
     <div class="footer-col-wrapper">
       <div class="footer-col">
         <p class="feed-subscribe">
-          <a href="https://blog.ocaml.xyz/feed.xml">
+          <a href="/feed.xml">
             <svg class="svg-icon orange">
               <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
             </svg><span>Subscribe</span>
