@@ -1,1 +1,1 @@
-Sitemap: /sitemap.xml
+Sitemap: https://blog.ocaml.xyz/sitemap.xml
